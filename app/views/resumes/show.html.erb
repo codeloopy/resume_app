@@ -1,0 +1,12 @@
+<div class="max-w-md mx-auto my-4">
+  <h1 class="text-2xl font-bold mb-4"><%= @resume.user.full_name %></h1>
+  <p class="text-gray-600 mb-4"><%= @resume.user.email %> | <%= @resume.user.phone %> | <%= @resume.user.linked_in_url %> | <%= @resume.user.github_url %> | <%= @resume.user.portfolio %></p>
+
+  <div class="mb-4 text-gray-800">
+    <%= @resume.summary.to_s.html_safe %>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %>
+  </div>
+</div>
