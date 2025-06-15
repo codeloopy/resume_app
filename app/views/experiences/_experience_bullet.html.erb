@@ -1,0 +1,22 @@
+<div class="mb-4">
+  <div data-controller="responsibility">
+    <h3 class="font-semibold mb-2">Job Responsibilities</h3>
+
+    <div id="responsibility" data-responsibility-target="container">
+      <%= f.fields_for :responsibilities do |responsibility_form| %>
+        <%= render "responsibility_fields", f: responsibility_form %>
+      <% end %>
+    </div>
+
+    <%= link_to "Add Bullet", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
+
+    <!-- Hidden template -->
+    <template data-responsibility-target="template">
+      <div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="true">
+        <textarea name="experience[responsibilities_attributes][NEW_RECORD][content]" rows="2" class="w-full p-2 border border-gray-300 rounded-md"></textarea>
+        <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
+        <input type="hidden" name="experience[responsibilities_attributes][NEW_RECORD][_destroy]" value="0">
+      </div>
+    </template>
+  </div>
+</div>
