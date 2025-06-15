@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  # get "resumes/show"
-  # get "resumes/edit"
-  # get "resumes/update"
-  resources :resumes, only: [ :show, :edit, :update ]
+  resources :resumes, only: [ :show, :edit, :update ] do
+    resources :experiences, except: [ :index, :show ]
+  end
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

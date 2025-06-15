@@ -10,3 +10,24 @@
     <%= f.submit "Update Resume", class: 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' %>
   <% end %>
 </div>
+
+<div class="mx-4 my-4">
+  <h2 class="text-xl font-bold mb-2">Work Experience</h2>
+
+  <% @resume.experiences.each do |exp| %>
+    <div class="mb-4 p-4 border rounded">
+      <p class="font-semibold"><%= exp.title %> @ <%= exp.company_name %></p>
+      <p class="text-sm text-gray-600">
+        <%= exp.location %> —
+        <%= exp.start_date.strftime("%b %Y") %> -
+        <%= exp.end_date&.strftime("%b %Y") || "Present" %>
+      </p>
+      <%= link_to "Edit", edit_resume_experience_path(exp), class: "text-blue-600 hover:underline mr-2" %>
+      <%= link_to "Delete", resume_experience_path(exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline" %>
+    </div>
+  <% end %>
+
+  <div class="mt-4">
+    <%= link_to "Add Experience", new_resume_experience_path(@resume), class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+  </div>
+</div>

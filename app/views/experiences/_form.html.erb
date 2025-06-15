@@ -1,0 +1,28 @@
+<%= form_with model: [@resume, experience], local: true do |f| %>
+  <div class="mb-4">
+    <%= f.label :company_name, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :company_name, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :location, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :location, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :title, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :start_date, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.date_select :start_date, start_year: Date.today.year - 50, end_year: Date.today.year, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :end_date, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.date_select :end_date, start_year: Date.today.year - 50, end_year: Date.today.year + 5, include_blank: true, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" %>
+<% end %>
