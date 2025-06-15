@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     added_attrs = [
       :first_name, :last_name, :phone,
-      :linkedin_url, :github_url, :portfolio_url,
+      :linked_in_url, :github_url, :portfolio,
       :email, :password, :password_confirmation, :remember_me
     ]
 

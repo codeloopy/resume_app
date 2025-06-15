@@ -1,6 +1,12 @@
 <div class="max-w-md mx-auto my-4">
   <h1 class="text-2xl font-bold mb-4"><%= @resume.user.full_name %></h1>
-  <p class="text-gray-600 mb-4"><%= @resume.user.email %> | <%= @resume.user.phone %> | <%= @resume.user.linked_in_url %> | <%= @resume.user.github_url %> | <%= @resume.user.portfolio %></p>
+  <p class="text-gray-600 mb-4">
+    <a href="<%= @resume.user.email %>">Email</a> |
+    <a href="tel:+<%= @resume.user.phone %>"><%= @resume.user.phone %></a> |
+    <a href="<%= @resume.user.linked_in_url %>">LinkedIn</a> |
+    <a href="<%= @resume.user.github_url %>">GitHub</a> |
+    <a href="<%= @resume.user.portfolio %>">Portfolio</a>
+  </p>
 
   <div class="mb-4 text-gray-800">
     <%= @resume.summary.to_s.html_safe %>
