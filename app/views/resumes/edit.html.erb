@@ -22,8 +22,15 @@
         <%= exp.start_date.strftime("%b %Y") %> -
         <%= exp.end_date&.strftime("%b %Y") || "Present" %>
       </p>
-      <%= link_to "Edit", edit_resume_experience_path(@resume, exp), class: "text-blue-600 hover:underline mr-2" %>
-      <%= link_to "Delete", resume_experience_path(@resume, exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline" %>
+      <ul class="list-disc list-inside mb-4">
+        <% exp.responsibilities.each do |responsibility| %>
+          <li style="margin-left: 1em"><%= responsibility.content %></li>
+        <% end %>
+      </ul>
+      <span>
+        <%= link_to "Edit", edit_resume_experience_path(@resume, exp), class: "text-blue-600 hover:underline mr-2" %>
+        <%= link_to "Delete", resume_experience_path(@resume, exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline", style: "margin-left: 1em" %>
+      </span>
     </div>
   <% end %>
 
