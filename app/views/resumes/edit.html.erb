@@ -38,22 +38,25 @@
     <div data-controller="responsibility" class="mx-4 my-4">
       <h2 class="text-xl font-semibold mb-2">Technical Skills</h2>
 
-      <!-- Debug info -->
       <% if @resume.skills.any? %>
         <p class="text-sm text-gray-600 mb-2">Existing skills: <%= @resume.skills.pluck(:name).join(', ') %></p>
+        <details>
+          <summary class="text-sm text-gray-600 mb-2 italic cursor-pointer bg-neutral-300 p-2 rounded-md border border-neutral-400">
+            Open accordion to add, edit or remove a skill.
+          </summary>
+          <div data-responsibility-target="container">
+            <% @resume.skills.each_with_index do |skill, index| %>
+              <%= skill_field_html(skill_name: skill.name, skill_id: skill.id, index: index, new_record: false) %>
+            <% end %>
+          </div>
+
+          <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
+
+          <template data-responsibility-target="template">
+            <%= skill_field_html.html_safe %>
+          </template>
+        </details>
       <% end %>
-
-      <div data-responsibility-target="container">
-        <% @resume.skills.each_with_index do |skill, index| %>
-          <%= skill_field_html(skill_name: skill.name, skill_id: skill.id, index: index, new_record: false) %>
-        <% end %>
-      </div>
-
-      <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
-
-      <template data-responsibility-target="template">
-        <%= skill_field_html.html_safe %>
-      </template>
     </div>
 
     <div class="mx-4 my-4">
