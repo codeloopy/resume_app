@@ -10,6 +10,10 @@ export default class extends Controller {
   add(event) {
     event.preventDefault()
 
+    const skills_accordion = document.querySelector("details")
+    skills_accordion.open = true
+    skills_accordion.scrollIntoView({ behavior: "smooth" })
+
     const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, this.index)
     this.containerTarget.insertAdjacentHTML("beforeend", content)
     this.index++

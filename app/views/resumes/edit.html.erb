@@ -42,7 +42,7 @@
         <p class="text-sm text-gray-600 mb-2">Existing skills: <%= @resume.skills.pluck(:name).join(', ') %></p>
         <details>
           <summary class="text-sm text-gray-600 mb-2 italic cursor-pointer bg-neutral-300 p-2 rounded-md border border-neutral-400">
-            Open accordion to add, edit or remove a skill.
+            Open accordion to add, edit or remove a skill. Click the update resume button to save your changes.
           </summary>
           <div data-responsibility-target="container">
             <% @resume.skills.each_with_index do |skill, index| %>
@@ -50,17 +50,16 @@
             <% end %>
           </div>
 
-          <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
-
           <template data-responsibility-target="template">
             <%= skill_field_html.html_safe %>
           </template>
         </details>
       <% end %>
+      <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
     </div>
 
-    <div class="mx-4 my-4">
-      <%= f.submit "Update Resume", class: 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' %>
+    <div class="mx-4 my-4 flex justify-center">
+      <%= f.submit "Update Resume", class: 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full md:w-2/3' %>
     </div>
   <% end %>
 </div>
