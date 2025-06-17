@@ -1,0 +1,15 @@
+<div data-controller="responsibility">
+  <h2 class="text-xl font-semibold mb-2">Technical Skills</h2>
+
+  <div data-bullet-target="container">
+    <%= form.fields_for :skills do |skill_form| %>
+      <%= render "skills/fields", f: skill_form %>
+    <% end %>
+  </div>
+
+  <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->bullet#add" } %>
+
+  <template data-bullet-target="template">
+    <%= render("skills/fields", f: form.fields_for(:skills, Skill.new, child_index: "NEW_RECORD")) %>
+  </template>
+</div>

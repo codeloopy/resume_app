@@ -2,39 +2,73 @@
   <h1 class="text-2xl font-bold mb-6 text-center">Edit Resume Summary</h1>
 
   <%= form_with model: @resume, url: resume_path, method: :patch do |f| %>
-    <div class="mb-6">
+    <div class="mx-4 my-4">
       <%= f.label :summary, class: "block text-gray-700 font-semibold mb-2" %>
       <%= f.rich_text_area :summary, class: "w-full border border-gray-300 rounded-md" %>
     </div>
 
-    <%= f.submit "Update Resume", class: 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' %>
-  <% end %>
-</div>
+    <div class="mx-4 my-4">
+      <h2 class="text-xl font-bold mb-2">Work Experience</h2>
 
-<div class="mx-4 my-4">
-  <h2 class="text-xl font-bold mb-2">Work Experience</h2>
+      <% @resume.experiences.each do |exp| %>
+        <div class="mb-4 p-4 border rounded">
+          <p class="font-semibold"><%= exp.title %> @ <%= exp.company_name %></p>
+          <p class="text-sm text-gray-600">
+            <%= exp.location %> —
+            <%= exp.start_date.strftime("%b %Y") %> -
+            <%= exp.end_date&.strftime("%b %Y") || "Present" %>
+          </p>
+          <ul class="list-disc list-inside mb-4">
+            <% exp.responsibilities.each do |responsibility| %>
+              <li style="margin-left: 1em"><%= responsibility.content %></li>
+            <% end %>
+          </ul>
+          <span>
+            <%= link_to "Edit", edit_resume_experience_path(@resume, exp), class: "text-blue-600 hover:underline mr-2" %>
+            <%= link_to "Delete", resume_experience_path(@resume, exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline", style: "margin-left: 1em" %>
+          </span>
+        </div>
+      <% end %>
 
-  <% @resume.experiences.each do |exp| %>
-    <div class="mb-4 p-4 border rounded">
-      <p class="font-semibold"><%= exp.title %> @ <%= exp.company_name %></p>
-      <p class="text-sm text-gray-600">
-        <%= exp.location %> —
-        <%= exp.start_date.strftime("%b %Y") %> -
-        <%= exp.end_date&.strftime("%b %Y") || "Present" %>
-      </p>
-      <ul class="list-disc list-inside mb-4">
-        <% exp.responsibilities.each do |responsibility| %>
-          <li style="margin-left: 1em"><%= responsibility.content %></li>
+      <div class="mt-4">
+        <%= link_to "Add Experience", new_resume_experience_path(@resume), class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+      </div>
+    </div>
+
+    <div data-controller="responsibility" class="mx-4 my-4">
+      <h2 class="text-xl font-semibold mb-2">Technical Skills</h2>
+
+      <!-- Debug info -->
+      <% if @resume.skills.any? %>
+        <p class="text-sm text-gray-600 mb-2">Existing skills: <%= @resume.skills.pluck(:name).join(', ') %></p>
+      <% end %>
+
+      <div data-responsibility-target="container">
+
+        <% @resume.skills.each_with_index do |skill, index| %>
+          <div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="false">
+
+            <input type="text" name="resume[skills_attributes][<%= index %>][name]" value="<%= skill.name %>" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter skill name">
+            <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
+            <input type="hidden" name="resume[skills_attributes][<%= index %>][_destroy]" value="0">
+            <input type="hidden" name="resume[skills_attributes][<%= index %>][id]" value="<%= skill.id %>">
+          </div>
         <% end %>
-      </ul>
-      <span>
-        <%= link_to "Edit", edit_resume_experience_path(@resume, exp), class: "text-blue-600 hover:underline mr-2" %>
-        <%= link_to "Delete", resume_experience_path(@resume, exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline", style: "margin-left: 1em" %>
-      </span>
+      </div>
+
+      <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
+
+      <template data-responsibility-target="template">
+        <div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="true">
+          <input type="text" name="resume[skills_attributes][NEW_RECORD][name]" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter skill name">
+          <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
+          <input type="hidden" name="resume[skills_attributes][NEW_RECORD][_destroy]" value="0">
+        </div>
+      </template>
+    </div>
+
+    <div class="mx-4 my-4">
+      <%= f.submit "Update Resume", class: 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' %>
     </div>
   <% end %>
-
-  <div class="mt-4">
-    <%= link_to "Add Experience", new_resume_experience_path(@resume), class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
-  </div>
 </div>

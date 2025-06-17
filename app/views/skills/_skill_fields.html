@@ -1,0 +1,6 @@
+<div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="<%= f.object.new_record? %>">
+  <!-- Debug: Skill ID: <%= f.object.id %>, Name: <%= f.object.name %> -->
+  <%= f.text_area :name, rows: 2, class: "w-full p-2 border border-gray-300 rounded-md", placeholder: "Enter skill name" %>
+  <%= link_to "&times;".html_safe, "#", class: "text-red-500", data: { action: "click->responsibility#remove" } %>
+  <%= f.hidden_field :_destroy %>
+</div>
