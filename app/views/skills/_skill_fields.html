@@ -1,6 +1,12 @@
-<div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="<%= f.object.new_record? %>">
-  <!-- Debug: Skill ID: <%= f.object.id %>, Name: <%= f.object.name %> -->
-  <%= f.text_area :name, rows: 2, class: "w-full p-2 border border-gray-300 rounded-md", placeholder: "Enter skill name" %>
-  <%= link_to "&times;".html_safe, "#", class: "text-red-500", data: { action: "click->responsibility#remove" } %>
-  <%= f.hidden_field :_destroy %>
+<div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="<%= defined?(new_record) ? new_record : false %>">
+  <input type="text"
+         name="resume[skills_attributes][<%= defined?(index) ? index : 'NEW_RECORD' %>][name]"
+         value="<%= defined?(skill_name) ? skill_name : '' %>"
+         class="w-full p-2 border border-gray-300 rounded-md"
+         placeholder="Enter skill name">
+  <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
+  <input type="hidden" name="resume[skills_attributes][<%= defined?(index) ? index : 'NEW_RECORD' %>][_destroy]" value="0">
+  <% if defined?(skill_id) && skill_id %>
+    <input type="hidden" name="resume[skills_attributes][<%= index %>][id]" value="<%= skill_id %>">
+  <% end %>
 </div>
