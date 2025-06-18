@@ -14,6 +14,10 @@ class ResumesController < ApplicationController
     end
   end
 
+  def public
+    @resume = Resume.find_by!(slug: params[:slug])
+  end
+
   private
 
   def set_resume

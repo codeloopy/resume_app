@@ -1,0 +1,65 @@
+<div class="max-w-3xl mx-auto py-8 px-6 bg-white shadow-md rounded-lg">
+  <h1 class="text-3xl font-bold text-center mb-4">
+    <%= @resume.user_first_name %> <%= @resume.user_last_name %>
+  </h1>
+  <p class="text-center text-gray-600 mb-6">
+    <%= @resume.user_email %> · <%= @resume.user_phone %> ·
+    <%= @resume.user_linked_in_url %>
+  </p>
+
+  <%# Summary %>
+  <h2 class="text-xl font-semibold mt-6">Summary</h2>
+  <div class="prose">
+    <%= @resume.summary&.body&.to_s&.html_safe %>
+  </div>
+
+  <%# Skills %>
+  <h2 class="text-xl font-semibold mt-6">Technical Skills</h2>
+  <ul class="list-disc list-inside">
+    <% @resume.skills.each do |skill| %>
+      <li><%= skill.name %></li>
+    <% end %>
+  </ul>
+
+  <%# Experiences %>
+  <h2 class="text-xl font-semibold mt-6">Experience</h2>
+  <% @resume.experiences.each do |exp| %>
+    <div class="mb-4">
+      <h3 class="font-bold"><%= exp.title %> @ <%= exp.company_name %></h3>
+      <p class="text-sm text-gray-500">
+        <%= exp.location %> · <%= exp.start_date&.strftime("%b %Y") %> – <%= exp.end_date&.strftime("%b %Y") || "Present" %>
+      </p>
+      <ul class="list-disc list-inside">
+        <% exp.responsibilities.each do |b| %>
+          <li><%= b.content %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# Education %>
+  <h2 class="text-xl font-semibold mt-6">Education</h2>
+  <% @resume.educations.each do |edu| %>
+    <div class="mb-4">
+      <h3 class="font-bold"><%= edu.school %></h3>
+      <p class="text-sm text-gray-500">
+        <%= edu.field_of_study %> · <%= edu.start_date&.year %> – <%= edu.end_date&.year || "Present" %>
+      </p>
+    </div>
+  <% end %>
+
+  <%# Projects %>
+  <% @resume.projects.each do |proj| %>
+    <div class="mb-4">
+      <h2 class="font-bold">
+        <%= proj.title %>
+        <% if proj.url.present? %>
+          – <a href="<%= proj.url %>" class="text-blue-500 underline" target="_blank">View</a>
+        <% end %>
+      </h2>
+      <div class="prose">
+        <%= proj.description&.body&.to_s&.html_safe %>
+      </div>
+    </div>
+  <% end %>
+</div>
