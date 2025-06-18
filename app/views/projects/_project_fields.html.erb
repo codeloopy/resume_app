@@ -1,0 +1,19 @@
+<div class="nested-fields mb-4 border p-4 rounded" data-new-record="<%= f.object.new_record? %>">
+  <div class="mb-2">
+    <%= f.label :title, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :url, "Project URL (optional)", class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.url_field :url, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :description, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.rich_text_area :description, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <%= link_to "Remove", "#", class: "text-red-500", data: { action: "click->responsibility#remove" } %>
+  <%= f.hidden_field :_destroy %>
+</div>

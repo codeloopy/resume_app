@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_18_025512) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_18_145725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_18_025512) do
     t.index ["resume_id"], name: "index_experiences_on_resume_id"
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "url"
+    t.bigint "resume_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resume_id"], name: "index_projects_on_resume_id"
+  end
+
   create_table "responsibilities", force: :cascade do |t|
     t.string "content"
     t.bigint "experience_id", null: false
@@ -121,6 +131,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_18_025512) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "educations", "resumes"
   add_foreign_key "experiences", "resumes"
+  add_foreign_key "projects", "resumes"
   add_foreign_key "responsibilities", "experiences"
   add_foreign_key "resumes", "users"
   add_foreign_key "skills", "resumes"

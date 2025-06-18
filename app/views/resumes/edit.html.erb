@@ -78,6 +78,26 @@
       </div>
     </div>
 
+    <div data-controller="responsibility" data-responsibility-scope="projects" class="mx-4 my-4">
+      <h2 class="text-xl font-semibold mb-2">Projects</h2>
+
+      <div data-responsibility-target="container">
+        <%= f.fields_for :projects do |proj_form| %>
+          <%= render "projects/project_fields", f: proj_form %>
+        <% end %>
+      </div>
+
+      <%= link_to "Add Project", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
+
+      <div hidden data-responsibility-target="template">
+        <%= capture do %>
+          <%= f.fields_for(:projects, Project.new, child_index: "NEW_RECORD") do |proj_form| %>
+            <%= render "projects/project_fields", f: proj_form %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
     <div class="mx-4 my-4 flex justify-center">
       <%= f.submit "Update Resume", class: 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full md:w-2/3' %>
     </div>
