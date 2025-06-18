@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  resource :resume, only: [ :show ]
-
-  resources :resumes, only: [ :edit, :update ] do
+  resource :resume, only: [ :show, :edit, :update ] do
     resources :experiences, except: [ :index, :show ]
     resources :skills, except: [ :index, :show ]
     resources :educations, except: [ :index, :show ]
@@ -18,6 +16,9 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
+  # Public resume sharing route
+  get "/r/:slug", to: "resumes#public", as: :public_resume
 
   # Defines the root path route ("/")
   # root "posts#index"
