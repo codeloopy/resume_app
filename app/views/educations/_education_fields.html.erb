@@ -1,0 +1,32 @@
+
+<div class="nested-fields mb-4 border p-3 rounded" data-new-record="<%= f.object.new_record? %>">
+  <div class="mb-2">
+    <%= f.label :school, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :school, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :location, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :location, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :field_of_study, class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :field_of_study, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+
+  <div class="mb-2 flex gap-4">
+    <div>
+      <%= f.label :start_date, class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.date_field :start_date, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    </div>
+
+    <div>
+      <%= f.label :end_date, class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.date_field :end_date, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    </div>
+  </div>
+
+  <%= link_to "Remove", "#", class: "text-red-500", data: { action: "click->responsibility#remove" } %>
+  <%= f.hidden_field :_destroy %>
+</div>

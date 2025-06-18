@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_16_201706) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_18_025512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_16_201706) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "educations", force: :cascade do |t|
+    t.string "school"
+    t.string "location"
+    t.string "field_of_study"
+    t.date "start_date"
+    t.date "end_date"
+    t.bigint "resume_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resume_id"], name: "index_educations_on_resume_id"
   end
 
   create_table "experiences", force: :cascade do |t|
@@ -107,6 +119,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_16_201706) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "educations", "resumes"
   add_foreign_key "experiences", "resumes"
   add_foreign_key "responsibilities", "experiences"
   add_foreign_key "resumes", "users"

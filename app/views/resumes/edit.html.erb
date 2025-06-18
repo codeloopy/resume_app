@@ -35,12 +35,12 @@
       </div>
     </div>
 
-    <div data-controller="responsibility" class="mx-4 my-4">
+    <div data-controller="responsibility" data-responsibility-scope="skills" class="mx-4 my-4">
       <h2 class="text-xl font-semibold mb-2">Technical Skills</h2>
 
       <% if @resume.skills.any? %>
         <p class="text-sm text-gray-600 mb-2">Existing skills: <%= @resume.skills.pluck(:name).join(', ') %></p>
-        <details>
+        <details id="skills-section">
           <summary class="text-sm text-gray-600 mb-2 italic cursor-pointer bg-neutral-300 p-2 rounded-md border border-neutral-400">
             Open accordion to add, edit or remove a skill. Click the update resume button to save your changes.
           </summary>
@@ -56,6 +56,26 @@
         </details>
       <% end %>
       <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
+    </div>
+
+    <div data-controller="responsibility" data-responsibility-scope="education" class="mx-4 my-4">
+      <h2 class="text-xl font-semibold mb-2">Education</h2>
+
+      <div data-responsibility-target="container">
+        <%= f.fields_for :educations do |edu_form| %>
+          <%= render "educations/education_fields", f: edu_form %>
+        <% end %>
+      </div>
+
+      <%= link_to "Add Education", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
+
+      <div hidden data-responsibility-target="template">
+        <%= capture do %>
+          <%= f.fields_for(:educations, Education.new, child_index: "NEW_RECORD") do |edu_form| %>
+            <%= render "educations/education_fields", f: edu_form %>
+          <% end %>
+        <% end %>
+      </div>
     </div>
 
     <div class="mx-4 my-4 flex justify-center">

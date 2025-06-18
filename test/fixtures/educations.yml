@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  school: MyString
+  location: MyString
+  field_of_study: MyString
+  start_date: 2025-06-17
+  end_date: 2025-06-17
+  resume: one
+
+two:
+  school: MyString
+  location: MyString
+  field_of_study: MyString
+  start_date: 2025-06-17
+  end_date: 2025-06-17
+  resume: two

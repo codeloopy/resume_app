@@ -5,14 +5,22 @@ export default class extends Controller {
 
   connect() {
     this.index = this.containerTarget.children.length
+    this.sectionType = this.element.dataset.responsibilityScope
   }
 
   add(event) {
     event.preventDefault()
 
-    const skills_accordion = document.querySelector("details")
-    skills_accordion.open = true
-    skills_accordion.scrollIntoView({ behavior: "smooth" })
+    console.log("Adding new field — section type:", this.sectionType)
+
+    if (this.sectionType === "skills") {
+      const skillsAccordion = document.querySelector("#skills-section")
+      if (skillsAccordion) {
+        console.log("Opening skills accordion")
+        skillsAccordion.open = true
+        skillsAccordion.scrollIntoView({ behavior: "smooth" })
+      }
+    }
 
     const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, this.index)
     this.containerTarget.insertAdjacentHTML("beforeend", content)

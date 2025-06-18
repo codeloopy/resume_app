@@ -20,5 +20,8 @@ class Resume < ApplicationRecord
   has_many :skills, dependent: :destroy
   accepts_nested_attributes_for :skills, allow_destroy: true
 
+  has_many :education, dependent: :destroy
+  accepts_nested_attributes_for :education, allow_destroy: true
+
   delegate :first_name, :last_name, :email, :phone, :linked_in_url, :github_url, :portfolio, to: :user, prefix: true
 end
