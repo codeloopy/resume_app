@@ -28,6 +28,6 @@ class Resume < ApplicationRecord
   private
 
   def generate_slug
-    self.slug ||= [ user.first_name.parameterize, SecureRandom.hex(2) ].join("-")
+    self.slug ||= [ user.first_name.parameterize + "-" + user.last_name.parameterize, SecureRandom.hex(user.first_name.length) ].join("-")
   end
 end
