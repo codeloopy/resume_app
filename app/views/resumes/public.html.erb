@@ -8,6 +8,7 @@
   <p class="text-center text-gray-600 mb-6">
     <%= link_to "Email", "mailto:#{@resume.user_email}", class: "text-blue-600 hover:underline" %> ·
     <%= link_to styled_telephone_number(@resume), "tel:#{@resume.user_phone}", class: "text-blue-600 hover:underline" %> ·
+    <%= link_to "#{@resume.user_github_url.split("/").last}", @resume.user_github_url, target: "_blank", class: "text-blue-600 hover:underline" %> ·
     <%= link_to "/in/#{@resume.user_linked_in_url.split("/").last}", @resume.user_linked_in_url , target: "_blank", class: "text-blue-600 hover:underline" %>
   </p>
 
@@ -19,7 +20,7 @@
 
   <%# Skills %>
   <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Technical Skills</h2>
-  <ul class="list-disc list-inside">
+  <ul>
     <% @resume.skills.each do |skill| %>
       <span class="text-xs inline-block text-gray-600 m-0.5 px-4 py-1 bg-gray-200 rounded-xl hover:bg-gray-500 hover:text-white transition-colors duration-200"><%= skill.name %></span>
     <% end %>
@@ -30,12 +31,12 @@
   <% @resume.experiences.each do |exp| %>
     <div class="mb-4">
       <h3 class="font-bold"><%= exp.title %> @ <%= exp.company_name %></h3>
-      <p class="text-sm text-gray-500">
+      <p class="text-sm text-gray-500 mb-2">
         <%= exp.location %> · <%= exp.start_date&.strftime("%b %Y") %> – <%= exp.end_date&.strftime("%b %Y") || "Present" %>
       </p>
-      <ul class="list-disc list-inside">
+      <ul class="list-disc list-outside ml-5">
         <% exp.responsibilities.each do |b| %>
-          <li><%= b.content %></li>
+          <li class=""><%= b.content %></li>
         <% end %>
       </ul>
     </div>
