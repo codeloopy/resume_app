@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "static_pages/home"
   resource :resume, only: [ :show, :edit, :update ] do
     resources :experiences, except: [ :index, :show ]
     resources :skills, except: [ :index, :show ]
@@ -22,5 +23,5 @@ Rails.application.routes.draw do
   get "/r/:slug", to: "resumes#public", as: :public_resume
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "static_pages#home"
 end
