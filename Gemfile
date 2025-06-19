@@ -63,3 +63,5 @@ end
 
 gem "devise"
 gem "tailwindcss-rails"
+gem "wicked_pdf"
+gem "wkhtmltopdf-binary"

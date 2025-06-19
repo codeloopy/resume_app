@@ -1,6 +1,7 @@
 class ResumesController < ApplicationController
   before_action :authenticate_user!, except: :show
   before_action :set_resume
+  before_action :set_resume_public, only: [ :public, :public_pdf ]
 
   def show; end
 
@@ -15,13 +16,24 @@ class ResumesController < ApplicationController
   end
 
   def public
-    @resume = Resume.find_by!(slug: params[:slug])
+  end
+
+  def public_pdf
+    respond_to do |format|
+      format.pdf do
+        render pdf: "#{@resume.user_first_name}_resume", template: "resumes/public_pdf", layout: false
+      end
+    end
   end
 
   private
 
   def set_resume
     @resume = current_user.resume
+  end
+
+  def set_resume_public
+    @resume = Resume.find_by!(slug: params[:slug])
   end
 
   def resume_params

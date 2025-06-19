@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Public resume sharing route
+  get "/r/:slug.pdf", to: "resumes#public_pdf", constraints: { format: :pdf }, as: :public_resume_pdf
   get "/r/:slug", to: "resumes#public", as: :public_resume
 
   # Defines the root path route ("/")
