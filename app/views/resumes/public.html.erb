@@ -1,28 +1,32 @@
 <div class="max-w-3xl mx-auto py-8 px-6 bg-white shadow-md rounded-lg">
-  <h1 class="text-3xl font-bold text-center mb-4">
-    <%= @resume.user_first_name %> <%= @resume.user_last_name %>
+  <h1 class="mb-4">
+    <p class="text-3xl font-bold text-center">
+      <%= user_full_name(@resume) %>
+    </p>
+    <p class="text-md text-center text-gray-500"><%= @resume.title %></p>
   </h1>
   <p class="text-center text-gray-600 mb-6">
-    <%= @resume.user_email %> · <%= @resume.user_phone %> ·
-    <%= @resume.user_linked_in_url %>
+    <%= link_to "Email", "mailto:#{@resume.user_email}", class: "text-blue-600 hover:underline" %> ·
+    <%= link_to styled_telephone_number(@resume), "tel:#{@resume.user_phone}", class: "text-blue-600 hover:underline" %> ·
+    <%= link_to "/in/#{@resume.user_linked_in_url.split("/").last}", @resume.user_linked_in_url , target: "_blank", class: "text-blue-600 hover:underline" %>
   </p>
 
   <%# Summary %>
-  <h2 class="text-xl font-semibold mt-6">Summary</h2>
+  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Summary</h2>
   <div class="prose">
     <%= @resume.summary&.body&.to_s&.html_safe %>
   </div>
 
   <%# Skills %>
-  <h2 class="text-xl font-semibold mt-6">Technical Skills</h2>
+  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Technical Skills</h2>
   <ul class="list-disc list-inside">
     <% @resume.skills.each do |skill| %>
-      <li><%= skill.name %></li>
+      <span class="text-xs inline-block text-gray-600 m-0.5 px-4 py-1 bg-gray-200 rounded-xl hover:bg-gray-500 hover:text-white transition-colors duration-200"><%= skill.name %></span>
     <% end %>
   </ul>
 
   <%# Experiences %>
-  <h2 class="text-xl font-semibold mt-6">Experience</h2>
+  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Experience</h2>
   <% @resume.experiences.each do |exp| %>
     <div class="mb-4">
       <h3 class="font-bold"><%= exp.title %> @ <%= exp.company_name %></h3>
@@ -38,7 +42,7 @@
   <% end %>
 
   <%# Education %>
-  <h2 class="text-xl font-semibold mt-6">Education</h2>
+  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Education</h2>
   <% @resume.educations.each do |edu| %>
     <div class="mb-4">
       <h3 class="font-bold"><%= edu.school %></h3>
@@ -49,10 +53,14 @@
   <% end %>
 
   <%# Projects %>
-  <% @resume.projects.each do |proj| %>
+
+  <% if @resume.projects.none? %>
+    <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Projects</h2>
+    <% end %>
+    <% @resume.projects.each do |proj| %>
     <div class="mb-4">
+      <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700"><%= proj.title %></h2>
       <h2 class="font-bold">
-        <%= proj.title %>
         <% if proj.url.present? %>
           – <a href="<%= proj.url %>" class="text-blue-500 underline" target="_blank">View</a>
         <% end %>
@@ -66,4 +74,5 @@
 
 <div class="max-w-3xl mx-auto bg-white">
   <%= render "download_pdf_button" %>
+  <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %>
 </div>

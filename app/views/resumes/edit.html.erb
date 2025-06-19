@@ -1,8 +1,5 @@
-<% if @resume.slug.present? %>
-  <div class="mx-4 my-4 text-right">
-    <%= link_to "View Public Resume", public_resume_path(@resume.slug), class: "text-sm text-blue-600 hover:underline" %>
-  </div>
-<% end %>
+<%= render "view_public_resume_link" %>
+
 <div class="mx-4 my-4">
   <h1 class="text-2xl font-bold mb-6 text-center">Edit Resume Summary</h1>
 
@@ -37,14 +34,14 @@
             <% end %>
           </ul>
           <span>
-            <%= link_to "Edit", edit_resume_experience_path(@resume, exp), class: "text-blue-600 hover:underline mr-2" %>
-            <%= link_to "Delete", resume_experience_path(@resume, exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline", style: "margin-left: 1em" %>
+            <%= link_to "Edit", edit_experience_path(exp), class: "text-blue-600 hover:underline mr-2" %>
+            <%= link_to "Delete", experience_path(exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline", style: "margin-left: 1em" %>
           </span>
         </div>
       <% end %>
 
       <div class="mt-4">
-        <%= link_to "Add Experience", new_resume_experience_path(@resume), class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+        <%= link_to "Add Experience", new_experience_path, class: "bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded hover:bg-green-700" %>
       </div>
     </div>
 

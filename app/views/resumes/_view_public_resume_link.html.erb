@@ -1,0 +1,5 @@
+<% if @resume.slug.present? %>
+  <div class="my-4">
+    <%= link_to "View Public Resume", public_resume_path(@resume.slug), class: "text-sm text-blue-600 hover:underline" %>
+  </div>
+<% end %>
