@@ -19,11 +19,19 @@ class ResumesController < ApplicationController
   end
 
   def public_pdf
-    respond_to do |format|
-      format.pdf do
-        render pdf: "#{@resume.user_first_name}_resume", template: "resumes/public_pdf", layout: false
-      end
-    end
+    @resume = Resume.find_by!(slug: params[:slug])
+
+    html = render_to_string(
+      template: "resumes/public_pdf",
+      layout: "pdf",
+      formats: [ :html ]
+    )
+
+    grover = Grover.new(html, format: "A4")
+    send_data grover.to_pdf,
+              filename: "#{@resume.user_first_name}_resume.pdf",
+              type: "application/pdf",
+              disposition: "inline"
   end
 
   private
