@@ -17,5 +17,6 @@
     "puppeteer": "^24.10.2",
     "tailwindcss": "^4.1.10",
     "trix": "^2.1.15"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }
