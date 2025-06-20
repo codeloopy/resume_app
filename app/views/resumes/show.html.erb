@@ -47,6 +47,17 @@
     <% end %>
   </div>
 
+  <div class="mb-4 text-gray-800">
+    <h2 class="text-md mb-2 text-gray-700 font-semibold">Projects</h2>
+    <% @resume.projects.each do |project| %>
+      <div class="mb-2">
+        <h3 class="text-sm font-semibold text-gray-700"><%= project.title %></h3>
+        <p class="text-sm text-gray-600"><%= project.description %></p>
+        <p class="text-sm text-gray-600"><%= project.url %></p>
+      </div>
+    <% end %>
+  </div>
+
   <div class="mt-6">
     <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %>
   </div>

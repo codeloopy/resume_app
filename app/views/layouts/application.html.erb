@@ -18,6 +18,9 @@
   </head>
 
   <body>
+    <%= render "layouts/shared/navigation" %>
+    <%= render "layouts/shared/flash" %>
+
     <% if controller_name == 'static_pages' && action_name == 'home' %>
       <%= yield %>
     <% else %>
