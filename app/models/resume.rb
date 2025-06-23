@@ -16,9 +16,6 @@ class Resume < ApplicationRecord
   has_many :projects, dependent: :destroy
   accepts_nested_attributes_for :projects, allow_destroy: true
 
-  has_many :references, dependent: :destroy
-  accepts_nested_attributes_for :references, allow_destroy: true
-
   delegate :first_name, :last_name, :email, :phone, :linked_in_url, :github_url, :portfolio, to: :user, prefix: true
 
   def to_param
