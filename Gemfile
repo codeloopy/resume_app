@@ -68,3 +68,5 @@ gem "grover"
 gem "dockerfile-rails", ">= 1.7", group: :development
 
 gem "aws-sdk-s3", "~> 1.190", require: false
+
+gem "resend", "~> 0.22.0"
