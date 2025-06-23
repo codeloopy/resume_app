@@ -59,12 +59,17 @@
               <%= skill_field_html(skill_name: skill.name, skill_id: skill.id, index: index, new_record: false) %>
             <% end %>
           </div>
-
-          <template data-responsibility-target="template">
-            <%= skill_field_html.html_safe %>
-          </template>
         </details>
+      <% else %>
+        <div data-responsibility-target="container">
+          <!-- Container for new skills will be added here -->
+        </div>
       <% end %>
+
+      <template data-responsibility-target="template">
+        <%= skill_field_html.html_safe %>
+      </template>
+
       <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
     </div>
 
