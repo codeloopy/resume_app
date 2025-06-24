@@ -11,12 +11,9 @@ export default class extends Controller {
   add(event) {
     event.preventDefault()
 
-    console.log("Adding new field — section type:", this.sectionType)
-
     if (this.sectionType === "skills") {
       const skillsAccordion = document.querySelector("#skills-section")
       if (skillsAccordion) {
-        console.log("Opening skills accordion")
         skillsAccordion.open = true
         skillsAccordion.scrollIntoView({ behavior: "smooth" })
       }
