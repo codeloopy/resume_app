@@ -55,8 +55,12 @@
             Open accordion to add, edit or remove a skill. Click the update resume button to save your changes.
           </summary>
           <div data-responsibility-target="container">
-            <% @resume.skills.each_with_index do |skill, index| %>
-              <%= skill_field_html(skill_name: skill.name, skill_id: skill.id, index: index, new_record: false) %>
+            <%= f.fields_for :skills do |skill_form| %>
+              <div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="false">
+                <%= skill_form.text_field :name, class: "w-full p-2 border border-gray-300 rounded-md", placeholder: "Enter skill name" %>
+                <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
+                <%= skill_form.hidden_field :_destroy, value: 0 %>
+              </div>
             <% end %>
           </div>
         </details>
@@ -67,7 +71,11 @@
       <% end %>
 
       <template data-responsibility-target="template">
-        <%= skill_field_html.html_safe %>
+        <div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="true">
+          <input type="text" name="resume[skills_attributes][NEW_RECORD][name]" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter skill name">
+          <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
+          <input type="hidden" name="resume[skills_attributes][NEW_RECORD][_destroy]" value="0">
+        </div>
       </template>
 
       <%= link_to "Add Skill", "#", class: "text-blue-500", data: { action: "click->responsibility#add" } %>
