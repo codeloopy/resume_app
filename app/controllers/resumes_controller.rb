@@ -33,11 +33,63 @@ class ResumesController < ApplicationController
       formats: [ :html ]
     )
 
-    grover = Grover.new(html, format: "A4")
-    send_data grover.to_pdf,
-              filename: "#{@resume.user_first_name}_resume.pdf",
-              type: "application/pdf",
-              disposition: "inline"
+    begin
+      # Configure Grover with production-friendly options
+      grover_options = {
+        format: "A4",
+        margin: {
+          top: "0.5in",
+          bottom: "0.5in",
+          left: "0.5in",
+          right: "0.5in"
+        },
+        prefer_css_page_size: true,
+        emulate_media: "screen",
+        # Production-specific options
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-accelerated-2d-canvas",
+          "--no-first-run",
+          "--no-zygote",
+          "--disable-gpu"
+        ]
+      }
+
+      grover = Grover.new(html, grover_options)
+
+      # Set a timeout for the PDF generation
+      Timeout.timeout(30) do
+        pdf_data = grover.to_pdf
+        send_data pdf_data,
+                  filename: "#{@resume.user_first_name}_resume.pdf",
+                  type: "application/pdf",
+                  disposition: "inline"
+      end
+
+    rescue Timeout::Error => e
+      Rails.logger.error "PDF generation timed out after 30 seconds"
+      Rails.logger.error "Timeout error: #{e.message}"
+
+      # Fallback: return HTML instead of PDF
+      render :public, layout: "pdf"
+
+    rescue Grover::JavaScript::UnknownError => e
+      Rails.logger.error "Grover JavaScript error: #{e.message}"
+      Rails.logger.error "Grover error details: #{e.inspect}"
+
+      # Fallback: return HTML instead of PDF
+      render :public, layout: "pdf"
+
+    rescue => e
+      Rails.logger.error "PDF generation error: #{e.message}"
+      Rails.logger.error "Error class: #{e.class}"
+      Rails.logger.error "Error backtrace: #{e.backtrace.first(5).join("\n")}"
+
+      # Fallback: return HTML instead of PDF
+      render :public, layout: "pdf"
+    end
   end
 
   private
