@@ -1,17 +1,17 @@
 <%= form_with model: [@resume, experience], local: true do |f| %>
   <div class="mb-4">
     <%= f.label :company_name, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.text_field :company_name, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.text_field :company_name, class: "w-full p-2 border border-gray-300 rounded-md bg-white", placeholder: "Company Name" %>
   </div>
 
   <div class="mb-4">
     <%= f.label :location, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.text_field :location, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.text_field :location, class: "w-full p-2 border border-gray-300 rounded-md bg-white", placeholder: "City, State" %>
   </div>
 
   <div class="mb-4">
     <%= f.label :title, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md bg-white", placeholder: "Frontend Developer, Account Manager, etc." %>
   </div>
 
   <div class="mb-4">
