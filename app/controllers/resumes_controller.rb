@@ -27,10 +27,12 @@ class ResumesController < ApplicationController
   def public_pdf
     @resume = Resume.find_by!(slug: params[:slug])
 
+    # Render HTML first to catch any template errors
     html = render_to_string(
       template: "resumes/public_pdf",
       layout: "pdf",
-      formats: [ :html ]
+      formats: [ :html ],
+      locals: { resume: @resume }
     )
 
     begin
@@ -57,7 +59,7 @@ class ResumesController < ApplicationController
         ]
       }
 
-      grover = Grover.new(html, grover_options)
+      grover = Grover.new(html, **grover_options)
 
       # Set a timeout for the PDF generation
       Timeout.timeout(30) do

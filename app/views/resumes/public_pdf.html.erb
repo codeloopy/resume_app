@@ -2,61 +2,61 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title><%= @resume.user_first_name %> <%= @resume.user_last_name %> - Resume</title>
+    <title><%= resume.user_first_name %> <%= resume.user_last_name %> - Resume</title>
   </head>
   <body>
     <div class="max-w-4xl mx-auto bg-white">
       <h1>
-        <p class="text-3xl font-bold"><%= user_full_name(@resume) %></p>
+        <p class="text-3xl font-bold"><%= user_full_name(resume) %></p>
       </h1>
 
-      <% if @resume.title.present? %>
-        <p class="text-lg font-bold mb-1"><%= @resume.title %></p>
+      <% if resume.title.present? %>
+        <p class="text-lg font-bold mb-1"><%= resume.title %></p>
       <% end %>
 
       <p class="text-gray-600 mb-6">
-        <% if @resume.user_email.present? %>
-          <span class="text-blue-600"><%= @resume.user_email %></span>
+        <% if resume.user_email.present? %>
+          <span class="text-blue-600"><%= resume.user_email %></span>
         <% end %>
 
-        <% if @resume.user_phone.present? %>
-          <% if @resume.user_email.present? %> · <% end %>
-          <span class="text-blue-600"><%= styled_telephone_number(@resume) %></span>
+        <% if resume.user_phone.present? %>
+          <% if resume.user_email.present? %> · <% end %>
+          <span class="text-blue-600"><%= styled_telephone_number(resume) %></span>
         <% end %>
 
-        <% if @resume.user_github_url.present? %>
-          <% if @resume.user_email.present? || @resume.user_phone.present? %> · <% end %>
-          <span class="text-blue-600"><%= "#{@resume.user_github_url.split('//').last}" %></span>
+        <% if resume.user_github_url.present? %>
+          <% if resume.user_email.present? || resume.user_phone.present? %> · <% end %>
+          <span class="text-blue-600"><%= "#{resume.user_github_url.split('//').last}" %></span>
         <% end %>
 
-        <% if @resume.user_linked_in_url.present? %>
-          <% if @resume.user_email.present? || @resume.user_phone.present? || @resume.user_github_url.present? %> · <% end %>
-          <span class="text-blue-600"><%= "/in/#{@resume.user_linked_in_url.split("/").last}" %></span>
+        <% if resume.user_linked_in_url.present? %>
+          <% if resume.user_email.present? || resume.user_phone.present? || resume.user_github_url.present? %> · <% end %>
+          <span class="text-blue-600"><%= "/in/#{resume.user_linked_in_url.split("/").last}" %></span>
         <% end %>
       </p>
 
       <%# Summary %>
-      <% if @resume.summary&.body&.present? %>
+      <% if resume.summary&.body&.present? %>
         <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Summary</h2>
         <div class="prose">
-          <%= @resume.summary.body.to_s.html_safe %>
+          <%= resume.summary.body.to_s.html_safe %>
         </div>
       <% end %>
 
       <%# Skills %>
-      <% if @resume.skills.any? %>
+      <% if resume.skills.any? %>
         <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Technical Skills</h2>
         <ul>
-          <% @resume.skills.each do |skill| %>
-            <span class="text-xs inline-block"><%= skill.name %><%= skill == @resume.skills.last ? "." : ", " %></span>
+          <% resume.skills.each do |skill| %>
+            <span class="text-xs inline-block"><%= skill.name %><%= skill == resume.skills.last ? "." : ", " %></span>
           <% end %>
         </ul>
       <% end %>
 
       <%# Experiences %>
-      <% if @resume.experiences.any? %>
+      <% if resume.experiences.any? %>
         <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Experience</h2>
-        <% @resume.experiences.each do |exp| %>
+        <% resume.experiences.each do |exp| %>
           <div class="mb-4">
             <h3 class="font-bold"><%= exp.title %> @ <%= exp.company_name %></h3>
             <p class="text-sm text-gray-500 mb-2">
@@ -74,9 +74,9 @@
       <% end %>
 
       <%# Education %>
-      <% if @resume.educations.any? %>
+      <% if resume.educations.any? %>
         <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Education</h2>
-        <% @resume.educations.each do |edu| %>
+        <% resume.educations.each do |edu| %>
           <div class="mb-4">
             <h3 class="font-bold"><%= edu.school %></h3>
             <p class="text-sm text-gray-500">
@@ -87,9 +87,9 @@
       <% end %>
 
       <%# Projects %>
-      <% if @resume.projects.any? %>
+      <% if resume.projects.any? %>
         <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Projects</h2>
-        <% @resume.projects.each do |proj| %>
+        <% resume.projects.each do |proj| %>
           <div class="mb-4">
             <h3 class="font-bold"><%= proj.title %></h3>
             <% if proj.url.present? %>

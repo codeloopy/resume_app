@@ -60,7 +60,7 @@ namespace :pdf do
         ]
       }
 
-      grover = Grover.new(html, grover_options)
+      grover = Grover.new(html, **grover_options)
       puts "✅ Grover instance created successfully"
 
       # Test PDF generation
@@ -72,7 +72,7 @@ namespace :pdf do
 
         # Save test PDF
         test_file = Rails.root.join("tmp", "test_resume.pdf")
-        File.write(test_file, pdf_data)
+        File.binwrite(test_file, pdf_data)
         puts "   Test PDF saved to: #{test_file}"
       end
 
