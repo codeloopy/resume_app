@@ -3,22 +3,15 @@
       <div class="flex justify-between items-center h-16">
           <div class="flex items-center">
               <div class="flex-shrink-0">
-                  <h1 class="text-2xl font-bold text-gray-900">Free Resume Builder</h1>
+                  <%= link_to root_path do %>
+                    <h1 class="text-2xl font-bold text-gray-900">Free Resume Builder</h1>
+                  <% end %>
               </div>
           </div>
           <!-- Desktop Menu -->
           <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                  <% if user_signed_in? %>
-                    <%= link_to "Edit User", edit_user_registration_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-                    <%= link_to "My Resumes", resume_path, class: "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>
-                    <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>
-                  <% else %>
-                    <a href="#templates" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200">Templates</a>
-                    <a href="#features" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200">Features</a>
-                    <a href="#how-it-works" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200">How It Works</a>
-                    <%= link_to "Sign In", new_user_session_path, class: "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>
-                  <% end %>
+                <%= render "layouts/shared/navigation_items" %>
               </div>
           </div>
           <!-- Mobile menu button -->
@@ -26,7 +19,7 @@
               <button type="button" id="mobile-menu-button" class="text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900 p-2">
                   <span class="sr-only">Open main menu</span>
                   <!-- Hamburger icon -->
-                  <svg id="hamburger-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg id="hamburger-icon" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                   <!-- Close icon (hidden by default) -->
@@ -40,18 +33,9 @@
 
   <div id="mobile-menu" class="md:hidden hidden">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
-      <a href="#templates" class="mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200">Templates</a>
-      <a href="#features" class="mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200">Features</a>
-      <a href="#how-it-works" class="mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200">How It Works</a>
-      <% if user_signed_in? %>
-        <%= link_to "My Resumes", resume_path, class: "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" %>
-        <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" %>
-      <% else %>
-        <%= link_to "Start Building", new_user_session_path, class: "mobile-menu-link bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-200 mt-4" %>
-      <% end %>
+      <%= render "layouts/shared/navigation_items", mobile: true %>
     </div>
   </div>
 </nav>
-
 
 <%= render "layouts/shared/mobile_menu_js" %>
