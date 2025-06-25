@@ -42,10 +42,23 @@ class ResumesController < ApplicationController
       # Set a timeout for the PDF generation
       Timeout.timeout(30) do
         pdf_data = grover.to_pdf
+
+        # Determine disposition based on query parameter or default to inline
+        disposition = params[:download] == "true" ? "attachment" : "inline"
+
+        # Set proper headers for PDF display
+        response.headers["Content-Type"] = "application/pdf"
+        response.headers["Content-Disposition"] = "#{disposition}; filename=\"#{@resume.user_first_name}_resume.pdf\""
+        response.headers["Content-Length"] = pdf_data.length.to_s
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+
+        # Send the PDF data
         send_data pdf_data,
                   filename: "#{@resume.user_first_name}_resume.pdf",
                   type: "application/pdf",
-                  disposition: "inline"
+                  disposition: disposition
       end
 
     rescue Timeout::Error => e
