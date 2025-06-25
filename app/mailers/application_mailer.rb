@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "freeresumebuilderapp@gmail.com"
+  default from: "noreply@freeresumebuilderapp.com"
   layout "mailer"
 end
