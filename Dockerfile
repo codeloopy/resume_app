@@ -25,13 +25,10 @@ ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_WITHOUT="development:test" \
     RAILS_ENV="production"
 
-# Install Node.js
-ARG NODE_VERSION=22.13.0
-ENV PATH=/usr/local/node/bin:$PATH
-RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-    rm -rf /tmp/node-build-master
-
+# Install Node.js using official NodeSource repository
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -46,8 +43,7 @@ ARG YARN_VERSION=1.22.19
 RUN npm install -g yarn@$YARN_VERSION
 
 # Build options
-ENV PATH="/usr/local/node/bin:$PATH" \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -73,9 +69,28 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 # Final stage for app image
 FROM base
 
-# Install packages needed for deployment
+# Install packages needed for deployment including Chromium and its dependencies
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y chromium chromium-sandbox imagemagick libvips && \
+    apt-get install --no-install-recommends -y \
+    chromium \
+    chromium-sandbox \
+    imagemagick \
+    libvips \
+    ca-certificates \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    xdg-utils \
+    libxss1 \
+    libxtst6 \
+    libayatana-appindicator3-1 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
