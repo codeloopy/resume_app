@@ -94,7 +94,7 @@
             <h3 class="font-bold"><%= proj.title %></h3>
             <% if proj.url.present? %>
               <p class="text-sm text-gray-500">
-                <a href="<%= proj.url %>" class="text-blue-500 underline" target="_blank">View Project</a>
+                <a href="<%= proj.url %>" class="text-blue-500 underline" target="_blank"><%= proj.url %></a>
               </p>
             <% end %>
             <% if proj.description&.body&.present? %>

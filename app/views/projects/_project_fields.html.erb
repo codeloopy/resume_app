@@ -6,7 +6,7 @@
 
   <div class="mb-2">
     <%= f.label :url, "Project URL (optional)", class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.url_field :url, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.url_field :url, class: "w-full p-2 border border-gray-300 rounded-md bg-white", pattern: "https?://.+", title: "Please enter a valid URL starting with http:// or https://" %>
   </div>
 
   <div class="mb-2">
