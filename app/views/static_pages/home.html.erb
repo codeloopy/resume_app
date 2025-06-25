@@ -9,18 +9,16 @@
         <div class="text-center">
             <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
                 Create Your Perfect Resume<br>
-                <span class="text-blue-600">For Free</span>
+                <span class="text-blue-600">For Free!</span>
             </h1>
             <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                Build professional, ATS-friendly resumes in minutes. Choose from our carefully crafted templates and land your dream job.
+                Build professional, ATS-friendly resumes in minutes.<br>Choose from our growing collection of templates and land your dream job
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#start-building" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-lg">
-                    Start Building Now
-                </a>
-                <a href="#templates" class="bg-white text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition duration-200 shadow-lg border">
+                <%= link_to "Start Building Now", new_user_registration_path, class: "bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-lg" %>
+                <!-- <a href="#templates" class="bg-white text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition duration-200 shadow-lg border">
                     View Templates
-                </a>
+                </a> -->
             </div>
             <div class="mt-12 flex justify-center items-center space-x-8 text-gray-500">
                 <div class="flex items-center">
@@ -69,9 +67,9 @@
                         <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Modern</span>
                         <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Clean</span>
                     </div>
-                    <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                    <!-- <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200">
                         Use This Template
-                    </button>
+                    </button> -->
                 </div>
             </div>
 
@@ -91,9 +89,9 @@
                         <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">Traditional</span>
                         <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">Executive</span>
                     </div>
-                    <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                    <!-- <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200">
                         Use This Template
-                    </button>
+                    </button> -->
                 </div>
             </div>
         </div>
@@ -141,8 +139,8 @@
                 <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-download text-purple-600 text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Instant Download</h3>
-                <p class="text-gray-600">Download your resume as a PDF immediately after completing it. No waiting required.</p>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Instant Share & Download</h3>
+                <p class="text-gray-600">Download your resume as a PDF or share the public link with your recruiter.</p>
             </div>
 
             <div class="text-center">
@@ -166,7 +164,7 @@
                     <i class="fas fa-shield-alt text-indigo-600 text-2xl"></i>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-900 mb-2">Privacy First</h3>
-                <p class="text-gray-600">Your personal information is secure. We don't store or share your data.</p>
+                <p class="text-gray-600">Your personal information is secure. We don't share your data.</p>
             </div>
         </div>
     </div>
@@ -189,23 +187,22 @@
                 <div class="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                     1
                 </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Fill Information</h3>
+                <p class="text-gray-600">Add your personal details, work experience, education, and skills using our guided form.</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                    2
+                </div>
                 <h3 class="text-xl font-semibold text-gray-900 mb-2">Choose Template</h3>
                 <p class="text-gray-600">Select from our collection of professional resume templates designed for different industries.</p>
             </div>
 
             <div class="text-center">
                 <div class="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                    2
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Fill Information</h3>
-                <p class="text-gray-600">Add your personal details, work experience, education, and skills using our guided form.</p>
-            </div>
-
-            <div class="text-center">
-                <div class="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                     3
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Download & Apply</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Download or Share link</h3>
                 <p class="text-gray-600">Download your polished resume as a PDF and start applying to your dream jobs immediately.</p>
             </div>
         </div>
@@ -219,13 +216,11 @@
             Ready to Build Your Resume?
         </h2>
         <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of job seekers who have successfully created their resumes with our free builder.
+            Join many job seekers who have successfully created their resumes with our free builder.
         </p>
-        <a href="/resume/edit" class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition duration-200 shadow-lg inline-block">
-            Start Building Your Resume Now
-        </a>
+        <%= link_to "Start Building Now", new_user_registration_path, class: "bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition duration-200 shadow-lg inline-block" %>
         <div class="mt-8 text-blue-100">
-            <p>✓ No registration required &nbsp;&nbsp; ✓ Completely free &nbsp;&nbsp; ✓ Instant download</p>
+            <p>✓ Completely free &nbsp;&nbsp; ✓ Instant download</p>
         </div>
     </div>
 </section>
@@ -235,35 +230,46 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-8">
             <div>
-                <h3 class="text-xl font-bold mb-4">ResumeBuilder</h3>
+                <h3 class="text-xl font-bold mb-4">FreeResumeBuilderApp</h3>
                 <p class="text-gray-400">Create professional resumes for free. Land your dream job with our ATS-friendly templates.</p>
             </div>
             <div>
-                <h4 class="text-lg font-semibold mb-4">Product</h4>
+                <!-- <h4 class="text-lg font-semibold mb-4">Product</h4>
                 <ul class="space-y-2 text-gray-400">
                     <li><a href="#templates" class="hover:text-white transition duration-200">Templates</a></li>
                     <li><a href="#features" class="hover:text-white transition duration-200">Features</a></li>
                     <li><a href="#how-it-works" class="hover:text-white transition duration-200">How It Works</a></li>
+                </ul> -->
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                <ul class="space-y-2 text-gray-400">
+                  <li>
+                    <p class="text-gray-400">Have a question, suggestion, or would like to collaborate? <a href="mailto:freeresumebuilderapp@gmail.com" class="text-white hover:text-gray-300 transition duration-200">Hit me up</a></p>
+                  </li>
+                  <li>
+                    <p class="text-gray-400">Or find me on <a href="https://www.linkedin.com/in/pedrom/" class="text-white hover:text-gray-300 transition duration-200" target="_blank">LinkedIn</a></p>
+                  </li>
+                    <!-- <li><a href="#" class="hover:text-white transition duration-200">Help Center</a></li> -->
+                    <!-- <li><a href="#" class="hover:text-white transition duration-200">Contact Us</a></li> -->
+                    <!-- <li><a href="#" class="hover:text-white transition duration-200">FAQ</a></li> -->
                 </ul>
             </div>
             <div>
-                <h4 class="text-lg font-semibold mb-4">Support</h4>
+                <h4 class="text-lg font-semibold mb-4">Want to help?</h4>
                 <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-white transition duration-200">Help Center</a></li>
-                    <li><a href="#" class="hover:text-white transition duration-200">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-white transition duration-200">FAQ</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-lg font-semibold mb-4">Legal</h4>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-white transition duration-200">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-white transition duration-200">Terms of Service</a></li>
+                    <li>
+                      <p class="text-gray-400">I'm a one-man team working on this project in my free time. If you like it, please consider buying me a coffee, but don't feel obligated!</p>
+                    </li>
+                    <!-- <li><a href="#" class="hover:text-white transition duration-200">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition duration-200">Terms of Service</a></li> -->
+                    <!-- how can I insert a buy me link image here? -->
+                    <li class="mt-4"><a href="https://www.buymeacoffee.com/codeloopy" class="button bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-300 transition duration-200 shadow-lg">Buy Me a Coffee</a></li>
                 </ul>
             </div>
         </div>
         <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 ResumeBuilder. All rights reserved.</p>
+            <p>&copy; <%= Date.today.year %> FreeResumeBuilderApp. All rights reserved.</p>
         </div>
     </div>
 </footer>
