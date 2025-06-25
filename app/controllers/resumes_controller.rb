@@ -1,7 +1,7 @@
 class ResumesController < ApplicationController
-  before_action :authenticate_user!, except: :show
-  before_action :set_resume
+  before_action :authenticate_user!, except: [ :show, :public, :public_pdf ]
   before_action :set_resume_public, only: [ :public, :public_pdf ]
+  before_action :set_resume, except: [ :public, :public_pdf ]
 
   def show; end
 
