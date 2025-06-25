@@ -167,4 +167,45 @@ namespace :pdf do
       puts "ℹ️  No test PDF file found"
     end
   end
+
+  desc "Test basic Chromium functionality on production server"
+  task test_chromium: :environment do
+    puts "Testing basic Chromium functionality..."
+
+    # Test with minimal HTML
+    minimal_html = <<~HTML
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Test</title>
+      </head>
+      <body>
+        <h1>Hello World</h1>
+      </body>
+      </html>
+    HTML
+
+    begin
+      puts "Creating Grover instance..."
+      grover = Grover.new(minimal_html)
+      puts "✅ Grover instance created"
+
+      puts "Generating PDF..."
+      Timeout.timeout(30) do
+        pdf_data = grover.to_pdf
+        puts "✅ PDF generation successful"
+        puts "   PDF size: #{pdf_data.length} bytes"
+      end
+
+    rescue => e
+      puts "❌ Error: #{e.class} - #{e.message}"
+      puts "   Backtrace: #{e.backtrace.first(3).join("\n")}"
+
+      if e.message.include?("executablePath")
+        puts "   This suggests Chromium is not found at the expected path"
+      elsif e.message.include?("launch")
+        puts "   This suggests Chromium cannot be launched"
+      end
+    end
+  end
 end
