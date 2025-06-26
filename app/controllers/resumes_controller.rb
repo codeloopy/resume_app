@@ -13,7 +13,7 @@ class ResumesController < ApplicationController
     if @resume.update(resume_params)
       Rails.logger.info "Resume updated successfully"
       Rails.logger.info "Skills after update: #{@resume.skills.reload.map(&:name)}"
-      redirect_to resume_path, notice: "Resume updated!"
+      redirect_to edit_resume_path, notice: "Resume updated!"
     else
       Rails.logger.error "Resume update failed: #{@resume.errors.full_messages}"
       Rails.logger.error "Skills errors: #{@resume.skills.map { |s| s.errors.full_messages }.flatten}"
