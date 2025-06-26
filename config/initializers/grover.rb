@@ -6,12 +6,12 @@ Rails.application.config.after_initialize do
   Grover.configure do |config|
     # Set production-friendly Chrome arguments
     config.options = {
-      format: "A4",
+      format: "Letter",
       margin: {
-        top: "0.5in",
-        bottom: "0.5in",
-        left: "0.5in",
-        right: "0.5in"
+        top: "0.25in",
+        bottom: "0.25in",
+        left: "0.25in",
+        right: "0.25in"
       },
       prefer_css_page_size: true,
       emulate_media: "screen",

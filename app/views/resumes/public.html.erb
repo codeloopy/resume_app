@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto py-8 px-6 bg-white shadow-md rounded-lg">
+<div class="py-20 bg-white max-w-4xl mx-auto">
   <h1 class="mb-4">
     <p class="text-3xl font-bold text-center">
       <%= user_full_name(@resume) %>
@@ -75,7 +75,7 @@
   <% end %>
 </div>
 
-<div class="max-w-3xl mx-auto bg-white">
+<div class="max-w-4xl mx-auto bg-white">
   <%= render "download_pdf_button" %>
   <% if current_user %>
     <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %>

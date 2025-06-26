@@ -23,7 +23,7 @@ namespace :pdf do
     puts "\n📄 Testing HTML rendering..."
     begin
       html = ApplicationController.renderer.render(
-        template: "resumes/public_pdf",
+        template: "resumes/public_pdf_#{resume.pdf_template}",
         layout: "pdf",
         formats: [ :html ],
         locals: { resume: resume }
@@ -40,12 +40,12 @@ namespace :pdf do
     puts "\n⚙️  Testing Grover configuration..."
     begin
       grover_options = {
-        format: "A4",
+        format: "Letter",
         margin: {
-          top: "0.5in",
-          bottom: "0.5in",
-          left: "0.5in",
-          right: "0.5in"
+          top: "0.25in",
+          bottom: "0.25in",
+          left: "0.25in",
+          right: "0.25in"
         },
         prefer_css_page_size: true,
         emulate_media: "screen",
@@ -119,7 +119,7 @@ namespace :pdf do
     HTML
 
     begin
-      grover = Grover.new(minimal_html, format: "A4")
+      grover = Grover.new(minimal_html, format: "Letter")
       pdf_data = grover.to_pdf
       puts "✅ Minimal content PDF generation successful"
       puts "   PDF size: #{pdf_data.length} bytes"
@@ -144,7 +144,7 @@ namespace :pdf do
     HTML
 
     begin
-      grover = Grover.new(external_css_html, format: "A4")
+      grover = Grover.new(external_css_html, format: "Letter")
       pdf_data = grover.to_pdf
       puts "✅ External CSS PDF generation successful"
       puts "   PDF size: #{pdf_data.length} bytes"

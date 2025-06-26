@@ -1,22 +1,20 @@
 class ResumesController < ApplicationController
-  before_action :authenticate_user!, except: [ :show, :public, :public_pdf ]
-  before_action :set_resume_public, only: [ :public, :public_pdf ]
-  before_action :set_resume, except: [ :public, :public_pdf ]
+  before_action :authenticate_user!, except: [ :show, :public, :public_pdf_modern, :public_pdf_classic ]
+  before_action :set_resume_public, only: [ :public, :public_pdf_modern, :public_pdf_classic ]
+  before_action :set_resume, except: [ :public, :public_pdf_modern, :public_pdf_classic ]
 
   def show; end
 
   def edit; end
 
   def update
-    Rails.logger.info "Resume update params: #{resume_params.inspect}"
-
     if @resume.update(resume_params)
-      Rails.logger.info "Resume updated successfully"
-      Rails.logger.info "Skills after update: #{@resume.skills.reload.map(&:name)}"
-      redirect_to edit_resume_path, notice: "Resume updated!"
+      if @resume.summary.present? and @resume.title.present? and @resume.skills.any? and @resume.experiences.any? and @resume.educations.any?
+        redirect_to resume_path, notice: "Resume updated!"
+      else
+        redirect_to edit_resume_path, notice: "Resume updated!"
+      end
     else
-      Rails.logger.error "Resume update failed: #{@resume.errors.full_messages}"
-      Rails.logger.error "Skills errors: #{@resume.skills.map { |s| s.errors.full_messages }.flatten}"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -27,9 +25,16 @@ class ResumesController < ApplicationController
   def public_pdf
     @resume = Resume.find_by!(slug: params[:slug])
 
+    template_name = case @resume.pdf_template
+    when "classic"
+      "classic"
+    else
+      "modern"
+    end
+
     # Render HTML first to catch any template errors
     html = render_to_string(
-      template: "resumes/public_pdf",
+      template: "resumes/public_pdf_#{template_name}",
       layout: "pdf",
       formats: [ :html ],
       locals: { resume: @resume }
@@ -66,7 +71,7 @@ class ResumesController < ApplicationController
       Rails.logger.error "Timeout error: #{e.message}"
 
       # Fallback: return HTML instead of PDF
-      render template: "resumes/public_pdf", layout: "pdf", locals: { resume: @resume }, formats: [ :html ]
+      render template: "resumes/public_pdf_#{template_name}", layout: "pdf", locals: { resume: @resume }, formats: [ :html ]
 
     rescue Grover::JavaScript::UnknownError => e
       Rails.logger.error "Grover JavaScript error: #{e.message}"
@@ -74,7 +79,7 @@ class ResumesController < ApplicationController
       Rails.logger.error "Grover error backtrace: #{e.backtrace.first(5).join("\n")}"
 
       # Fallback: return HTML instead of PDF
-      render template: "resumes/public_pdf", layout: "pdf", locals: { resume: @resume }, formats: [ :html ]
+      render template: "resumes/public_pdf_#{template_name}", layout: "pdf", locals: { resume: @resume }, formats: [ :html ]
 
     rescue => e
       Rails.logger.error "PDF generation error: #{e.message}"
@@ -82,7 +87,7 @@ class ResumesController < ApplicationController
       Rails.logger.error "Error backtrace: #{e.backtrace.first(5).join("\n")}"
 
       # Fallback: return HTML instead of PDF
-      render template: "resumes/public_pdf", layout: "pdf", locals: { resume: @resume }, formats: [ :html ]
+      render template: "resumes/public_pdf_#{template_name}", layout: "pdf", locals: { resume: @resume }, formats: [ :html ]
     end
   end
 
@@ -98,7 +103,7 @@ class ResumesController < ApplicationController
 
   def resume_params
     params.require(:resume).permit(
-      :summary, :title,
+      :summary, :title, :pdf_template,
       skills_attributes: [ :id, :name, :_destroy ],
       educations_attributes: [ :id, :school, :location, :field_of_study, :start_date, :end_date, :_destroy ],
       projects_attributes: [ :id, :title, :description, :url, :_destroy ]

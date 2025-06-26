@@ -22,6 +22,10 @@ class Resume < ApplicationRecord
     slug
   end
 
+  def pdf_template
+    super.presence || "modern"
+  end
+
   private
 
   def generate_slug

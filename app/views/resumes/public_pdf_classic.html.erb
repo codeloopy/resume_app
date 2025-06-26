@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= resume.user_first_name %> <%= resume.user_last_name %> - Resume</title>
+    <style>
+      @media print {
+        body {
+          print-color-adjust: exact;
+        }
+      }
+
+      body {
+        font-family: "Times New Roman", Times, serif;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-900 font-serif leading-relaxed">
+    <div class="max-w-4xl mx-auto p-4 bg-white">
+    <!-- Header -->
+    <header class="text-left mb-8">
+      <h1 class="text-3xl font-bold mb-2 tracking-wide"><%= user_full_name(resume) %></h1>
+      <div class="text-sm text-gray-700">
+        <% if resume.user_phone.present? %>
+          <%= styled_telephone_number(resume) %>
+        <% end %>
+        <% if resume.user_email.present? %>
+          <% if resume.user_phone.present? %> | <% end %>
+          <%= resume.user_email %>
+        <% end %>
+        <% if resume.user_linked_in_url.present? %>
+          <% if resume.user_phone.present? || resume.user_email.present? %> | <% end %>
+          /in/<%= resume.user_linked_in_url.split("/").last %>
+        <% end %>
+        <% if resume.user_github_url.present? %>
+          <% if resume.user_phone.present? || resume.user_email.present? || resume.user_linked_in_url.present? %> | <% end %>
+          <%= resume.user_github_url.split('//').last %>
+        <% end %>
+      </div>
+    </header>
+
+    <!-- Summary Section -->
+    <% if resume.summary&.body&.present? %>
+      <section class="mb-8 p-1 bg-gray-500">
+        <h2 class="text-lg font-bold mb-3 border-b-2 border-black">SUMMARY</h2>
+        <p class="text-sm leading-relaxed text-justify">
+          <%= resume.summary.body.to_s.html_safe %>
+        </p>
+      </section>
+    <% end %>
+
+    <!-- Technical Skills Section -->
+    <% if resume.skills.any? %>
+    <section class="mb-8">
+        <h2 class="text-lg font-bold mb-3 border-b-2 border-black">TECHNICAL SKILLS</h2>
+        <p class="text-sm">
+            <% resume.skills.each do |skill| %>
+              <%= skill.name %><%= skill == resume.skills.last ? "" : " | " %>
+            <% end %>
+        </p>
+    </section>
+    <% end %>
+
+    <!-- Experience Section -->
+    <% if resume.experiences.any? %>
+      <section class="mb-8">
+        <h2 class="text-lg font-bold mb-3 border-b-2 border-black">EXPERIENCE</h2>
+
+        <% resume.experiences.each do |exp| %>
+        <div class="mb-6">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <h3 class="font-bold text-sm"><%= exp.company_name.upcase %>, <%= exp.location %></h3>
+                <p class="text-sm font-semibold"><%= exp.title %></p>
+              </div>
+              <span class="text-sm font-semibold">
+                <%= exp.start_date&.strftime("%Y") %> - <%= exp.end_date&.strftime("%Y") || "Present" %>
+              </span>
+            </div>
+            <% if exp.responsibilities.any? %>
+              <ul class="text-sm space-y-1 ml-4">
+                <% exp.responsibilities.each do |resp| %>
+                  <li class="flex items-start">
+                    <span class="mr-2">&bull;</span>
+                    <span><%= resp.content %></span>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+        </div>
+        <% end %>
+      </section>
+    <% end %>
+
+    <!-- Education Section -->
+    <% if resume.educations.any? %>
+    <section class="mb-8">
+      <h2 class="text-lg font-bold mb-3 border-b-2 border-black">EDUCATION</h2>
+      <div class="text-sm space-y-2">
+        <% resume.educations.each do |edu| %>
+          <p>
+            <span class="font-bold"><%= edu.school.upcase %></span>, <%= edu.location %> | <%= edu.field_of_study %>
+          </p>
+        <% end %>
+      </div>
+    </section>
+    <% end %>
+
+    <!-- Projects Section -->
+    <% if resume.projects.any? %>
+    <section class="mb-8">
+        <h2 class="text-lg font-bold mb-3 border-b-2 border-black">PROJECTS</h2>
+        <% resume.projects.each do |proj| %>
+        <div class="mb-4">
+          <h3 class="font-bold text-sm"><%= proj.title.upcase %></h3>
+          <% if proj.url.present? %>
+            <p class="text-sm text-gray-600 mb-2"><%= proj.url %></p>
+          <% end %>
+          <% if proj.description&.body&.present? %>
+            <p class="text-sm leading-relaxed text-justify">
+            <%= proj.description.body.to_s.html_safe %>
+          </p>
+          <% end %>
+        </div>
+        <% end %>
+    </section>
+    <% end %>
+  </div>
+</body>
+</html>
