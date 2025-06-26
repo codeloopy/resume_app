@@ -21,14 +21,12 @@
     <%= render "layouts/shared/navigation" %>
     <%= render "layouts/shared/flash" %>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <% if controller_name == 'static_pages' && action_name == 'home' %>
+    <% if controller_name == 'static_pages' && action_name == 'home' %>
+      <%= yield %>
+    <% else %>
+      <div class="container mx-auto p-4">
         <%= yield %>
-      <% else %>
-        <div class="container mx-auto p-4">
-          <%= yield %>
-        </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </body>
 </html>
