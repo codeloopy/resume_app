@@ -33,6 +33,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
 
+    <!-- Preload critical resources -->
+    <link rel="preload" href="<%= asset_path('tailwind') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<%= asset_path('actiontext') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+    <!-- Fallback for browsers that don't support preload -->
+    <noscript>
+      <link rel="stylesheet" href="<%= asset_path('tailwind') %>">
+      <link rel="stylesheet" href="<%= asset_path('actiontext') %>">
+    </noscript>
+
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
@@ -74,6 +84,8 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= yield :head %>
     <% if Rails.env.production? %>
+      <!-- Preload Google Analytics -->
+      <link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6" as="script">
       <%= javascript_include_tag "https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6" %>
       <meta name="google-analytics" content="G-3XWMFLD7D6" />
       <script>
