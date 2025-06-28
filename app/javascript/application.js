@@ -7,9 +7,11 @@ import "trix"
 import "@rails/actiontext"
 
 document.addEventListener("turbo:load", () => {
-  let googleId = document.querySelector("meta[name='google-site-verification']");
+  let googleAnalyticsMeta = document.querySelector("meta[name='google-analytics']");
 
-  if (googleId) {
+  if (googleAnalyticsMeta) {
+    const googleId = googleAnalyticsMeta.getAttribute('content');
+
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());

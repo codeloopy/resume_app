@@ -17,7 +17,20 @@
     <%= yield :head %>
     <% if Rails.env.production? %>
       <%= javascript_include_tag "https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6" %>
-      <meta name="google-site-verification" content="G-3XWMFLD7D6" />
+      <meta name="google-analytics" content="G-3XWMFLD7D6" />
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3XWMFLD7D6', {
+          page_title: document.title,
+          page_location: window.location.href,
+          debug_mode: true
+        });
+
+        // Debug logging
+        console.log('Google Analytics loaded with ID: G-3XWMFLD7D6');
+      </script>
     <% end %>
   </head>
 
