@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
@@ -26,4 +24,26 @@ class ApplicationController < ActionController::Base
       format.xml
     end
   end
+
+  # Helper method to determine if current page should be blocked from indexing
+  def should_block_indexing?
+    # Always allow public pages to be indexed
+    return false if controller_name == "static_pages" && action_name == "home"
+    return false if controller_name == "resumes" && action_name == "public"
+    return false if controller_name == "resumes" && action_name == "public_pdf_modern"
+    return false if controller_name == "resumes" && action_name == "public_pdf_classic"
+    return false if controller_name == "resumes" && action_name == "public_pdf"
+
+    # Block all authenticated user pages
+    return true if user_signed_in?
+
+    # Allow login/signup pages to be indexed for user acquisition
+    return false if controller_name == "devise/sessions" && action_name == "new"
+    return false if controller_name == "devise/registrations" && action_name == "new"
+
+    # Default to allowing indexing for other public pages
+    false
+  end
+
+  helper_method :should_block_indexing?
 end

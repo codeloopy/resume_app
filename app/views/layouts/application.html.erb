@@ -9,7 +9,7 @@
     <meta name="description" content="<%= content_for(:description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly. No hidden fees, no paywalls.' %>">
     <meta name="keywords" content="<%= content_for(:keywords) || 'resume builder, free resume, professional resume, ATS friendly resume, resume templates, job application' %>">
     <meta name="author" content="FreeResumeBuilderApp">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="<%= should_block_indexing? ? 'noindex, nofollow' : 'index, follow' %>">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="<%= content_for(:og_title) || 'Free Resume Builder - Create Professional Resumes Online' %>">
