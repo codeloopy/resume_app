@@ -78,6 +78,13 @@
 <div class="max-w-4xl mx-auto bg-white">
   <%= render "download_pdf_button" %>
   <% if current_user %>
-    <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %>
+    <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %> |
+    <button class="text-blue-600 hover:underline cursor-pointer bg-transparent border-none p-0 font-inherit text-inherit"
+        data-controller="clipboard"
+        data-clipboard-text-value="<%= public_resume_url(@resume.slug) %>"
+        data-action="click->clipboard#copy"
+        title="<%= public_resume_url(@resume.slug) %>">
+      📋 Copy link address to clipboard
+    </button>
   <% end %>
 </div>

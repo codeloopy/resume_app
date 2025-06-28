@@ -3,5 +3,12 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+
+import ClipboardController from "./clipboard_controller"
+application.register("clipboard", ClipboardController)
+
+import PdfTrackingController from "./pdf_tracking_controller"
+application.register("pdf-tracking", PdfTrackingController)
+
 import ResponsibilityController from "./responsibility_controller"
 application.register("responsibility", ResponsibilityController)

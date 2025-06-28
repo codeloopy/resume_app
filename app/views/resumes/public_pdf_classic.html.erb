@@ -41,7 +41,7 @@
 
     <!-- Summary Section -->
     <% if resume.summary&.body&.present? %>
-      <section class="mb-8 p-1 bg-gray-500">
+      <section class="mb-8">
         <h2 class="text-lg font-bold mb-3 border-b-2 border-black">SUMMARY</h2>
         <p class="text-sm leading-relaxed text-justify">
           <%= resume.summary.body.to_s.html_safe %>
