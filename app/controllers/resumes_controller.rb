@@ -51,6 +51,9 @@ class ResumesController < ApplicationController
         # Determine disposition based on query parameter or default to inline
         disposition = params[:download] == "true" ? "attachment" : "inline"
 
+        Rails.logger.info "PDF generation - download param: #{params[:download]}, disposition: #{disposition}"
+        Rails.logger.info "PDF generation - all params: #{params.inspect}"
+
         # Set proper headers for PDF display
         response.headers["Content-Type"] = "application/pdf"
         response.headers["Content-Disposition"] = "#{disposition}; filename=\"#{@resume.user_first_name}_resume.pdf\""
@@ -58,6 +61,12 @@ class ResumesController < ApplicationController
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"
+
+        # Additional headers to force download
+        if disposition == "attachment"
+          response.headers["X-Content-Type-Options"] = "nosniff"
+          response.headers["Content-Transfer-Encoding"] = "binary"
+        end
 
         # Send the PDF data
         send_data pdf_data,

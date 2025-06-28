@@ -7,6 +7,9 @@ import { application } from "./application"
 import ClipboardController from "./clipboard_controller"
 application.register("clipboard", ClipboardController)
 
+import PdfDownloadController from "./pdf_download_controller"
+application.register("pdf-download", PdfDownloadController)
+
 import PdfTrackingController from "./pdf_tracking_controller"
 application.register("pdf-tracking", PdfTrackingController)
 
