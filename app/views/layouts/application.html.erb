@@ -1,9 +1,67 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Resume App" %></title>
+    <title><%= content_for(:title) || "Free Resume Builder - Create Professional Resumes Online" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="<%= content_for(:description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly. No hidden fees, no paywalls.' %>">
+    <meta name="keywords" content="<%= content_for(:keywords) || 'resume builder, free resume, professional resume, ATS friendly resume, resume templates, job application' %>">
+    <meta name="author" content="FreeResumeBuilderApp">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="<%= content_for(:og_title) || 'Free Resume Builder - Create Professional Resumes Online' %>">
+    <meta property="og:description" content="<%= content_for(:og_description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly.' %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:image" content="<%= request.base_url %>/icon.png">
+    <meta property="og:site_name" content="FreeResumeBuilderApp">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= content_for(:twitter_title) || 'Free Resume Builder - Create Professional Resumes Online' %>">
+    <meta name="twitter:description" content="<%= content_for(:twitter_description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly.' %>">
+    <meta name="twitter:image" content="<%= request.base_url %>/icon.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= request.original_url %>">
+
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Free Resume Builder",
+      "description": "Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly.",
+      "url": "https://freeresumebuilderapp.com",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Pedro Monsalve"
+      },
+      "featureList": [
+        "ATS-Friendly Templates",
+        "Instant PDF Download",
+        "Mobile Responsive",
+        "No Hidden Fees",
+        "Professional Design"
+      ]
+    }
+    </script>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 

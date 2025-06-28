@@ -19,4 +19,11 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     resume_path
   end
+
+  def sitemap
+    @resumes = Resume.all
+    respond_to do |format|
+      format.xml
+    end
+  end
 end

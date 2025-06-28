@@ -1,1 +1,15 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+
+User-agent: *
+Allow: /
+
+# Allow crawling of public resume pages
+Allow: /r/
+
+# Disallow private areas
+Disallow: /users/
+Disallow: /resume/edit
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://freeresumebuilderapp.com/sitemap.xml

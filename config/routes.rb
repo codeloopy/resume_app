@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   get "/r/:slug.pdf", to: "resumes#public_pdf", as: :public_resume_pdf
   get "/r/:slug", to: "resumes#public", as: :public_resume
 
+  # Sitemap for SEO
+  get "sitemap.xml", to: "application#sitemap", defaults: { format: "xml" }
+
   # Defines the root path route ("/")
   root "static_pages#home"
 end
