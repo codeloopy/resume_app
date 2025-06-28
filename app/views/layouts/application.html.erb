@@ -34,13 +34,13 @@
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
 
     <!-- Preload critical resources -->
-    <link rel="preload" href="<%= asset_path('tailwind') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="<%= asset_path('actiontext') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<%= asset_path('tailwind.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<%= asset_path('actiontext.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
     <!-- Fallback for browsers that don't support preload -->
     <noscript>
-      <link rel="stylesheet" href="<%= asset_path('tailwind') %>">
-      <link rel="stylesheet" href="<%= asset_path('actiontext') %>">
+      <link rel="stylesheet" href="<%= asset_path('tailwind.css') %>">
+      <link rel="stylesheet" href="<%= asset_path('actiontext.css') %>">
     </noscript>
 
     <!-- Structured Data (JSON-LD) -->
@@ -79,8 +79,8 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind.css", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "actiontext.css", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= yield :head %>
     <% if Rails.env.production? %>
