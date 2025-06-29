@@ -102,7 +102,7 @@
         window.gtag = gtag;
       </script>
     <% end %>
-    <% if defined?(Sentry) && Sentry.respond_to?(:get_trace_propagation_meta) %>
+    <% if Rails.env.production? && defined?(Sentry) && Sentry.respond_to?(:get_trace_propagation_meta) %>
       <%= Sentry.get_trace_propagation_meta.html_safe %>
     <% end %>
   </head>
