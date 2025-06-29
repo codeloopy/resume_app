@@ -19,7 +19,17 @@ class ApplicationController < ActionController::Base
   end
 
   def sitemap
-    @resumes = Resume.all
+    begin
+      @resumes = Resume.all
+    rescue => e
+      # Log the error but don't crash the sitemap
+      Rails.logger.error "Sitemap generation error: #{e.message}"
+      @resumes = []
+    end
+
+    # Ensure @resumes is always set
+    @resumes ||= []
+
     respond_to do |format|
       format.xml
     end

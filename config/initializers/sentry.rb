@@ -13,5 +13,24 @@ if Rails.env.production?
     # see https://docs.sentry.io/platforms/ruby/data-management/data-collected/ for more info
     config.enabled_patches << :active_job
     config.send_default_pii = true
+
+    # Filter out system-level exceptions that shouldn't be reported
+    config.before_send = lambda do |event, hint|
+      # Don't send SignalException (SIGTERM, SIGINT, etc.)
+      return nil if hint[:exception].is_a?(SignalException)
+
+      # Don't send SystemExit exceptions
+      return nil if hint[:exception].is_a?(SystemExit)
+
+      # Don't send Interrupt exceptions
+      return nil if hint[:exception].is_a?(Interrupt)
+
+      # Don't send exceptions from the boot process
+      if hint[:exception].backtrace&.first&.include?("config/boot")
+        return nil
+      end
+
+      event
+    end
   end
 end
