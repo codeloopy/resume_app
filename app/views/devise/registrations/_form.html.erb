@@ -19,6 +19,11 @@
 </div>
 
 <div class="mb-4">
+  <%= f.label :location, class: "block text-gray-700 font-semibold mb-2" %>
+  <%= f.text_field :location, class: "w-full p-2 border border-gray-300 rounded-md bg-white", placeholder: "i.e. City, State, Country" %>
+</div>
+
+<div class="mb-4">
   <%= f.label :linked_in_url, class: "block text-gray-700 font-semibold mb-2" %>
   <%= f.url_field :linked_in_url, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
 </div>

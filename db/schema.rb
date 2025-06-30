@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_26_013200) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_30_020354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -101,6 +101,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_26_013200) do
     t.string "slug"
     t.string "title"
     t.string "pdf_template"
+    t.string "skills_title"
     t.index ["slug"], name: "index_resumes_on_slug", unique: true
     t.index ["user_id"], name: "index_resumes_on_user_id"
   end
@@ -127,6 +128,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_26_013200) do
     t.string "linked_in_url"
     t.string "github_url"
     t.string "portfolio"
+    t.string "location"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

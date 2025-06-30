@@ -9,9 +9,13 @@
       <p class="text-md text-center text-gray-500"><%= @resume.title %></p>
     <% end %>
   </h1>
+
   <p class="text-center text-gray-600 mb-6">
+    <% if @resume.user.location.present? %>
+      <span class="text-md text-center text-gray-500"><%= @resume.user.location %> · </span>
+    <% end %>
     <%= link_to "Email", "mailto:#{@resume.user_email}", class: "text-blue-600 hover:underline" %> ·
-    <%= link_to styled_telephone_number(@resume), "tel:#{@resume.user_phone}", class: "text-blue-600 hover:underline" %> ·
+    <%= link_to styled_telephone_number(@resume.user_phone), "tel:#{@resume.user_phone}", class: "text-blue-600 hover:underline" %> ·
     <%= link_to "#{@resume.user_github_url.split("/").last}", @resume.user_github_url, target: "_blank", class: "text-blue-600 hover:underline" %> ·
     <%= link_to "/in/#{@resume.user_linked_in_url.split("/").last}", @resume.user_linked_in_url , target: "_blank", class: "text-blue-600 hover:underline" %>
   </p>
@@ -23,7 +27,7 @@
   </div>
 
   <%# Skills %>
-  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Skills</h2>
+  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700"><%= skills_title(@resume) %></h2>
   <ul>
     <% @resume.skills.each do |skill| %>
       <span class="text-xs inline-block text-gray-600 m-0.5 px-4 py-1 bg-gray-200 rounded-xl hover:bg-gray-500 hover:text-white transition-colors duration-200"><%= skill.name %></span>
@@ -89,23 +93,4 @@
       📋 Copy link address to clipboard
     </button>
   <% end %>
-</div>
-
-<!-- Resume Discovery Section for SEO -->
-<section class="py-12 bg-gray-50">
-  <div class="max-w-4xl mx-auto px-4">
-    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Looking for Similar Talent?</h2>
-    <div class="bg-white rounded-lg p-6 shadow-sm">
-      <p class="text-gray-600 mb-4 text-center">
-        This resume was created with our free resume builder. Find more professionals or create your own professional resume.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <%= link_to "Create Your Resume", new_user_registration_path, class: "bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 text-center" %>
-        <%= link_to "View Resume Templates", root_path, class: "bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-200 text-center" %>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="max-w-4xl mx-auto bg-white">
 </div>

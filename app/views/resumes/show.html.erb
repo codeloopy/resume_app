@@ -2,8 +2,9 @@
   <h2 class="text-2xl font-bold"><%= @resume.user.full_name %></h2>
   <h1 class="text-md mb-4"><%= @resume.title %></h1>
   <p class="text-gray-600 mb-4">
+    <span><%= @resume.user.location %></span> |
     <a href="<%= @resume.user.email %>">Email</a> |
-    <a href="tel:+<%= @resume.user.phone %>"><%= @resume.user.phone %></a> |
+    <a href="tel:+<%= @resume.user.phone %>"><%= styled_telephone_number(@resume.user.phone) %></a> |
     <a href="<%= @resume.user.linked_in_url %>">LinkedIn</a> |
     <a href="<%= @resume.user.github_url %>">GitHub</a> |
     <a href="<%= @resume.user.portfolio %>">Portfolio</a>
@@ -15,7 +16,7 @@
   </div>
 
   <div class="mb-4 text-gray-800">
-    <h2 class="text-md mb-2 text-gray-700 font-semibold">Skills</h2>
+    <h2 class="text-md mb-2 text-gray-700 font-semibold"><%= @resume.skills_title || "Skills" %></h2>
     <% @resume.skills.each do |skill| %>
       <span class="inline-block text-gray-600 m-1 px-4 py-1 bg-gray-200 rounded-xl hover:bg-gray-500 hover:text-white transition-colors duration-200"><%= skill.name %></span>
     <% end %>
