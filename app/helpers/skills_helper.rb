@@ -14,4 +14,8 @@ module SkillsHelper
     html += "</div>"
     html.html_safe
   end
+
+  def skills_title(resume)
+    resume.skills_title.present? ? resume.skills_title : "Skills"
+  end
 end

@@ -2,38 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title><%= resume.user_first_name %> <%= resume.user_last_name %> - Resume</title>
+    <title><%= resume.user.first_name %> <%= resume.user.last_name %> - Resume</title>
   </head>
   <body>
     <div class="max-w-4xl mx-auto bg-white">
-      <h1>
-        <p class="text-3xl font-bold"><%= user_full_name(resume) %></p>
-      </h1>
-
-      <% if resume.title.present? %>
-        <p class="text-lg font-bold mb-1"><%= resume.title %></p>
-      <% end %>
-
-      <p class="text-gray-600 mb-6">
-        <% if resume.user_email.present? %>
-          <span class="text-blue-600"><%= resume.user_email %></span>
-        <% end %>
-
-        <% if resume.user_phone.present? %>
-          <% if resume.user_email.present? %> · <% end %>
-          <span class="text-blue-600"><%= styled_telephone_number(resume) %></span>
-        <% end %>
-
-        <% if resume.user_github_url.present? %>
-          <% if resume.user_email.present? || resume.user_phone.present? %> · <% end %>
-          <span class="text-blue-600"><%= "#{resume.user_github_url.split('//').last}" %></span>
-        <% end %>
-
-        <% if resume.user_linked_in_url.present? %>
-          <% if resume.user_email.present? || resume.user_phone.present? || resume.user_github_url.present? %> · <% end %>
-          <span class="text-blue-600"><%= "/in/#{resume.user_linked_in_url.split("/").last}" %></span>
-        <% end %>
-      </p>
+      <header class="text-left mb-8">
+        <h1 class="text-3xl font-bold mb-2 tracking-wide"><%= user_full_name(resume) %></h1>
+        <div class="text-sm text-gray-700">
+          <% if resume.user.location.present? %>
+            <%= resume.user.location %>
+          <% end %>
+          <% if resume.user.phone.present? %>
+            <% if resume.user.location.present? %> | <% end %>
+            <%= styled_telephone_number(resume.user.phone) %>
+          <% end %>
+          <% if resume.user.email.present? %>
+            <% if resume.user.phone.present? %> | <% end %>
+            <%= resume.user.email %>
+          <% end %>
+          <% if resume.user.linked_in_url.present? %>
+            <% if resume.user.phone.present? || resume.user.email.present? %> | <% end %>
+            /in/<%= resume.user.linked_in_url.split("/").last %>
+          <% end %>
+          <% if resume.user.github_url.present? %>
+            <% if resume.user.phone.present? || resume.user.email.present? || resume.user.linked_in_url.present? %> | <% end %>
+            <%= resume.user.github_url.split('//').last %>
+          <% end %>
+        </div>
+      </header>
 
       <%# Summary %>
       <% if resume.summary&.body&.present? %>
@@ -45,7 +41,7 @@
 
       <%# Skills %>
       <% if resume.skills.any? %>
-        <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Technical Skills</h2>
+        <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700"><%= skills_title(resume) %></h2>
         <ul>
           <% resume.skills.each do |skill| %>
             <span class="text-xs inline-block"><%= skill.name %><%= skill == resume.skills.last ? "." : ", " %></span>

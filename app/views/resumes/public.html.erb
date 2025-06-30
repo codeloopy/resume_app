@@ -1,79 +1,4 @@
-<% content_for :head do %>
-  <%# Dynamic SEO Meta Tags %>
-  <meta name="description" content="<%= "#{user_full_name(@resume)} - #{@resume.title || 'Professional Resume'}. #{@resume.summary&.body&.to_s&.truncate(150)}" %>">
-  <meta name="keywords" content="<%= "#{user_full_name(@resume)}, #{@resume.title}, #{@resume.skills.map(&:name).join(', ')}, resume, professional resume, #{@resume.experiences.map(&:location).compact.uniq.join(', ')}" %>">
-  <meta name="author" content="<%= user_full_name(@resume) %>">
-
-  <%# Open Graph for Social Sharing %>
-  <meta property="og:title" content="<%= "#{user_full_name(@resume)} - #{@resume.title || 'Professional Resume'}" %>">
-  <meta property="og:description" content="<%= "#{user_full_name(@resume)} - #{@resume.title || 'Professional Resume'}. #{@resume.summary&.body&.to_s&.truncate(200)}" %>">
-  <meta property="og:type" content="profile">
-  <meta property="og:url" content="<%= public_resume_url(@resume.slug) %>">
-  <meta property="og:image" content="<%= request.base_url %>/icon.png">
-  <meta property="og:site_name" content="FreeResumeBuilderApp">
-
-  <%# Twitter Card %>
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="<%= "#{user_full_name(@resume)} - #{@resume.title || 'Professional Resume'}" %>">
-  <meta name="twitter:description" content="<%= "#{user_full_name(@resume)} - #{@resume.title || 'Professional Resume'}. #{@resume.summary&.body&.to_s&.truncate(200)}" %>">
-  <meta name="twitter:image" content="<%= request.base_url %>/icon.png">
-
-  <%# Structured Data for Resume %>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "<%= user_full_name(@resume) %>",
-    "jobTitle": "<%= @resume.title || 'Professional' %>",
-    <% if @resume.user_email.present? %>
-    "email": "<%= @resume.user_email %>",
-    <% end %>
-    <% if @resume.user_phone.present? %>
-    "telephone": "<%= @resume.user_phone %>",
-    <% end %>
-    <% if @resume.user_linked_in_url.present? %>
-    "sameAs": ["<%= @resume.user_linked_in_url %>"],
-    <% end %>
-    <% if @resume.user_github_url.present? %>
-    "sameAs": ["<%= @resume.user_github_url %>"],
-    <% end %>
-    "description": "<%= @resume.summary&.body&.to_s&.truncate(300) %>",
-    "knowsAbout": [
-      <% @resume.skills.each_with_index do |skill, index| %>
-        "<%= skill.name %>"<%= ',' unless index == @resume.skills.length - 1 %>
-      <% end %>
-    ],
-    "worksFor": [
-      <% @resume.experiences.each_with_index do |exp, index| %>
-        {
-          "@type": "Organization",
-          "name": "<%= exp.company_name %>",
-          "jobTitle": "<%= exp.title %>",
-          "startDate": "<%= exp.start_date&.strftime('%Y-%m') %>",
-          <% if exp.end_date.present? %>
-          "endDate": "<%= exp.end_date&.strftime('%Y-%m') %>"
-          <% else %>
-          "endDate": "Present"
-          <% end %>
-        }<%= ',' unless index == @resume.experiences.length - 1 %>
-      <% end %>
-    ],
-    "alumniOf": [
-      <% @resume.educations.each_with_index do |edu, index| %>
-        {
-          "@type": "EducationalOrganization",
-          "name": "<%= edu.school %>",
-          "description": "<%= edu.field_of_study %>"
-        }<%= ',' unless index == @resume.educations.length - 1 %>
-      <% end %>
-    ]
-  }
-  </script>
-
-  <%# Additional SEO for Job Search %>
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="<%= public_resume_url(@resume.slug) %>">
-<% end %>
+<%= render "resumes/public_meta_tags" %>
 
 <div class="py-20 bg-white max-w-4xl mx-auto">
   <h1 class="mb-4">
@@ -84,9 +9,13 @@
       <p class="text-md text-center text-gray-500"><%= @resume.title %></p>
     <% end %>
   </h1>
+
   <p class="text-center text-gray-600 mb-6">
+    <% if @resume.user.location.present? %>
+      <span class="text-md text-center text-gray-500"><%= @resume.user.location %> · </span>
+    <% end %>
     <%= link_to "Email", "mailto:#{@resume.user_email}", class: "text-blue-600 hover:underline" %> ·
-    <%= link_to styled_telephone_number(@resume), "tel:#{@resume.user_phone}", class: "text-blue-600 hover:underline" %> ·
+    <%= link_to styled_telephone_number(@resume.user_phone), "tel:#{@resume.user_phone}", class: "text-blue-600 hover:underline" %> ·
     <%= link_to "#{@resume.user_github_url.split("/").last}", @resume.user_github_url, target: "_blank", class: "text-blue-600 hover:underline" %> ·
     <%= link_to "/in/#{@resume.user_linked_in_url.split("/").last}", @resume.user_linked_in_url , target: "_blank", class: "text-blue-600 hover:underline" %>
   </p>
@@ -98,7 +27,7 @@
   </div>
 
   <%# Skills %>
-  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Technical Skills</h2>
+  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700"><%= skills_title(@resume) %></h2>
   <ul>
     <% @resume.skills.each do |skill| %>
       <span class="text-xs inline-block text-gray-600 m-0.5 px-4 py-1 bg-gray-200 rounded-xl hover:bg-gray-500 hover:text-white transition-colors duration-200"><%= skill.name %></span>
@@ -164,23 +93,4 @@
       📋 Copy link address to clipboard
     </button>
   <% end %>
-</div>
-
-<!-- Resume Discovery Section for SEO -->
-<section class="py-12 bg-gray-50">
-  <div class="max-w-4xl mx-auto px-4">
-    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Looking for Similar Talent?</h2>
-    <div class="bg-white rounded-lg p-6 shadow-sm">
-      <p class="text-gray-600 mb-4 text-center">
-        This resume was created with our free resume builder. Find more professionals or create your own professional resume.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <%= link_to "Create Your Resume", new_user_registration_path, class: "bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 text-center" %>
-        <%= link_to "View Resume Templates", root_path, class: "bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-200 text-center" %>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="max-w-4xl mx-auto bg-white">
 </div>

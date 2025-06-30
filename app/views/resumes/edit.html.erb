@@ -46,7 +46,10 @@
 
     <% if @resume.experiences.any? %>
       <div data-controller="responsibility" data-responsibility-scope="skills" class="mx-4 my-8">
-        <h2 class="text-md mb-2 text-gray-700 font-semibold">Technical Skills</h2>
+        <div class="mb-4">
+          <%= f.label :skills_title, "Skills Title", class: "block text-gray-700 font-semibold mb-2" %>
+          <%= f.text_field :skills_title, class: "w-full p-2 border border-gray-300 rounded-md", placeholder: "Enter skills title or leave blank for Skills" %>
+        </div>
 
         <% if @resume.skills.any? %>
           <p class="text-sm text-gray-600 mb-2">Existing skills: <%= @resume.skills.pluck(:name).join(', ') %></p>
