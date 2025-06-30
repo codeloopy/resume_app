@@ -68,5 +68,7 @@ gem "dockerfile-rails", ">= 1.7", group: :development
 gem "aws-sdk-s3", "~> 1.190", require: false
 gem "resend", "~> 0.22.0"
 
-gem "sentry-ruby"
-gem "sentry-rails"
+group :production do
+  gem "sentry-ruby"
+  gem "sentry-rails"
+end
