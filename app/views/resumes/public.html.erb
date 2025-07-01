@@ -12,19 +12,19 @@
 
   <p class="text-center text-gray-600 mb-6">
     <% if @resume.user.location.present? %>
-      <span class="text-md text-center text-gray-500"><%= @resume.user.location %> · </span>
+      <span class="text-md text-center text-gray-500"><%= @resume.user.location %></span>
     <% end %>
     <% if @resume.user.email.present? %>
-      <%= link_to "Email", "mailto:#{@resume.user.email}", class: "text-blue-600 hover:underline" %> ·
+      · <%= link_to "Email", "mailto:#{@resume.user.email}", class: "text-blue-600 hover:underline" %>
     <% end %>
     <% if @resume.user.phone.present? %>
-      <%= link_to styled_telephone_number(@resume.user.phone), "tel:#{@resume.user.phone}", class: "text-blue-600 hover:underline" %> ·
+      · <%= link_to styled_telephone_number(@resume.user.phone), "tel:#{@resume.user.phone}", class: "text-blue-600 hover:underline" %>
     <% end %>
     <% if @resume.user_github_url.present? %>
-      <%= link_to "#{@resume.user.github_url.split("/").last}", @resume.user_github_url, target: "_blank", class: "text-blue-600 hover:underline" %> ·
+      · <%= link_to "#{@resume.user.github_url.split("/").last}", @resume.user_github_url, target: "_blank", class: "text-blue-600 hover:underline" %>
     <% end %>
     <% if @resume.user_linked_in_url.present? %>
-      <%= link_to "/in/#{@resume.user.linked_in_url.split("/").last}", @resume.user_linked_in_url , target: "_blank", class: "text-blue-600 hover:underline" %>
+      · <%= link_to "/in/#{@resume.user.linked_in_url.split("/").last}", @resume.user_linked_in_url , target: "_blank", class: "text-blue-600 hover:underline" %>
     <% end %>
   </p>
 
