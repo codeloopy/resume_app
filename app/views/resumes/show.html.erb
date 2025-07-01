@@ -2,12 +2,24 @@
   <h2 class="text-2xl font-bold"><%= @resume.user.full_name %></h2>
   <h1 class="text-md mb-4"><%= @resume.title %></h1>
   <p class="text-gray-600 mb-4">
-    <span><%= @resume.user.location %></span> |
-    <a href="<%= @resume.user.email %>">Email</a> |
-    <a href="tel:+<%= @resume.user.phone %>"><%= styled_telephone_number(@resume.user.phone) %></a> |
-    <a href="<%= @resume.user.linked_in_url %>">LinkedIn</a> |
-    <a href="<%= @resume.user.github_url %>">GitHub</a> |
-    <a href="<%= @resume.user.portfolio %>">Portfolio</a>
+    <% if @resume.user.location.present? %>
+      <span><%= @resume.user.location %></span>
+    <% end %>
+    <% if @resume.user.email.present? %>
+      | <a href="mailto:<%= @resume.user.email %>">Email</a>
+    <% end %>
+    <% if @resume.user.phone.present? %>
+      | <a href="tel:+<%= @resume.user.phone %>"><%= styled_telephone_number(@resume.user.phone) %></a>
+    <% end %>
+    <% if @resume.user.linked_in_url.present? %>
+      | <a href="<%= @resume.user.linked_in_url %>">LinkedIn</a>
+    <% end %>
+    <% if @resume.user.github_url.present? %>
+      | <a href="<%= @resume.user.github_url %>">GitHub</a>
+    <% end %>
+    <% if @resume.user.portfolio.present? %>
+      | <a href="<%= @resume.user.portfolio %>">Portfolio</a>
+    <% end %>
   </p>
 
   <div class="mb-4 text-gray-800">
