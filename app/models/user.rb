@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one :resume, dependent: :destroy
+  has_many :feedbacks
 
   after_create :create_resume
 

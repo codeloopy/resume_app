@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   resources :skills, except: [ :index, :show ]
   resources :educations, except: [ :index, :show ]
   resources :projects, except: [ :index, :show ]
-
   resource :resume, only: [ :show, :edit, :update ]
+  resources :feedbacks, only: [ :create ]
 
   devise_for :users, controllers: {
     registrations: "users/registrations"
