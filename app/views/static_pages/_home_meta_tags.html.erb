@@ -16,5 +16,42 @@
   <meta name="twitter:description" content="Create stunning, professional resumes for free. Choose from our growing collection of templates and land your dream job.">
   <meta name="twitter:image" content="https://freeresumebuilderapp.com/icon.png">
 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Preconnect to Font Awesome CDN for faster loading -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+  <!-- Load Font Awesome asynchronously to avoid blocking render -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  </noscript>
+
+  <!-- Font display optimization for Font Awesome webfonts -->
+  <style>
+    /* Font Awesome Solid (fas) - weight 900 */
+    @font-face {
+      font-family: 'Font Awesome 6 Free';
+      font-style: normal;
+      font-weight: 900;
+      font-display: swap;
+      src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2') format('woff2');
+    }
+
+    /* Font Awesome Regular (far) - weight 400 */
+    @font-face {
+      font-family: 'Font Awesome 6 Free';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-regular-400.woff2') format('woff2');
+    }
+
+    /* Font Awesome Brands (fab) - weight 400 */
+    @font-face {
+      font-family: 'Font Awesome 6 Brands';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-brands-400.woff2') format('woff2');
+    }
+  </style>
 <% end %>

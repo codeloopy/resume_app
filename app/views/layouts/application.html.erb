@@ -31,7 +31,6 @@
     <!-- Performance Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="//www.googletagmanager.com">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="<%= asset_path('tailwind.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -81,25 +80,24 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "tailwind.css", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "actiontext.css", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <% if controller_name == 'static_pages' && action_name == 'home' %>
+      <%= javascript_include_tag "home", "data-turbo-track": "reload", type: "module" %>
+    <% elsif controller_name == 'resumes' && action_name == 'edit' %>
+      <%= javascript_include_tag "resume_edit", "data-turbo-track": "reload", type: "module" %>
+    <% elsif controller_name == 'resumes' && (action_name == 'show' || action_name == 'public') %>
+      <%= javascript_include_tag "resume_public", "data-turbo-track": "reload", type: "module" %>
+    <% else %>
+      <%= javascript_include_tag "resume", "data-turbo-track": "reload", type: "module" %>
+    <% end %>
     <%= yield :head %>
     <% if Rails.env.production? %>
-      <!-- Preload Google Analytics -->
-      <link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6" as="script">
-      <%= javascript_include_tag "https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6" %>
-      <meta name="google-analytics" content="G-3XWMFLD7D6" />
+      <!-- Google Analytics 4 - Lightweight version -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6"></script>
       <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-3XWMFLD7D6', {
-          page_title: document.title,
-          page_location: window.location.href,
-          debug_mode: true
-        });
-
-        // Make gtag available globally
-        window.gtag = gtag;
+        gtag('config', 'G-3XWMFLD7D6');
       </script>
     <% end %>
     <% if Rails.env.production? && defined?(Sentry) && Sentry.respond_to?(:get_trace_propagation_meta) %>
