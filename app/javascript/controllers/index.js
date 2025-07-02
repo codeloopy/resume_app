@@ -15,3 +15,6 @@ application.register("pdf-tracking", PdfTrackingController)
 
 import ResponsibilityController from "./responsibility_controller"
 application.register("responsibility", ResponsibilityController)
+
+import FeedbackController from "./feedback_controller"
+application.register("feedback", FeedbackController)

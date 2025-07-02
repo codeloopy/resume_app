@@ -1,0 +1,15 @@
+<div class="fixed inset-0 bg-blue-900 bg-opacity-50 flex items-center justify-center z-50 hidden" data-feedback-target="modal">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+    <h2 class="text-lg font-semibold mb-4">Before You Go...</h2>
+    <p class="mb-4">Would you mind telling us why you're deleting your account?<br><span class="mt-2 text-xs font-bold">No pressure, I just want to build a product that people love.</span></p>
+
+    <%= form_with url: feedbacks_path, method: :post, data: { turbo: false }, class: "space-y-4" do |f| %>
+      <%= f.text_area :reason, rows: 3, class: "w-full border border-gray-300 rounded p-2", placeholder: "Optional, but appreciated..." %>
+      <%= f.hidden_field :email, value: current_user.email %>
+      <div class="flex justify-end space-x-2">
+        <button type="button" class="text-sm text-gray-500" data-action="click->feedback#cancel">Cancel</button>
+        <%= f.submit "Submit & Delete", class: "bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded" %>
+      </div>
+    <% end %>
+  </div>
+</div>
