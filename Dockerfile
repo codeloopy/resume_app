@@ -95,8 +95,18 @@ RUN apt-get update -qq && \
     xdg-utils \
     libxss1 \
     libxtst6 \
-    libayatana-appindicator3-1 && \
+    libayatana-appindicator3-1 \
+    fonts-noto-color-emoji \
+    fonts-noto-cjk \
+    fonts-liberation \
+    fonts-liberation-sans \
+    fonts-liberation-serif \
+    fonts-liberation-mono && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Verify Chromium installation and set up symlinks
+RUN which chromium || which chromium-browser || which google-chrome || (echo "No Chromium found" && exit 1) && \
+    echo "Chromium installation verified"
 
 # Copy built artifacts: gems, application
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
@@ -106,11 +116,29 @@ COPY --from=build /rails /rails
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     chown -R 1000:1000 db log storage tmp
+
+# Create a script to verify Chromium is working
+RUN echo '#!/bin/bash\n\
+echo "=== Chromium Verification ==="\n\
+echo "Checking Chromium installation..."\n\
+which chromium && echo "✅ chromium found" || echo "❌ chromium not found"\n\
+which chromium-browser && echo "✅ chromium-browser found" || echo "❌ chromium-browser not found"\n\
+which google-chrome && echo "✅ google-chrome found" || echo "❌ google-chrome not found"\n\
+echo "Checking Chromium version..."\n\
+chromium --version 2>/dev/null || chromium-browser --version 2>/dev/null || google-chrome --version 2>/dev/null || echo "❌ Could not get version"\n\
+echo "Checking Chromium permissions..."\n\
+ls -la /usr/bin/chromium* 2>/dev/null || echo "No chromium in /usr/bin"\n\
+ls -la /usr/bin/google-chrome* 2>/dev/null || echo "No google-chrome in /usr/bin"\n\
+echo "=== End Verification ==="\n\
+' > /rails/bin/verify-chromium && chmod +x /rails/bin/verify-chromium
+
 USER 1000:1000
 
 # Deployment options
 ENV GROVER_NO_SANDBOX="true" \
-    PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
+    PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium" \
+    CHROME_BIN="/usr/bin/chromium" \
+    CHROME_PATH="/usr/bin/chromium"
 
 # Entrypoint sets up the container.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]

@@ -27,6 +27,15 @@ Rails.application.routes.draw do
   get "/r/:slug/download.pdf", to: "resumes#public_pdf_download", as: :public_resume_pdf_download, constraints: { slug: /[^\/]+/ }
   get "/r/:slug", to: "resumes#public", as: :public_resume
 
+  # PDF health check
+  get "/pdf-health", to: "resumes#pdf_health_check", as: :pdf_health_check
+
+  # Test PDF generation
+  get "/test-pdf", to: "resumes#test_pdf", as: :test_pdf
+
+  # PDF diagnostic (no PDF generation)
+  get "/pdf-diagnostic", to: "resumes#pdf_diagnostic", as: :pdf_diagnostic
+
   # Sitemap for SEO
   get "sitemap.xml", to: "application#sitemap", defaults: { format: "xml" }
 
