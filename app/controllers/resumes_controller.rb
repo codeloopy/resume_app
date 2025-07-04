@@ -1,7 +1,7 @@
 class ResumesController < ApplicationController
-  before_action :authenticate_user!, except: [ :show, :public, :public_pdf_modern, :public_pdf_classic ]
-  before_action :set_resume_public, only: [ :public, :public_pdf_modern, :public_pdf_classic ]
-  before_action :set_resume, except: [ :public, :public_pdf_modern, :public_pdf_classic ]
+  before_action :authenticate_user!, except: [ :show, :public, :public_pdf, :public_pdf_modern, :public_pdf_classic ]
+  before_action :set_resume_public, only: [ :public, :public_pdf, :public_pdf_modern, :public_pdf_classic ]
+  before_action :set_resume, except: [ :public, :public_pdf, :public_pdf_modern, :public_pdf_classic ]
 
   def show; end
 
@@ -23,8 +23,6 @@ class ResumesController < ApplicationController
   end
 
   def public_pdf
-    @resume = Resume.find_by!(slug: params[:slug])
-
     template_name = case @resume.pdf_template
     when "classic"
       "classic"
@@ -107,7 +105,12 @@ class ResumesController < ApplicationController
   end
 
   def set_resume_public
-    @resume = Resume.find_by!(slug: params[:slug])
+    @resume = Resume.find_by(slug: params[:slug])
+    unless @resume
+      Rails.logger.warn "Resume not found with slug: #{params[:slug]}"
+      render plain: "Resume not found. The resume you're looking for doesn't exist or may have been removed.", status: :not_found
+      nil
+    end
   end
 
   def resume_params
