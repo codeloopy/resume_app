@@ -1,7 +1,7 @@
 class ResumesController < ApplicationController
-  before_action :authenticate_user!, except: [ :show, :public, :public_pdf, :public_pdf_modern, :public_pdf_classic ]
-  before_action :set_resume_public, only: [ :public, :public_pdf, :public_pdf_modern, :public_pdf_classic ]
-  before_action :set_resume, except: [ :public, :public_pdf, :public_pdf_modern, :public_pdf_classic ]
+  before_action :authenticate_user!, except: [ :show, :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic ]
+  before_action :set_resume_public, only: [ :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic ]
+  before_action :set_resume, except: [ :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic ]
 
   def show; end
 
@@ -47,10 +47,13 @@ class ResumesController < ApplicationController
         pdf_data = grover.to_pdf
 
         # Determine disposition based on query parameter or default to inline
-        disposition = params[:download] == "true" ? "attachment" : "inline"
+        # Check multiple ways the download parameter might be passed
+        is_download = params[:download] == "true" ||
+                     params[:download] == true ||
+                     request.query_string.include?("download=true") ||
+                     request.referer&.include?("download=true")
 
-        Rails.logger.info "PDF generation - download param: #{params[:download]}, disposition: #{disposition}"
-        Rails.logger.info "PDF generation - all params: #{params.inspect}"
+        disposition = is_download ? "attachment" : "inline"
 
         # Set proper headers for PDF display
         response.headers["Content-Type"] = "application/pdf"
@@ -98,6 +101,64 @@ class ResumesController < ApplicationController
     end
   end
 
+  def public_pdf_download
+    template_name = case @resume.pdf_template
+    when "classic"
+      "classic"
+    else
+      "modern"
+    end
+
+    # Render HTML first to catch any template errors
+    html = render_to_string(
+      template: "resumes/public_pdf_#{template_name}",
+      layout: "pdf",
+      formats: [ :html ],
+      locals: { resume: @resume }
+    )
+
+    begin
+      # Use Grover with global configuration
+      grover = Grover.new(html)
+
+      # Set a timeout for the PDF generation
+      Timeout.timeout(30) do
+        pdf_data = grover.to_pdf
+
+        # Set proper headers for PDF download
+        response.headers["Content-Type"] = "application/pdf"
+        response.headers["Content-Disposition"] = "attachment; filename=\"#{@resume.user_first_name}_resume.pdf\""
+        response.headers["Content-Length"] = pdf_data.length.to_s
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["Content-Transfer-Encoding"] = "binary"
+
+        # Send the PDF data
+        send_data pdf_data,
+                  filename: "#{@resume.user_first_name}_resume.pdf",
+                  type: "application/pdf",
+                  disposition: "attachment"
+      end
+
+    rescue Timeout::Error => e
+      Rails.logger.error "PDF generation timed out after 30 seconds"
+      Rails.logger.error "Timeout error: #{e.message}"
+      render plain: "PDF generation timed out", status: :request_timeout
+
+    rescue Grover::JavaScript::UnknownError => e
+      Rails.logger.error "Grover JavaScript error: #{e.message}"
+      Rails.logger.error "Grover error details: #{e.inspect}"
+      render plain: "PDF generation failed", status: :internal_server_error
+
+    rescue => e
+      Rails.logger.error "PDF generation error: #{e.message}"
+      Rails.logger.error "Error class: #{e.class}"
+      render plain: "PDF generation failed", status: :internal_server_error
+    end
+  end
+
   private
 
   def set_resume
@@ -107,7 +168,6 @@ class ResumesController < ApplicationController
   def set_resume_public
     @resume = Resume.find_by(slug: params[:slug])
     unless @resume
-      Rails.logger.warn "Resume not found with slug: #{params[:slug]}"
       render plain: "Resume not found. The resume you're looking for doesn't exist or may have been removed.", status: :not_found
       nil
     end

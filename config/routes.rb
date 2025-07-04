@@ -23,7 +23,8 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Public resume sharing route
-  get "/r/:slug.pdf", to: "resumes#public_pdf", as: :public_resume_pdf
+  get "/r/:slug.pdf", to: "resumes#public_pdf", as: :public_resume_pdf, constraints: { slug: /[^\/]+/ }
+  get "/r/:slug/download.pdf", to: "resumes#public_pdf_download", as: :public_resume_pdf_download, constraints: { slug: /[^\/]+/ }
   get "/r/:slug", to: "resumes#public", as: :public_resume
 
   # Sitemap for SEO
