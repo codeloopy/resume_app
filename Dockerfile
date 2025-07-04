@@ -97,11 +97,7 @@ RUN apt-get update -qq && \
     libxtst6 \
     libayatana-appindicator3-1 \
     fonts-noto-color-emoji \
-    fonts-noto-cjk \
-    fonts-liberation \
-    fonts-liberation-sans \
-    fonts-liberation-serif \
-    fonts-liberation-mono && \
+    fonts-noto-cjk && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Verify Chromium installation and set up symlinks
