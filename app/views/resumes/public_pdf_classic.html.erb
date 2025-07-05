@@ -217,13 +217,20 @@
       .project-item p {
         margin-bottom: 8px;
       }
+      h1 {
+        margin-bottom: -5px;
+      }
+      .uppercase {
+        text-transform: uppercase;
+      }
     </style>
   </head>
-  <body class="bg-white text-gray-900 font-serif leading-relaxed">
+  <body class="bg-white text-gray-900 font-serif">
     <div class="max-w-4xl mx-auto p-4 bg-white">
     <!-- Header -->
     <header class="text-left mb-8">
-      <h1 class="text-3xl font-bold mb-2 tracking-wide"><%= user_full_name(resume) %></h1>
+      <h1 class="text-3xl font-bold -mb-4"><%= user_full_name(resume) %></h1>
+      <span class="text-lg font-semibold mb-2 uppercase"><%= resume.title %></span>
       <div class="text-sm text-gray-700">
         <% if resume.user.location.present? %>
           <%= resume.user.location %>
