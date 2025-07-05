@@ -179,8 +179,8 @@ namespace :pdf do
       )
 
       puts "Attempting to generate PDF with Prawn..."
-      require 'prawn'
-      require 'prawn/table'
+      require "prawn"
+      require "prawn/table"
 
       pdf_data = Prawn::Document.new do |pdf|
         pdf.font "Helvetica"
@@ -210,6 +210,37 @@ namespace :pdf do
       puts "  #{e.class}: #{e.message}"
       puts "  Backtrace:"
       e.backtrace.first(5).each { |line| puts "    #{line}" }
+    end
+
+            puts "\n=== Test Unified Template System ==="
+    begin
+      # Test modern template
+      puts "Testing modern template..."
+      modern_pdf = ResumesController.new.send(:generate_prawn_pdf, resume, "modern")
+      puts "✅ Modern template: #{modern_pdf.length} bytes"
+
+      # Test classic template
+      puts "Testing classic template..."
+      classic_pdf = ResumesController.new.send(:generate_prawn_pdf, resume, "classic")
+      puts "✅ Classic template: #{classic_pdf.length} bytes"
+
+      # Save both for comparison
+      File.binwrite(Rails.root.join("tmp", "test_modern_prawn.pdf"), modern_pdf)
+      File.binwrite(Rails.root.join("tmp", "test_classic_prawn.pdf"), classic_pdf)
+      puts "Both templates saved to tmp/ for comparison"
+
+      # Test template data generation
+      puts "Testing template data generation..."
+      modern_data = ResumesController.new.send(:get_template_data, resume, "modern")
+      classic_data = ResumesController.new.send(:get_template_data, resume, "classic")
+      puts "✅ Modern data: #{modern_data[:sections].keys.join(', ')}"
+      puts "✅ Classic data: #{classic_data[:sections].keys.join(', ')}"
+
+    rescue => e
+      puts "❌ Template testing failed with error:"
+      puts "  #{e.class}: #{e.message}"
+      puts "  Backtrace:"
+      e.backtrace.first(3).each { |line| puts "    #{line}" }
     end
 
     puts "\n=== System Information ==="

@@ -364,108 +364,230 @@ class ResumesController < ApplicationController
     require "prawn"
     require "prawn/table"
 
-    Prawn::Document.new do |pdf|
-      # Set up basic styling
-      pdf.font "Helvetica"
+    # Get the unified template data
+    template_data = get_template_data(resume, template_name)
+
+    # Generate PDF based on template
+    case template_name
+    when "classic"
+      generate_prawn_from_template(resume, template_data, "classic")
+    else
+      generate_prawn_from_template(resume, template_data, "modern")
+    end
+  end
+
+  def get_template_data(resume, template_name)
+    # Unified data structure for both HTML and PDF generation
+    {
+      header: {
+        name: "#{resume.user.first_name} #{resume.user.last_name}",
+        contact_info: build_contact_info(resume.user)
+      },
+      sections: {
+        summary: resume.summary&.body&.present? ? {
+          title: template_name == "classic" ? "SUMMARY" : "Summary",
+          content: resume.summary.body.to_plain_text
+        } : nil,
+        skills: resume.skills.any? ? {
+          title: (resume.skills_title.presence || "Skills").then { |t| template_name == "classic" ? t.upcase : t },
+          content: resume.skills.map(&:name),
+          separator: template_name == "classic" ? " | " : ", "
+        } : nil,
+        experience: resume.experiences.any? ? {
+          title: template_name == "classic" ? "EXPERIENCE" : "Experience",
+          items: resume.experiences.map do |exp|
+            {
+              company: exp.company_name,
+              location: exp.location,
+              title: exp.title,
+              start_date: exp.start_date,
+              end_date: exp.end_date,
+              responsibilities: exp.responsibilities.map(&:content)
+            }
+          end
+        } : nil,
+        education: resume.educations.any? ? {
+          title: template_name == "classic" ? "EDUCATION" : "Education",
+          items: resume.educations.map do |edu|
+            {
+              school: edu.school,
+              field: edu.field_of_study,
+              start_date: edu.start_date,
+              end_date: edu.end_date
+            }
+          end
+        } : nil,
+        projects: resume.projects.any? ? {
+          title: template_name == "classic" ? "PROJECTS" : "Projects",
+          items: resume.projects.map do |proj|
+            {
+              title: proj.title,
+              url: proj.url,
+              description: proj.description&.body&.to_plain_text
+            }
+          end
+        } : nil
+      },
+      styling: {
+        font_family: template_name == "classic" ? "Times-Roman" : "Helvetica",
+        margins: {
+          left: 18,
+          right: 18,
+          top: 32,
+          bottom: 36
+        }
+      }
+    }
+  end
+
+  def build_contact_info(user)
+    contact_info = []
+    contact_info << user.location if user.location.present?
+    contact_info << user.phone if user.phone.present?
+    contact_info << user.email if user.email.present?
+    contact_info << "/in/#{user.linked_in_url.split("/").last}" if user.linked_in_url.present?
+    contact_info << user.github_url.split("//").last if user.github_url.present?
+    contact_info
+  end
+
+  def generate_prawn_from_template(resume, template_data, style)
+    Prawn::Document.new(
+      margin: [
+        template_data[:styling][:margins][:top],
+        template_data[:styling][:margins][:right],
+        template_data[:styling][:margins][:bottom],
+        template_data[:styling][:margins][:left]
+      ]
+    ) do |pdf|
+      # Apply styling
+      pdf.font template_data[:styling][:font_family]
       pdf.font_size 10
 
       # Header
       pdf.font_size 24
-      pdf.text "#{resume.user.first_name} #{resume.user.last_name}", style: :bold
+      pdf.text template_data[:header][:name], style: :bold
       pdf.move_down 10
 
       # Contact info
       pdf.font_size 10
-      contact_info = []
-      contact_info << resume.user.location if resume.user.location.present?
-      contact_info << resume.user.phone if resume.user.phone.present?
-      contact_info << resume.user.email if resume.user.email.present?
-      contact_info << "/in/#{resume.user.linked_in_url.split("/").last}" if resume.user.linked_in_url.present?
-      contact_info << resume.user.github_url.split("//").last if resume.user.github_url.present?
-
-      pdf.text contact_info.join(" | "), color: "666666"
+      pdf.text template_data[:header][:contact_info].join(" | "), color: "666666"
       pdf.move_down 20
 
-      # Summary
-      if resume.summary&.body&.present?
-        pdf.font_size 16
-        pdf.text "Summary", style: :bold
-        pdf.move_down 8
-        pdf.font_size 10
-        pdf.text resume.summary.body.to_plain_text
-        pdf.move_down 15
-      end
+      # Render each section
+      template_data[:sections].each do |section_name, section_data|
+        next unless section_data
 
-      # Skills
-      if resume.skills.any?
-        pdf.font_size 16
-        pdf.text resume.skills_title.presence || "Skills", style: :bold
-        pdf.move_down 8
-        pdf.font_size 10
-        skills_text = resume.skills.map(&:name).join(", ") + "."
-        pdf.text skills_text
-        pdf.move_down 15
-      end
-
-      # Experience
-      if resume.experiences.any?
-        pdf.font_size 16
-        pdf.text "Experience", style: :bold
-        pdf.move_down 8
-
-        resume.experiences.each do |exp|
-          pdf.font_size 12
-          pdf.text "#{exp.title} @ #{exp.company_name}", style: :bold
-          pdf.font_size 10
-          pdf.text "#{exp.location} · #{exp.start_date&.strftime("%b %Y")} – #{exp.end_date&.strftime("%b %Y") || "Present"}", color: "666666"
-          pdf.move_down 5
-
-          if exp.responsibilities.any?
-            exp.responsibilities.each do |resp|
-              pdf.text "• #{resp.content}"
-              pdf.move_down 2
-            end
-          end
-          pdf.move_down 10
-        end
-      end
-
-      # Education
-      if resume.educations.any?
-        pdf.font_size 16
-        pdf.text "Education", style: :bold
-        pdf.move_down 8
-
-        resume.educations.each do |edu|
-          pdf.font_size 12
-          pdf.text edu.school, style: :bold
-          pdf.font_size 10
-          pdf.text "#{edu.field_of_study} · #{edu.start_date&.year} – #{edu.end_date&.year || "Present"}", color: "666666"
-          pdf.move_down 10
-        end
-      end
-
-      # Projects
-      if resume.projects.any?
-        pdf.font_size 16
-        pdf.text "Projects", style: :bold
-        pdf.move_down 8
-
-        resume.projects.each do |proj|
-          pdf.font_size 12
-          pdf.text proj.title, style: :bold
-          if proj.url.present?
-            pdf.font_size 10
-            pdf.text proj.url, color: "0066cc"
-          end
-          if proj.description&.body&.present?
-            pdf.move_down 5
-            pdf.text proj.description.body.to_plain_text
-          end
-          pdf.move_down 10
+        case section_name
+        when :summary
+          render_summary_section(pdf, section_data, style)
+        when :skills
+          render_skills_section(pdf, section_data, style)
+        when :experience
+          render_experience_section(pdf, section_data, style)
+        when :education
+          render_education_section(pdf, section_data, style)
+        when :projects
+          render_projects_section(pdf, section_data, style)
         end
       end
     end.render
+  end
+
+  def render_summary_section(pdf, section_data, style)
+    pdf.font_size 16
+    pdf.text section_data[:title], style: :bold
+    pdf.move_down 8
+    pdf.font_size 10
+    pdf.text section_data[:content]
+    pdf.move_down 15
+  end
+
+  def render_skills_section(pdf, section_data, style)
+    pdf.font_size 16
+    pdf.text section_data[:title], style: :bold
+    pdf.move_down 8
+    pdf.font_size 10
+    skills_text = section_data[:content].join(section_data[:separator])
+    pdf.text skills_text
+    pdf.move_down 15
+  end
+
+  def render_experience_section(pdf, section_data, style)
+    pdf.font_size 16
+    pdf.text section_data[:title], style: :bold
+    pdf.move_down 8
+
+    section_data[:items].each do |exp|
+      if style == "classic"
+        # Classic layout: Company, Location | Title | Dates
+        pdf.font_size 12
+        pdf.text "#{exp[:company].upcase}, #{exp[:location]}", style: :bold
+        pdf.move_down 2
+        pdf.font_size 10
+        pdf.text exp[:title], style: :bold
+        pdf.text "#{exp[:start_date]&.strftime("%Y")} - #{exp[:end_date]&.strftime("%Y") || "Present"}", color: "666666"
+      else
+        # Modern layout: Title @ Company | Location | Dates
+        pdf.font_size 12
+        pdf.text "#{exp[:title]} @ #{exp[:company]}", style: :bold
+        pdf.font_size 10
+        pdf.text "#{exp[:location]} · #{exp[:start_date]&.strftime("%b %Y")} – #{exp[:end_date]&.strftime("%b %Y") || "Present"}", color: "666666"
+      end
+
+      pdf.move_down 5
+
+      if exp[:responsibilities].any?
+        exp[:responsibilities].each do |resp|
+          pdf.text "• #{resp}"
+          pdf.move_down 2
+        end
+      end
+      pdf.move_down 10
+    end
+  end
+
+  def render_education_section(pdf, section_data, style)
+    pdf.font_size 16
+    pdf.text section_data[:title], style: :bold
+    pdf.move_down 8
+
+    section_data[:items].each do |edu|
+      if style == "classic"
+        pdf.font_size 12
+        pdf.text edu[:school].upcase, style: :bold
+        pdf.font_size 10
+        pdf.text "#{edu[:field]} · #{edu[:start_date]&.year} – #{edu[:end_date]&.year || "Present"}", color: "666666"
+      else
+        pdf.font_size 12
+        pdf.text edu[:school], style: :bold
+        pdf.font_size 10
+        pdf.text "#{edu[:field]} · #{edu[:start_date]&.year} – #{edu[:end_date]&.year || "Present"}", color: "666666"
+      end
+      pdf.move_down 10
+    end
+  end
+
+  def render_projects_section(pdf, section_data, style)
+    pdf.font_size 16
+    pdf.text section_data[:title], style: :bold
+    pdf.move_down 8
+
+    section_data[:items].each do |proj|
+      pdf.font_size 12
+      title = style == "classic" ? proj[:title].upcase : proj[:title]
+      pdf.text title, style: :bold
+
+      if proj[:url].present?
+        pdf.font_size 10
+        pdf.text proj[:url], color: style == "classic" ? "666666" : "0066cc"
+      end
+
+      if proj[:description].present?
+        pdf.move_down 5
+        pdf.text proj[:description]
+      end
+      pdf.move_down 10
+    end
   end
 
   def set_resume
