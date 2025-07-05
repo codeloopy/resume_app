@@ -139,12 +139,12 @@ namespace :pdf do
         </html>
       HTML
 
-      puts "Attempting to generate PDF..."
+      puts "Attempting to generate PDF with Grover..."
       grover = Grover.new(html)
       pdf = grover.to_pdf
 
       if pdf && pdf.length > 0
-        puts "✅ PDF generation successful!"
+        puts "✅ Grover PDF generation successful!"
         puts "PDF size: #{pdf.length} bytes"
 
         # Save test PDF
@@ -152,11 +152,61 @@ namespace :pdf do
         File.binwrite(test_file, pdf)
         puts "Test PDF saved to: #{test_file}"
       else
-        puts "❌ PDF generation failed - empty result"
+        puts "❌ Grover PDF generation failed - empty result"
       end
 
     rescue => e
-      puts "❌ PDF generation failed with error:"
+      puts "❌ Grover PDF generation failed with error:"
+      puts "  #{e.class}: #{e.message}"
+      puts "  Backtrace:"
+      e.backtrace.first(5).each { |line| puts "    #{line}" }
+    end
+
+    puts "\n=== Test Prawn PDF Generation ==="
+    begin
+      # Create a test resume for Prawn
+      user = User.first || User.create!(
+        email: "test@example.com",
+        password: "password123",
+        first_name: "Test",
+        last_name: "User"
+      )
+
+      resume = user.resume || Resume.create!(
+        user: user,
+        title: "Test Resume",
+        pdf_template: "modern"
+      )
+
+      puts "Attempting to generate PDF with Prawn..."
+      require 'prawn'
+      require 'prawn/table'
+
+      pdf_data = Prawn::Document.new do |pdf|
+        pdf.font "Helvetica"
+        pdf.font_size 24
+        pdf.text "Test PDF Generated with Prawn", style: :bold
+        pdf.move_down 20
+        pdf.font_size 12
+        pdf.text "Generated at: #{Time.current}"
+        pdf.text "Environment: #{Rails.env}"
+        pdf.text "Resume: #{resume.title}"
+      end.render
+
+      if pdf_data && pdf_data.length > 0
+        puts "✅ Prawn PDF generation successful!"
+        puts "PDF size: #{pdf_data.length} bytes"
+
+        # Save test PDF
+        test_file = Rails.root.join("tmp", "test_prawn_diagnostic.pdf")
+        File.binwrite(test_file, pdf_data)
+        puts "Prawn test PDF saved to: #{test_file}"
+      else
+        puts "❌ Prawn PDF generation failed - empty result"
+      end
+
+    rescue => e
+      puts "❌ Prawn PDF generation failed with error:"
       puts "  #{e.class}: #{e.message}"
       puts "  Backtrace:"
       e.backtrace.first(5).each { |line| puts "    #{line}" }

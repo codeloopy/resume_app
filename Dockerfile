@@ -104,6 +104,12 @@ RUN apt-get update -qq && \
 RUN which chromium || which chromium-browser || which google-chrome || (echo "No Chromium found" && exit 1) && \
     echo "Chromium installation verified"
 
+# Set up Chromium for non-root user
+RUN mkdir -p /home/rails/.cache/chromium && \
+    chown -R 1000:1000 /home/rails/.cache && \
+    mkdir -p /tmp/chromium && \
+    chown -R 1000:1000 /tmp/chromium
+
 # Copy built artifacts: gems, application
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails

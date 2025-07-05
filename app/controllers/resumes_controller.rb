@@ -165,7 +165,30 @@ class ResumesController < ApplicationController
       # Log the first 500 characters of the HTML for debugging
       Rails.logger.error "HTML preview: #{html[0..500]}..."
 
-      render plain: "PDF generation failed due to browser configuration issue. Please try again or contact support.", status: :internal_server_error
+      # Try fallback PDF generation with Prawn
+      Rails.logger.info "Attempting fallback PDF generation with Prawn..."
+      begin
+        pdf_data = generate_prawn_pdf(@resume, template_name)
+
+        # Set proper headers for PDF download
+        response.headers["Content-Type"] = "application/pdf"
+        response.headers["Content-Disposition"] = "attachment; filename=\"#{@resume.user_first_name}_resume.pdf\""
+        response.headers["Content-Length"] = pdf_data.length.to_s
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["Content-Transfer-Encoding"] = "binary"
+
+        # Send the PDF data
+        send_data pdf_data,
+                  filename: "#{@resume.user_first_name}_resume.pdf",
+                  type: "application/pdf",
+                  disposition: "attachment"
+      rescue => fallback_error
+        Rails.logger.error "Fallback PDF generation also failed: #{fallback_error.message}"
+        render plain: "PDF generation failed due to browser configuration issue. Please try again or contact support.", status: :internal_server_error
+      end
 
     rescue => e
       Rails.logger.error "PDF generation error: #{e.message}"
@@ -336,6 +359,114 @@ class ResumesController < ApplicationController
   end
 
   private
+
+  def generate_prawn_pdf(resume, template_name)
+    require "prawn"
+    require "prawn/table"
+
+    Prawn::Document.new do |pdf|
+      # Set up basic styling
+      pdf.font "Helvetica"
+      pdf.font_size 10
+
+      # Header
+      pdf.font_size 24
+      pdf.text "#{resume.user.first_name} #{resume.user.last_name}", style: :bold
+      pdf.move_down 10
+
+      # Contact info
+      pdf.font_size 10
+      contact_info = []
+      contact_info << resume.user.location if resume.user.location.present?
+      contact_info << resume.user.phone if resume.user.phone.present?
+      contact_info << resume.user.email if resume.user.email.present?
+      contact_info << "/in/#{resume.user.linked_in_url.split("/").last}" if resume.user.linked_in_url.present?
+      contact_info << resume.user.github_url.split("//").last if resume.user.github_url.present?
+
+      pdf.text contact_info.join(" | "), color: "666666"
+      pdf.move_down 20
+
+      # Summary
+      if resume.summary&.body&.present?
+        pdf.font_size 16
+        pdf.text "Summary", style: :bold
+        pdf.move_down 8
+        pdf.font_size 10
+        pdf.text resume.summary.body.to_plain_text
+        pdf.move_down 15
+      end
+
+      # Skills
+      if resume.skills.any?
+        pdf.font_size 16
+        pdf.text resume.skills_title.presence || "Skills", style: :bold
+        pdf.move_down 8
+        pdf.font_size 10
+        skills_text = resume.skills.map(&:name).join(", ") + "."
+        pdf.text skills_text
+        pdf.move_down 15
+      end
+
+      # Experience
+      if resume.experiences.any?
+        pdf.font_size 16
+        pdf.text "Experience", style: :bold
+        pdf.move_down 8
+
+        resume.experiences.each do |exp|
+          pdf.font_size 12
+          pdf.text "#{exp.title} @ #{exp.company_name}", style: :bold
+          pdf.font_size 10
+          pdf.text "#{exp.location} · #{exp.start_date&.strftime("%b %Y")} – #{exp.end_date&.strftime("%b %Y") || "Present"}", color: "666666"
+          pdf.move_down 5
+
+          if exp.responsibilities.any?
+            exp.responsibilities.each do |resp|
+              pdf.text "• #{resp.content}"
+              pdf.move_down 2
+            end
+          end
+          pdf.move_down 10
+        end
+      end
+
+      # Education
+      if resume.educations.any?
+        pdf.font_size 16
+        pdf.text "Education", style: :bold
+        pdf.move_down 8
+
+        resume.educations.each do |edu|
+          pdf.font_size 12
+          pdf.text edu.school, style: :bold
+          pdf.font_size 10
+          pdf.text "#{edu.field_of_study} · #{edu.start_date&.year} – #{edu.end_date&.year || "Present"}", color: "666666"
+          pdf.move_down 10
+        end
+      end
+
+      # Projects
+      if resume.projects.any?
+        pdf.font_size 16
+        pdf.text "Projects", style: :bold
+        pdf.move_down 8
+
+        resume.projects.each do |proj|
+          pdf.font_size 12
+          pdf.text proj.title, style: :bold
+          if proj.url.present?
+            pdf.font_size 10
+            pdf.text proj.url, color: "0066cc"
+          end
+          if proj.description&.body&.present?
+            pdf.move_down 5
+            pdf.text proj.description.body.to_plain_text
+          end
+          pdf.move_down 10
+        end
+      end
+    end.render
+  end
 
   def set_resume
     @resume = current_user.resume
