@@ -3,6 +3,7 @@ class Resume < ApplicationRecord
   has_rich_text :summary
   validates :slug, presence: true, uniqueness: true
   before_validation :generate_slug, on: :create
+  before_validation :ensure_slug_present
 
   has_many :experiences, dependent: :destroy
   accepts_nested_attributes_for :experiences, allow_destroy: true
@@ -26,9 +27,23 @@ class Resume < ApplicationRecord
     super.presence || "modern"
   end
 
+  def regenerate_slug!
+    self.slug = nil
+    generate_slug
+    save!
+  end
+
   private
 
   def generate_slug
-    self.slug ||= [ user.first_name.parameterize + "-" + user.last_name.parameterize, SecureRandom.hex(user.first_name.length) ].join("-")
+    return if slug.present?
+
+    base_slug = "#{user.first_name.parameterize}-#{user.last_name.parameterize}"
+    random_suffix = SecureRandom.hex(4) # Always use 4 characters for consistency
+    self.slug = "#{base_slug}-#{random_suffix}"
+  end
+
+  def ensure_slug_present
+    generate_slug if slug.blank?
   end
 end
