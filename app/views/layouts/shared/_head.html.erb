@@ -1,0 +1,114 @@
+<head>
+  <title><%= content_for(:title) || "Free Resume Builder - Create Professional Resumes Online" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="<%= content_for(:description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly. No hidden fees, no paywalls.' %>">
+  <meta name="keywords" content="<%= content_for(:keywords) || 'resume builder, free resume, professional resume, ATS friendly resume, resume templates, job application' %>">
+  <meta name="author" content="FreeResumeBuilderApp">
+  <meta name="robots" content="<%= should_block_indexing? ? 'noindex, nofollow' : 'index, follow' %>">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="<%= content_for(:og_title) || 'Free Resume Builder - Create Professional Resumes Online' %>">
+  <meta property="og:description" content="<%= content_for(:og_description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly.' %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <meta property="og:image" content="<%= request.base_url %>/icon.png">
+  <meta property="og:site_name" content="FreeResumeBuilderApp">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= content_for(:twitter_title) || 'Free Resume Builder - Create Professional Resumes Online' %>">
+  <meta name="twitter:description" content="<%= content_for(:twitter_description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly.' %>">
+  <meta name="twitter:image" content="<%= request.base_url %>/icon.png">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="<%= request.original_url %>">
+
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="<%= asset_path('tailwind.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<%= asset_path('actiontext.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="<%= asset_path('tailwind.css') %>">
+    <link rel="stylesheet" href="<%= asset_path('actiontext.css') %>">
+  </noscript>
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free Resume Builder",
+    "description": "Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly.",
+    "url": "https://freeresumebuilderapp.com",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Pedro Monsalve"
+    },
+    "featureList": [
+      "ATS-Friendly Templates",
+      "Instant PDF Download",
+      "Mobile Responsive",
+      "No Hidden Fees",
+      "Professional Design"
+    ]
+  }
+  </script>
+
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <%= stylesheet_link_tag "tailwind.css", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "actiontext.css", "data-turbo-track": "reload" %>
+  <% if controller_name == 'static_pages' && action_name == 'home' %>
+    <%= javascript_include_tag "home", "data-turbo-track": "reload", type: "module" %>
+  <% elsif controller_name == 'resumes' && action_name == 'edit' %>
+    <%= javascript_include_tag "resume_edit", "data-turbo-track": "reload", type: "module" %>
+  <% elsif controller_name == 'resumes' && (action_name == 'show' || action_name == 'public') %>
+    <%= javascript_include_tag "resume_public", "data-turbo-track": "reload", type: "module" %>
+  <% else %>
+    <%= javascript_include_tag "resume", "data-turbo-track": "reload", type: "module" %>
+  <% end %>
+  <%= yield :head %>
+  <% if Rails.env.production? %>
+    <!-- Google Analytics 4 - Lightweight version -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3XWMFLD7D6');
+    </script>
+
+    <!-- Smartlook -->
+    <script type='text/javascript'>
+      window.smartlook||(function(d) {
+        var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+        var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+        c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
+        })(document);
+        smartlook('init', '92dd6efa7fd87a892727c8b33b06183e5f07d447', { region: 'eu' });
+    </script>
+  <% end %>
+  <% if Rails.env.production? && defined?(Sentry) && Sentry.respond_to?(:get_trace_propagation_meta) %>
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
+  <% end %>
+</head>
