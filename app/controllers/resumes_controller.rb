@@ -3,11 +3,40 @@ class ResumesController < ApplicationController
   before_action :set_resume_public, only: [ :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic ]
   before_action :set_resume, except: [ :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic, :pdf_health_check, :test_pdf, :pdf_diagnostic ]
 
-  def show; end
+  def show
+    if current_user
+      # User is authenticated, show their own resume
+      @resume = current_user.resume
+    else
+      # If !current_user, redirect to public view if slug is provided
+      if params[:slug]
+        @resume = Resume.find_by(slug: params[:slug])
+        if @resume
+          render :public
+        else
+          flash[:alert] = "😭 The resume you're looking for doesn't exist or may have been removed."
+          redirect_to root_path
+        end
+      else
+        flash[:notice] = "Please sign in to view your resume."
+        # No slug provided and no user, redirect to login
+        redirect_to new_user_session_path, alert: "Please sign in to view your resume."
+      end
+    end
+  end
 
-  def edit; end
+  def edit
+    unless @resume
+      redirect_to new_user_session_path, alert: "Please sign in to edit your resume."
+    end
+  end
 
   def update
+    unless @resume
+      redirect_to new_user_session_path, alert: "Please sign in to update your resume."
+      return
+    end
+
     if @resume.update(resume_params)
       if @resume.summary.present? and @resume.title.present? and @resume.skills.any? and @resume.experiences.any? and @resume.educations.any?
         redirect_to resume_path, notice: "Resume updated!"
@@ -591,13 +620,19 @@ class ResumesController < ApplicationController
   end
 
   def set_resume
-    @resume = current_user.resume
+    if current_user
+      @resume = current_user.resume
+    else
+
+      @resume = nil
+    end
   end
 
   def set_resume_public
     @resume = Resume.find_by(slug: params[:slug])
     unless @resume
-      render plain: "Resume not found. The resume you're looking for doesn't exist or may have been removed.", status: :not_found
+      flash[:alert] = "😭 The resume you're looking for doesn't exist or may have been removed."
+      redirect_to root_path
       nil
     end
   end
