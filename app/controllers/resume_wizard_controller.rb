@@ -34,7 +34,7 @@ class ResumeWizardController < ApplicationController
     when :skills
       @resume.assign_attributes(resume_params)
     when :education
-      @resume.assign_attributes(resume_params)
+      # Education is managed separately via educations controller
     when :projects
       @resume.assign_attributes(resume_params)
     end
@@ -67,9 +67,7 @@ class ResumeWizardController < ApplicationController
   def resume_params
     params.require(:resume).permit(
       :title, :summary, :skills_title, :pdf_template,
-      skills_attributes: [ :id, :name, :_destroy ],
-      educations_attributes: [ :id, :school, :location, :field_of_study, :start_date, :end_date, :_destroy ],
-      projects_attributes: [ :id, :title, :description, :url, :_destroy ]
+      skills_attributes: [ :id, :name, :_destroy ]
     )
   end
 end
