@@ -2,7 +2,10 @@ class FeedbacksController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    Feedback.create(reason: params[:reason], email: params[:email], user: current_user)
+    # Only create feedback if reason is not empty
+    if params[:reason].present? && params[:reason].strip.present?
+      Feedback.create(reason: params[:reason].strip, email: params[:email], user: current_user)
+    end
 
     # Temporarily disable foreign key constraints to allow user deletion
     ActiveRecord::Base.connection.execute("SET session_replication_role = replica;")

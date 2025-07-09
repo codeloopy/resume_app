@@ -2,6 +2,9 @@ class User < ApplicationRecord
   has_one :resume, dependent: :destroy
   has_many :feedbacks
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+
   after_create :create_resume
 
   # Include default devise modules. Others available are:

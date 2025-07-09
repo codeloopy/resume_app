@@ -9,7 +9,7 @@ class ExperiencesController < ApplicationController
   def create
     @experience = current_user.resume.experiences.new(experience_params)
     if @experience.save
-      redirect_to edit_resume_path, notice: "Experience added"
+      redirect_to resume_wizard_path(:experience), notice: "Experience added successfully! Continue with the wizard."
     else
       render :new, status: :unprocessable_entity
     end
@@ -19,7 +19,7 @@ class ExperiencesController < ApplicationController
 
   def update
     if @experience.update(experience_params)
-      redirect_to edit_resume_path, notice: "Experience updated"
+      redirect_to resume_wizard_path(:experience), notice: "Experience updated successfully! Continue with the wizard."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -27,7 +27,7 @@ class ExperiencesController < ApplicationController
 
   def destroy
     @experience.destroy
-    redirect_to edit_resume_path, notice: "Experience removed"
+    redirect_to resume_wizard_path(:experience), notice: "Experience removed successfully! Continue with the wizard."
   end
 
   private

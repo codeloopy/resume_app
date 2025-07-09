@@ -1,0 +1,59 @@
+<div class="mx-4 my-4">
+  <%= render "progress" %>
+  <h1 class="text-2xl font-bold mb-6 text-center">Step 2: Work Experience</h1>
+
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800">Your Professional Experience</h2>
+      <p class="text-gray-600 mb-6">Add your work history, starting with your most recent position. It is recommended to add no more than 3.</p>
+    </div>
+
+    <%= form_with model: @resume, url: resume_wizard_path, method: :put do |f| %>
+      <div class="mb-6">
+        <% if @resume.experiences.any? %>
+          <% @resume.experiences.each do |exp| %>
+            <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="font-semibold text-gray-800"><%= exp.title %> @ <%= exp.company_name %></h4>
+                <div class="flex space-x-2">
+                  <%= link_to "Edit", edit_experience_path(exp), class: "text-blue-600 hover:text-blue-800 text-sm" %>
+                  <%= link_to "Delete", experience_path(exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:text-red-800 text-sm" %>
+                </div>
+              </div>
+              <p class="text-sm text-gray-600 mb-2">
+                <%= exp.location %> • <%= exp.start_date.strftime("%b %Y") %> - <%= exp.end_date&.strftime("%b %Y") || "Present" %>
+              </p>
+              <% if exp.responsibilities.any? %>
+                <ul class="list-disc list-inside text-sm text-gray-700">
+                  <% exp.responsibilities.first(3).each do |responsibility| %>
+                    <li><%= responsibility.content %></li>
+                  <% end %>
+                  <% if exp.responsibilities.count > 3 %>
+                    <li class="text-gray-500 italic">... and <%= exp.responsibilities.count - 3 %> more</li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-8 text-gray-500">
+            <p>No work experience added yet.</p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="mb-8">
+        <h4 class="text-blue-800 font-semibold mb-2">Add Your Work Experience</h4>
+          <p class="text-blue-700 text-sm mb-3">Click the button below to add a new job experience. You'll be able to add your job title, company, dates, and key responsibilities.</p>
+          <%= link_to new_experience_path, class: "inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition durtext-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2 inline-block" do %>
+            Add New Experience
+          <% end %>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <%= link_to "Previous: Summary", resume_wizard_path(:summary), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+        <%= f.submit "Next: Skills", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200" %>
+      </div>
+    <% end %>
+  </div>
+</div>

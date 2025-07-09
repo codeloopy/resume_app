@@ -1,0 +1,45 @@
+<%= form_with model: education, local: true do |f| %>
+  <% if education.errors.any? %>
+    <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+      <h3 class="text-red-800 font-medium mb-2">Please fix the following errors:</h3>
+      <ul class="text-red-700 text-sm">
+        <% education.errors.full_messages.each do |message| %>
+          <li>• <%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :school, "School/University", class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :school, class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "e.g., Stanford University, MIT, etc." %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :location, "Location", class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :location, class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "e.g., Stanford, CA" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :field_of_study, "Degree/Field of Study", class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.text_field :field_of_study, class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "e.g., Computer Science, Business Administration, etc." %>
+  </div>
+
+  <div class="mb-4 grid grid-cols-2 gap-4">
+    <div>
+      <%= f.label :start_date, "Start Date", class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.date_field :start_date, class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+    </div>
+
+    <div>
+      <%= f.label :end_date, "End Date (Optional)", class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.date_field :end_date, class: "w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      <p class="text-xs text-gray-500 mt-1">Leave blank if currently studying</p>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <%= link_to "Cancel", resume_wizard_path(:education), class: "text-gray-600 hover:text-gray-800 font-medium" %>
+    <%= f.submit education.new_record? ? "Add Education" : "Update Education", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200" %>
+  </div>
+<% end %>

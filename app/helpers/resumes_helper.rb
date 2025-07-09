@@ -11,4 +11,12 @@ module ResumesHelper
       phone.gsub(/^\+?1?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/, '(\1) \2-\3')
     end
   end
+
+  def resume_completed(resume)
+    if resume
+      resume.summary.present? &&
+      resume.experiences.any? &&
+      resume.educations.any?
+    end
+  end
 end
