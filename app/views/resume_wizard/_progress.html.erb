@@ -1,0 +1,72 @@
+<div class="mb-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+      <ol class="flex items-center justify-between text-sm font-medium text-gray-500">
+        <li class="flex items-center <%= step == :summary ? 'text-blue-600' : (steps.index(step) > steps.index(:summary) ? 'text-green-600' : 'text-gray-500') %>">
+          <span class="flex items-center justify-center w-6 h-6 mr-2 text-xs border-2 rounded-full <%= step == :summary ? 'border-blue-600 bg-blue-600 text-white' : (steps.index(step) > steps.index(:summary) ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300') %>">
+            <% if steps.index(step) > steps.index(:summary) %>
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            <% else %>
+              1
+            <% end %>
+          </span>
+          <span class="hidden sm:inline">Summary</span>
+        </li>
+
+        <li class="flex items-center <%= step == :experience ? 'text-blue-600' : (steps.index(step) > steps.index(:experience) ? 'text-green-600' : 'text-gray-500') %>">
+          <span class="flex items-center justify-center w-6 h-6 mr-2 text-xs border-2 rounded-full <%= step == :experience ? 'border-blue-600 bg-blue-600 text-white' : (steps.index(step) > steps.index(:experience) ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300') %>">
+            <% if steps.index(step) > steps.index(:experience) %>
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            <% else %>
+              2
+            <% end %>
+          </span>
+          <span class="hidden sm:inline">Experience</span>
+        </li>
+
+        <li class="flex items-center <%= step == :skills ? 'text-blue-600' : (steps.index(step) > steps.index(:skills) ? 'text-green-600' : 'text-gray-500') %>">
+          <span class="flex items-center justify-center w-6 h-6 mr-2 text-xs border-2 rounded-full <%= step == :skills ? 'border-blue-600 bg-blue-600 text-white' : (steps.index(step) > steps.index(:skills) ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300') %>">
+            <% if steps.index(step) > steps.index(:skills) %>
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            <% else %>
+              3
+            <% end %>
+          </span>
+          <span class="hidden sm:inline">Skills</span>
+        </li>
+
+        <li class="flex items-center <%= step == :education ? 'text-blue-600' : (steps.index(step) > steps.index(:education) ? 'text-green-600' : 'text-gray-500') %>">
+          <span class="flex items-center justify-center w-6 h-6 mr-2 text-xs border-2 rounded-full <%= step == :education ? 'border-blue-600 bg-blue-600 text-white' : (steps.index(step) > steps.index(:education) ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300') %>">
+            <% if steps.index(step) > steps.index(:education) %>
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            <% else %>
+              4
+            <% end %>
+          </span>
+          <span class="hidden sm:inline">Education</span>
+        </li>
+
+        <li class="flex items-center <%= step == :projects ? 'text-blue-600' : (steps.index(step) > steps.index(:projects) ? 'text-green-600' : 'text-gray-500') %>">
+          <span class="flex items-center justify-center w-6 h-6 mr-2 text-xs border-2 rounded-full <%= step == :projects ? 'border-blue-600 bg-blue-600 text-white' : (steps.index(step) > steps.index(:projects) ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300') %>">
+            <% if steps.index(step) > steps.index(:projects) %>
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            <% else %>
+              5
+            <% end %>
+          </span>
+          <span class="hidden sm:inline">Projects</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
