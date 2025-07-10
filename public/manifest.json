@@ -1,5 +1,5 @@
 {
-  "name": "ResumeApp",
+  "name": "Free Resume Builder App",
   "icons": [
     {
       "src": "/icon.png",
@@ -16,7 +16,7 @@
   "start_url": "/",
   "display": "standalone",
   "scope": "/",
-  "description": "ResumeApp.",
+  "description": "Free Resume Builder App.",
   "theme_color": "red",
   "background_color": "red"
 }
