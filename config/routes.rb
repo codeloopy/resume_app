@@ -39,6 +39,10 @@ Rails.application.routes.draw do
   # Sitemap for SEO
   get "sitemap.xml", to: "application#sitemap", defaults: { format: "xml" }
 
+  # Resume wizard routes
+  get "/resume_wizard", to: "resume_wizard#show", defaults: { id: "summary" }
+  resources :resume_wizard, only: [ :show, :update ], controller: "resume_wizard"
+
   # Defines the root path route ("/")
   root "static_pages#home"
 end

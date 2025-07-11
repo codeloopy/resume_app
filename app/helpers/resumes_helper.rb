@@ -15,8 +15,8 @@ module ResumesHelper
   def resume_completed(resume)
     if resume
       resume.summary.present? &&
-      resume.experiences.any? &&
-      resume.educations.any?
+      resume.experiences.present? &&
+      resume.educations.present?
     end
   end
 end

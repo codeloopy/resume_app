@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_resume, if: :user_signed_in?
 
   protected
 
@@ -56,4 +57,10 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :should_block_indexing?
+
+  private
+
+  def set_resume
+    @resume = current_user.resume
+  end
 end
