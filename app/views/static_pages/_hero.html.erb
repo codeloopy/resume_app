@@ -1,28 +1,93 @@
-<section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center">
-      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-        Create and Share Your Resume<br>
-        <span class="text-blue-600">For Free!</span>
-      </h1>
-      <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-        Build professional, ATS-friendly resumes in minutes.<br>Choose from our growing collection of templates and land your dream job
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <%= link_to "Start Building Now", new_user_registration_path, class: "bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-lg", id: "start-building-now" %>
+<section class="pt-24 pb-16 bg-gradient-to-br from-gray-50 via-white to-purple-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <!-- Problem Statement -->
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+          <div class="flex items-center text-red-700">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <span class="font-medium">Getting rejected from jobs you're qualified for?</span>
+          </div>
+        </div>
+
+        <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          Your Resume is Getting You
+          <span class="text-red-600">Rejected</span> Before Humans Even See It
+        </h1>
+
+        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+          95% of resumes never reach human eyes. They're filtered out by ATS systems in seconds.
+          <strong class="text-gray-900">But not anymore.</strong>
+        </p>
+
+        <!-- Social Proof -->
+        <div class="flex items-center mb-8 space-x-6">
+          <div class="flex -space-x-2">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 border-2 border-white flex items-center justify-center text-white text-sm font-bold">J</div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-green-600 border-2 border-white flex items-center justify-center text-white text-sm font-bold">M</div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-400 to-purple-600 border-2 border-white flex items-center justify-center text-white text-sm font-bold">S</div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-400 to-pink-600 border-2 border-white flex items-center justify-center text-white text-sm font-bold">A</div>
+            <div class="w-10 h-10 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center text-gray-600 text-xs font-bold">+300</div>
+          </div>
+          <div>
+            <div class="text-sm font-medium text-gray-900">Over 300 people used our resume builder<br>this month!</div>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <%= link_to new_user_registration_path, class: "bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition shadow-lg flex items-center justify-center" do %>
+            <i class="fas fa-rocket mr-2"></i>
+            Build My Winning Resume
+          <% end %>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="mt-8 flex items-center space-x-6 text-sm text-gray-500">
+          <div class="flex items-center">
+            <i class="fas fa-shield-check text-green-500 mr-1"></i>
+            <strong class="text-black">100% Free</strong>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-clock text-blue-500 mr-1"></i>
+            Ready in minutes
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-download text-purple-500 mr-1"></i>
+            Instant PDF download
+          </div>
+        </div>
       </div>
-      <div class="mt-12 flex justify-center items-center space-x-8 text-gray-500">
-        <div class="flex items-center">
-          <i class="fas fa-check-circle text-blue-600 mr-2"></i>
-          <span>100% Free</span>
+
+      <!-- Visual Element -->
+      <div class="relative">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition duration-500">
+          <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold">JS</div>
+              <div>
+                <div class="h-3 bg-gray-900 rounded w-32"></div>
+                <div class="h-2 bg-gray-400 rounded w-24 mt-1"></div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="h-2 bg-gray-200 rounded"></div>
+              <div class="h-2 bg-gray-200 rounded w-4/5"></div>
+              <div class="h-2 bg-gray-200 rounded w-3/5"></div>
+            </div>
+            <div class="space-y-2">
+              <div class="h-3 bg-primary/20 rounded w-20"></div>
+              <div class="h-2 bg-gray-200 rounded"></div>
+              <div class="h-2 bg-gray-200 rounded w-4/5"></div>
+            </div>
+          </div>
         </div>
-        <div class="flex items-center">
-          <i class="fas fa-download text-blue-600 mr-2"></i>
-          <span>Instant Download</span>
+        <!-- Floating elements -->
+        <div class="absolute -top-4 -right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce">
+          ATS Approved ✓
         </div>
-        <div class="flex items-center">
-          <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
-          <span>ATS-Friendly</span>
+        <div class="absolute -bottom-4 -left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+          Hired! 🎉
         </div>
       </div>
     </div>
