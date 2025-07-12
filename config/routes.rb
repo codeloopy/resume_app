@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   # Test PDF generation
   get "/test-pdf", to: "resumes#test_pdf", as: :test_pdf
+  get "/test-prawn-pdf", to: "resumes#test_prawn_pdf", as: :test_prawn_pdf
 
   # PDF diagnostic (no PDF generation)
   get "/pdf-diagnostic", to: "resumes#pdf_diagnostic", as: :pdf_diagnostic
