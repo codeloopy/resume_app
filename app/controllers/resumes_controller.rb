@@ -321,6 +321,58 @@ class ResumesController < ApplicationController
     end
   end
 
+  def test_prawn_pdf
+    # Test endpoint specifically for Prawn PDF generation with UTF-8 support
+    begin
+      # Create a test resume with some Unicode content
+      user = User.first || User.create!(
+        email: "test@example.com",
+        password: "password123",
+        first_name: "Test",
+        last_name: "User"
+      )
+
+      resume = user.resume || Resume.create!(
+        user: user,
+        title: "Test Resume",
+        pdf_template: "modern"
+      )
+
+      # Test with content that might have Unicode characters
+      test_content = "Test content with special characters: é, ñ, ü, 🚀, 📧, etc."
+
+      # Generate PDF using Prawn
+      pdf_data = generate_prawn_pdf(resume, "modern")
+
+      send_data pdf_data,
+                filename: "test_prawn.pdf",
+                type: "application/pdf",
+                disposition: "attachment"
+
+    rescue => e
+      error_info = <<~ERROR
+        Prawn PDF generation failed!
+
+        Error: #{e.message}
+        Error class: #{e.class}
+
+        Environment:
+        - Rails env: #{Rails.env}
+        - Ruby version: #{RUBY_VERSION}
+
+        Font availability:
+        - Noto Sans: #{File.exist?("/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf") ? 'Available' : 'Not found'}
+        - Noto Serif: #{File.exist?("/usr/share/fonts/truetype/noto/NotoSerif-Regular.ttf") ? 'Available' : 'Not found'}
+        - Liberation Sans: #{File.exist?("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf") ? 'Available' : 'Not found'}
+
+        Full error details:
+        #{e.backtrace.first(5).join("\n")}
+      ERROR
+
+      render plain: error_info, status: :internal_server_error
+    end
+  end
+
   def pdf_diagnostic
     # Simple diagnostic endpoint that doesn't generate PDFs
     chromium_paths = [
@@ -409,29 +461,29 @@ class ResumesController < ApplicationController
     # Unified data structure for both HTML and PDF generation
     {
       header: {
-        name: "#{resume.user.first_name} #{resume.user.last_name}",
+        name: sanitize_text("#{resume.user.first_name} #{resume.user.last_name}"),
         contact_info: build_contact_info(resume.user)
       },
       sections: {
         summary: resume.summary&.body&.present? ? {
           title: template_name == "classic" ? "SUMMARY" : "Summary",
-          content: resume.summary.body.to_plain_text
+          content: sanitize_text(resume.summary.body.to_plain_text)
         } : nil,
         skills: resume.skills.any? ? {
           title: (resume.skills_title.presence || "Skills").then { |t| template_name == "classic" ? t.upcase : t },
-          content: resume.skills.map(&:name),
+          content: resume.skills.map { |skill| sanitize_text(skill.name) },
           separator: template_name == "classic" ? " | " : ", "
         } : nil,
         experience: resume.experiences.any? ? {
           title: template_name == "classic" ? "EXPERIENCE" : "Experience",
           items: resume.experiences.map do |exp|
             {
-              company: exp.company_name,
-              location: exp.location,
-              title: exp.title,
+              company: sanitize_text(exp.company_name),
+              location: sanitize_text(exp.location),
+              title: sanitize_text(exp.title),
               start_date: exp.start_date,
               end_date: exp.end_date,
-              responsibilities: exp.responsibilities.map(&:content)
+              responsibilities: exp.responsibilities.map { |resp| sanitize_text(resp.content) }
             }
           end
         } : nil,
@@ -439,8 +491,8 @@ class ResumesController < ApplicationController
           title: template_name == "classic" ? "EDUCATION" : "Education",
           items: resume.educations.map do |edu|
             {
-              school: edu.school,
-              field: edu.field_of_study,
+              school: sanitize_text(edu.school),
+              field: sanitize_text(edu.field_of_study),
               start_date: edu.start_date,
               end_date: edu.end_date
             }
@@ -450,15 +502,15 @@ class ResumesController < ApplicationController
           title: template_name == "classic" ? "PROJECTS" : "Projects",
           items: resume.projects.map do |proj|
             {
-              title: proj.title,
+              title: sanitize_text(proj.title),
               url: proj.url,
-              description: proj.description&.body&.to_plain_text
+              description: sanitize_text(proj.description&.body&.to_plain_text)
             }
           end
         } : nil
       },
       styling: {
-        font_family: template_name == "classic" ? "Times-Roman" : "Helvetica",
+        font_family: template_name == "classic" ? "Noto Serif" : "Noto Sans",
         margins: {
           left: 18,
           right: 18,
@@ -471,15 +523,60 @@ class ResumesController < ApplicationController
 
   def build_contact_info(user)
     contact_info = []
-    contact_info << user.location if user.location.present?
-    contact_info << user.phone if user.phone.present?
-    contact_info << user.email if user.email.present?
+    contact_info << sanitize_text(user.location) if user.location.present?
+    contact_info << sanitize_text(user.phone) if user.phone.present?
+    contact_info << sanitize_text(user.email) if user.email.present?
     contact_info << "/in/#{user.linked_in_url.split("/").last}" if user.linked_in_url.present?
     contact_info << user.github_url.split("//").last if user.github_url.present?
     contact_info
   end
 
+  def sanitize_text(text)
+    return text unless text.is_a?(String)
+
+    # Remove or replace problematic characters for PDF generation
+    # Keep common punctuation and symbols, but remove emojis and other problematic Unicode
+    text.gsub(/[\u{1F600}-\u{1F64F}]/, "") # Remove emoji faces
+         .gsub(/[\u{1F300}-\u{1F5FF}]/, "") # Remove emoji symbols
+         .gsub(/[\u{1F680}-\u{1F6FF}]/, "") # Remove emoji transport
+         .gsub(/[\u{1F1E0}-\u{1F1FF}]/, "") # Remove emoji flags
+         .gsub(/[\u{2600}-\u{26FF}]/, "")   # Remove emoji misc symbols
+         .gsub(/[\u{2700}-\u{27BF}]/, "")   # Remove emoji dingbats
+         .gsub(/[^\p{Print}\p{Space}]/, "") # Remove non-printable characters except spaces
+         .strip
+  end
+
+  def log_font_availability
+    font_paths = {
+      "Noto Sans" => [
+        "/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf",
+        "/usr/share/fonts/opentype/noto/NotoSans-Regular.otf",
+        "/usr/share/fonts/TTF/NotoSans-Regular.ttf"
+      ],
+      "Noto Serif" => [
+        "/usr/share/fonts/truetype/noto/NotoSerif-Regular.ttf",
+        "/usr/share/fonts/opentype/noto/NotoSerif-Regular.otf",
+        "/usr/share/fonts/TTF/NotoSerif-Regular.ttf"
+      ],
+      "Liberation Sans" => [
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+      ]
+    }
+
+    font_paths.each do |font_name, paths|
+      available_path = paths.find { |path| File.exist?(path) }
+      if available_path
+        Rails.logger.info "✅ #{font_name} available at: #{available_path}"
+      else
+        Rails.logger.warn "❌ #{font_name} not found in paths: #{paths.join(', ')}"
+      end
+    end
+  end
+
   def generate_prawn_from_template(resume, template_data, style)
+    # Log font availability for debugging
+    log_font_availability
+
     Prawn::Document.new(
       margin: [
         template_data[:styling][:margins][:top],
@@ -488,8 +585,81 @@ class ResumesController < ApplicationController
         template_data[:styling][:margins][:left]
       ]
     ) do |pdf|
-      # Apply styling
-      pdf.font template_data[:styling][:font_family]
+      # Use UTF-8 compatible fonts
+      begin
+        # Try to use Noto fonts for better UTF-8 support
+        noto_sans_paths = [
+          "/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf",
+          "/usr/share/fonts/opentype/noto/NotoSans-Regular.otf",
+          "/usr/share/fonts/TTF/NotoSans-Regular.ttf"
+        ]
+
+        noto_serif_paths = [
+          "/usr/share/fonts/truetype/noto/NotoSerif-Regular.ttf",
+          "/usr/share/fonts/opentype/noto/NotoSerif-Regular.otf",
+          "/usr/share/fonts/TTF/NotoSerif-Regular.ttf"
+        ]
+
+        # Find available Noto Sans font
+        noto_sans_normal = noto_sans_paths.find { |path| File.exist?(path) }
+        if noto_sans_normal
+          pdf.font_families.update(
+            "Noto Sans" => {
+              normal: noto_sans_normal,
+              bold: noto_sans_normal.gsub("Regular", "Bold"),
+              italic: noto_sans_normal.gsub("Regular", "Italic"),
+              bold_italic: noto_sans_normal.gsub("Regular", "BoldItalic")
+            }
+          )
+        end
+
+        # Find available Noto Serif font
+        noto_serif_normal = noto_serif_paths.find { |path| File.exist?(path) }
+        if noto_serif_normal
+          pdf.font_families.update(
+            "Noto Serif" => {
+              normal: noto_serif_normal,
+              bold: noto_serif_normal.gsub("Regular", "Bold"),
+              italic: noto_serif_normal.gsub("Regular", "Italic"),
+              bold_italic: noto_serif_normal.gsub("Regular", "BoldItalic")
+            }
+          )
+        end
+
+        # Try to use the requested font, fallback to Noto Sans if not available
+        requested_font = template_data[:styling][:font_family]
+        if pdf.font_families.key?(requested_font)
+          pdf.font requested_font
+        elsif pdf.font_families.key?("Noto Sans")
+          pdf.font "Noto Sans"
+        elsif File.exist?("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf")
+          # Fallback to Liberation fonts
+          pdf.font_families.update(
+            "Liberation Sans" => {
+              normal: "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+              bold: "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+              italic: "/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf",
+              bold_italic: "/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf"
+            }
+          )
+          pdf.font "Liberation Sans"
+        else
+          # Use built-in fonts as last resort
+          Rails.logger.warn "No external fonts available, using built-in fonts"
+          pdf.font template_data[:styling][:font_family]
+        end
+      rescue => e
+        Rails.logger.warn "Could not load external fonts for PDF: #{e.message}. Using built-in fonts."
+        begin
+          # Try to use built-in fonts with UTF-8 encoding
+          pdf.font template_data[:styling][:font_family]
+        rescue => font_error
+          Rails.logger.error "Failed to use requested font '#{template_data[:styling][:font_family]}': #{font_error.message}"
+          # Last resort: use default font
+          pdf.font "Helvetica"
+        end
+      end
+
       pdf.font_size 10
 
       # Header
