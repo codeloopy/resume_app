@@ -15,7 +15,7 @@
       <span class="text-md text-center text-gray-500"><%= @resume.user.location %></span>
     <% end %>
     <% if @resume.user.email.present? %>
-      · <a href="mailto:<%= @resume.user.email %>">Email</a>
+      <a href="mailto:<%= @resume.user.email %>">Email</a>
     <% end %>
     <% if @resume.user.phone.present? %>
       · <a href="tel:+<%= @resume.user.phone %>"><%= styled_telephone_number(@resume.user.phone) %></a>

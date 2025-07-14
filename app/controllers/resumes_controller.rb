@@ -48,6 +48,26 @@ class ResumesController < ApplicationController
     end
   end
 
+  def destroy
+    unless @resume
+      redirect_to new_user_session_path, alert: "Please sign in to delete your resume."
+      return
+    end
+
+    if @resume.destroy
+      # Create a new resume for the user
+      current_user.create_resume
+
+      if @resume.has_content?
+        redirect_to resume_wizard_path(:summary), notice: "Resume deleted and a new one has been created. You can now start fresh!"
+      else
+        redirect_to resume_wizard_path(:summary), notice: "Empty resume deleted and a new one has been created."
+      end
+    else
+      redirect_to resume_path, alert: "Failed to delete resume. Please try again."
+    end
+  end
+
   def public
   end
 

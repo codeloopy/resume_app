@@ -27,6 +27,15 @@ class Resume < ApplicationRecord
     super.presence || "modern"
   end
 
+  def has_content?
+    summary.present? ||
+    title.present? ||
+    skills.any? ||
+    experiences.any? ||
+    educations.any? ||
+    projects.any?
+  end
+
   def regenerate_slug!
     self.slug = nil
     generate_slug

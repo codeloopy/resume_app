@@ -17,9 +17,9 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  private
-
   def create_resume
     build_resume.save
   end
+
+  private
 end
