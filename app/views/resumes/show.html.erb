@@ -42,7 +42,7 @@
         <h3 class="text-sm font-semibold text-gray-700"><%= experience.company_name %></h3>
         <p class="text-sm text-gray-600"><%= experience.location %></p>
         <p class="text-sm text-gray-600"><%= experience.title %></p>
-        <p class="text-sm text-gray-600"><%= experience.start_date&.strftime("%B %Y") %> - <%= experience.end_date&.strftime("%B %Y") %></p>
+        <p class="text-sm text-gray-600"><%= experience.start_date&.strftime("%B %Y") %> - <%= experience.end_date&.strftime("%B %Y") || "Present" %></p>
         <p class="text-sm text-gray-600"><%= experience.responsibilities.map(&:content).join(", ") %></p>
       </div>
     <% end %>
