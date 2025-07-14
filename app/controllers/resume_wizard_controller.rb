@@ -10,18 +10,7 @@ class ResumeWizardController < ApplicationController
   helper_method :steps
 
   def show
-    case step
-    when :summary
-      # Summary step - no additional data needed
-    when :experience
-      # Experience step - data is loaded via associations
-    when :skills
-      # Skills step - data is loaded via associations
-    when :education
-      # Education step - data is loaded via associations
-    when :projects
-      # Projects step - data is loaded via associations
-    end
+    Rails.logger.info "ResumeWizardController#show: step=#{step.inspect}, params=#{params.inspect}"
     render_wizard
   end
 

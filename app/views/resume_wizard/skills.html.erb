@@ -59,7 +59,7 @@
       </div>
 
       <div class="flex justify-between items-center">
-        <%= link_to "Previous: Experience", resume_wizard_path(:experience), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+        <%= link_to "Previous: Experience", resume_wizard_path(id: :experience), class: "text-blue-600 hover:text-blue-800 font-medium" %>
         <%= f.submit "Next: Education", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200" %>
       </div>
     <% end %>

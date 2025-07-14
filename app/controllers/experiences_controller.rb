@@ -3,7 +3,8 @@ class ExperiencesController < ApplicationController
   before_action :set_experience, only: [ :edit, :update, :destroy ]
 
   def new
-    @experience = current_user.resume.experiences.new
+    @resume = current_user.resume
+    @experience = @resume.experiences.new
   end
 
   def create
@@ -15,7 +16,9 @@ class ExperiencesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @resume = current_user.resume
+  end
 
   def update
     if @experience.update(experience_params)

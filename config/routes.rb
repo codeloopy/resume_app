@@ -41,8 +41,9 @@ Rails.application.routes.draw do
   get "sitemap.xml", to: "application#sitemap", defaults: { format: "xml" }
 
   # Resume wizard routes
-  get "/resume_wizard", to: "resume_wizard#show", defaults: { id: "summary" }
-  resources :resume_wizard, only: [ :show, :update ], controller: "resume_wizard"
+  get "/resume_wizard", to: redirect("/resume_wizard/summary"), as: :resume_wizard_root
+  get "/resume_wizard/:id", to: "resume_wizard#show", as: :resume_wizard
+  put "/resume_wizard/:id", to: "resume_wizard#update"
 
   # Defines the root path route ("/")
   root "static_pages#home"

@@ -1,4 +1,4 @@
-<%= form_with model: [@resume, experience], local: true do |f| %>
+<%= form_with model: experience, local: true do |f| %>
   <div class="mb-4">
     <%= f.label :company_name, class: "block text-gray-700 font-semibold mb-2" %>
     <%= f.text_field :company_name, class: "w-full p-2 border border-gray-300 rounded-md bg-white", placeholder: "Company Name" %>
