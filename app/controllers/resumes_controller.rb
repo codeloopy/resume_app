@@ -462,6 +462,7 @@ class ResumesController < ApplicationController
     {
       header: {
         name: sanitize_text("#{resume.user.first_name} #{resume.user.last_name}"),
+        title: sanitize_text(resume.title),
         contact_info: build_contact_info(resume.user)
       },
       sections: {
