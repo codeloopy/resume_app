@@ -31,12 +31,15 @@
     <% end %>
   </p>
 
+  <% if @resume.summary.present? %>
   <%# Summary %>
   <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Summary</h2>
   <div class="prose">
     <%= @resume.summary&.body&.to_s&.html_safe %>
   </div>
+  <% end %>
 
+  <% if @resume.skills.present? %>
   <%# Skills %>
   <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700"><%= skills_title(@resume) %></h2>
   <ul>
@@ -44,39 +47,42 @@
       <span class="text-xs inline-block text-gray-600 m-0.5 px-4 py-1 bg-gray-200 rounded-xl hover:bg-gray-500 hover:text-white transition-colors duration-200"><%= skill.name %></span>
     <% end %>
   </ul>
-
-  <%# Experiences %>
-  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Experience</h2>
-  <% @resume.experiences.each do |exp| %>
-    <div class="mb-4">
-      <h3 class="font-bold"><%= exp.title %> @ <%= exp.company_name %></h3>
-      <p class="text-sm text-gray-500 mb-2">
-        <%= exp.location %> · <%= exp.start_date&.strftime("%b %Y") %> – <%= exp.end_date&.strftime("%b %Y") || "Present" %>
-      </p>
-      <ul class="list-disc list-outside ml-5">
-        <% exp.responsibilities.each do |b| %>
-          <li class=""><%= b.content %></li>
-        <% end %>
-      </ul>
-    </div>
   <% end %>
 
-  <%# Education %>
-  <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Education</h2>
-  <% @resume.educations.each do |edu| %>
-    <div class="mb-4">
-      <h3 class="font-bold"><%= edu.school %></h3>
-      <p class="text-sm text-gray-500">
-        <%= edu.field_of_study %> · <%= edu.start_date&.year %> – <%= edu.end_date&.year || "Present" %>
-      </p>
-    </div>
-  <% end %>
-
-  <%# Projects %>
-
-  <% if @resume.projects.none? %>
-    <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Projects</h2>
+  <% if @resume.experiences.present? %>
+    <%# Experiences %>
+    <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Experience</h2>
+    <% @resume.experiences.each do |exp| %>
+      <div class="mb-4">
+        <h3 class="font-bold"><%= exp.title %> @ <%= exp.company_name %></h3>
+        <p class="text-sm text-gray-500 mb-2">
+          <%= exp.location %> · <%= exp.start_date&.strftime("%b %Y") %> – <%= exp.end_date&.strftime("%b %Y") || "Present" %>
+        </p>
+        <ul class="list-disc list-outside ml-5">
+          <% exp.responsibilities.each do |b| %>
+            <li class=""><%= b.content %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
+  <% end %>
+
+  <% if @resume.educations.present? %>
+    <%# Education %>
+    <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Education</h2>
+    <% @resume.educations.each do |edu| %>
+      <div class="mb-4">
+        <h3 class="font-bold"><%= edu.school %></h3>
+        <p class="text-sm text-gray-500">
+          <%= edu.field_of_study %> · <%= edu.start_date&.year %> – <%= edu.end_date&.year || "Present" %>
+        </p>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @resume.projects.present? %>
+    <%# Projects %>
+    <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700">Projects</h2>
     <% @resume.projects.each do |proj| %>
     <div class="mb-4">
       <h2 class="text-xl font-semibold mt-6 mb-3 text-gray-700"><%= proj.title %></h2>
@@ -89,19 +95,26 @@
         <%= proj.description&.body&.to_s&.html_safe %>
       </div>
     </div>
+    <% end %>
   <% end %>
 </div>
 
 <div class="max-w-4xl mx-auto bg-white">
-  <%= render "download_pdf_button" %>
-  <% if current_user && current_user.id == @resume.user_id %>
-    <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %> |
+  <% if resume_completed(@resume) %>
+    <%= render "download_pdf_button" %>
   <% end %>
-  <button class="text-blue-600 hover:underline cursor-pointer bg-transparent border-none p-0 font-inherit text-inherit"
-      data-controller="clipboard"
-      data-clipboard-text-value="<%= public_resume_url(@resume.slug) %>"
-      data-action="click->clipboard#copy"
-      title="<%= public_resume_url(@resume.slug) %>">
-    📋 Copy link address to clipboard
-  </button>
+
+  <% if current_user && current_user.id == @resume.user_id %>
+  <%= link_to "Edit Resume", edit_resume_path, class: "text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full md:w-2/3" %>
+  <% end %>
+
+  <% if resume_completed(@resume) %>
+  | <button class="text-blue-600 hover:underline cursor-pointer bg-transparent border-none p-0 font-inherit text-inherit"
+        data-controller="clipboard"
+        data-clipboard-text-value="<%= public_resume_url(@resume.slug) %>"
+        data-action="click->clipboard#copy"
+        title="<%= public_resume_url(@resume.slug) %>">
+      📋 Copy link address to clipboard and share!
+    </button>
+  <% end %>
 </div>
