@@ -36,11 +36,13 @@ class ResumeWizardController < ApplicationController
   end
 
   def finish_wizard_path
-    resume_path
+    # resume_path
+    public_resume_path(@resume)
   end
 
   def after_finish_wizard_path
-    resume_path
+    # resume_path
+    public_resume_path(@resume)
   end
 
   private
