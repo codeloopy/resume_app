@@ -11,7 +11,7 @@ LABEL fly_launch_runtime="rails"
 WORKDIR /rails
 
 # Update gems and bundler
-RUN gem update --system --no-document && \
+RUN gem update --system 3.3.22 --no-document && \
     gem install -N bundler
 
 # Install base packages needed to install nodejs and chrome
