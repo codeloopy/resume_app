@@ -2,15 +2,15 @@
 
 
 <% if controller_name == 'resumes' && action_name == 'edit' || controller_name == 'resumes' && action_name == 'show' || controller_name == 'resumes' && action_name == 'public' || controller_name == 'resume_wizard' && action_name == 'show' %>
-<div class="container mx-auto p-8">
+<div class="container mx-auto p-8" data-controller="feedback">
   <div class="block p-6 border border-gray-200 rounded-lg shadow-sm bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
     <h2 class="small:text-2xl text-4xl font-bold flex-1 mb-1">Help us out!</h2>
     <details>
-      <summary class="small:text-xl text-2xl font-bold flex-1 mb-6">
+      <summary class="small:text-xl text-2xl font-bold flex-1 mb-6 cursor-pointer">
         Got feedback or found a bug? <small class="text-sm italic font-normal">(Click here)</small>
       </summary>
       <div class="mb-6">
-        <form target="_blank" action="https://formsubmit.co/<%= email %>" method="POST">
+        <form target="_blank" action="https://formsubmit.co/<%= email %>" method="POST" data-feedback-target="form" data-action="submit->feedback#trackFormSubmission">
           <div class="form-group">
             <div class="form-row">
               <div class="col hidden">
