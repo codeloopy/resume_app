@@ -10,7 +10,6 @@ class ResumeWizardController < ApplicationController
   helper_method :steps
 
   def show
-    Rails.logger.info "ResumeWizardController#show: step=#{step.inspect}, params=#{params.inspect}"
     render_wizard
   end
 
