@@ -21,5 +21,13 @@ class User < ApplicationRecord
     build_resume.save
   end
 
+  def admin?
+    role === "admin"
+  end
+
+  def user?
+    role === "user"
+  end
+
   private
 end

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get "/", to: "dashboard#index", as: :dashboard
+  end
+
   get "static_pages/home"
 
   # Use a more explicit route structure to avoid conflicts
