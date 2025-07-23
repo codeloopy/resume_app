@@ -1,4 +1,7 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Dashboard#index</h1>
-  <p>Find me in app/views/admin/dashboard/index.html.erb</p>
+<h1 class="text-2xl font-bold text-center mb-6">Dashboard</h1>
+<%= render "users_data" %>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <%= render "feedback_data" %>
+  <%= render "resume_data" %>
 </div>
