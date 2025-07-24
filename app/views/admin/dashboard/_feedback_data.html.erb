@@ -1,0 +1,60 @@
+<div class="mt-4">
+  <div>
+    <h3 class="text-lg font-semibold ml-3 text-slate-800">Feedback Data</h3>
+    <p class="text-slate-500 mb-5 ml-3">This is feedback from the cancellation form.</p>
+  </div>
+
+  <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+    <table class="w-full text-left table-auto min-w-max">
+      <thead>
+        <tr>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              ID
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              Reason
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              Email
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">Date Submitted</p>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @feedbacks.each do |feedback| %>
+        <tr class="hover:bg-slate-50">
+          <td class="p-4 border-b border-slate-200">
+            <p class="block text-sm text-slate-800">
+              <%= feedback.id %>
+            </p>
+          </td>
+          <td class="p-4 border-b border-slate-200">
+            <p class="block text-sm text-slate-800">
+              <%= feedback.reason %>
+            </p>
+          </td>
+          <td class="p-4 border-b border-slate-200">
+            <p class="block text-sm text-slate-800">
+              <%= feedback.email %>
+            </p>
+          </td>
+          <td class="p-4 border-b border-slate-200">
+            <a href="#" class="block text-sm font-semibold text-slate-800">
+              <%= feedback.created_at.strftime("%d/%m/%Y") %>
+            </a>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>

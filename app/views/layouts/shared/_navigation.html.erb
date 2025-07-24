@@ -3,9 +3,13 @@
       <div class="flex justify-between items-center h-16">
           <div class="flex items-center">
               <div class="flex-shrink-0">
+                <% if current_user&.admin? %>
+                  <%= link_to "Dashboard", admin_dashboard_path, class: "font-bold text-gray-900 hover:text-gray-900 text-xl" %>
+                <% else %>
                   <%= link_to root_path do %>
                     <h1 class="text-2xl font-bold text-gray-900">Free Resume Builder</h1>
                   <% end %>
+                <% end %>
               </div>
           </div>
           <!-- Desktop Menu -->
