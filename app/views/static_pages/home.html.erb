@@ -1,9 +1,11 @@
-<%= render "home_meta_tags" %>
-<%= render "hero" %>
-<%= render "social_proof" %>
-<%= render "professional_templates" %>
-<%= render "why_choose_us" %>
-<%= render "how_it_works" %>
-<%= render "cta_ready_to_build_your_resume" %>
-<%= render "buy_me_coffee" %>
-<%= render "footer" %>
+<% cache "static_pages/home", expires_in: 1.hour do %>
+  <%= render "home_meta_tags" %>
+  <%= render "hero" %>
+  <%= render "social_proof" %>
+  <%= render "professional_templates" %>
+  <%= render "why_choose_us" %>
+  <%= render "how_it_works" %>
+  <%= render "cta_ready_to_build_your_resume" %>
+  <%= render "buy_me_coffee" %>
+  <%= render "footer" %>
+<% end %>
