@@ -3,21 +3,25 @@
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <div>
         <!-- Problem Statement -->
-        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+        <!-- <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
           <div class="flex items-center text-red-700">
             <i class="fas fa-exclamation-triangle mr-2"></i>
             <span class="font-medium">Getting rejected from jobs you're qualified for?</span>
           </div>
-        </div>
+        </div> -->
 
         <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
           Your Resume is Getting You
           <span class="text-red-600">Rejected</span> Before Humans Even See It
         </h1>
 
-        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+        <!-- <p class="text-xl text-gray-600 mb-8 leading-relaxed">
           95% of resumes never reach human eyes. They're filtered out by ATS systems in seconds.
           <strong class="text-gray-900">But not anymore.</strong>
+        </p> -->
+        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+          We help you fix that with a free, ATS-optimized resume builder
+          <strong class="text-gray-900"> used by 300+ job seekers.</strong>
         </p>
 
         <!-- Social Proof -->
@@ -30,7 +34,16 @@
             <div class="w-10 h-10 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center text-gray-600 text-xs font-bold">+300</div>
           </div>
           <div>
-            <div class="text-sm font-medium text-gray-900">Over 300 people used our resume builder<br>this month!</div>
+            <!-- <div class="text-sm font-medium text-gray-900">Over 300 people used our resume builder<br>this month!</div> -->
+            <div class="text-sm font-medium text-gray-900">
+              <ul>
+                <li>✅ Trusted by 300+ professionals</li>
+                <li>✅ 100% free</li>
+                <li>✅ Instant PDF download</li>
+                <li>✅ ATS-Optimized</li>
+                <li>✅ No hidden fees</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -38,13 +51,13 @@
         <div class="flex flex-col sm:flex-row gap-4">
           <%= link_to new_user_registration_path, class: "bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition shadow-lg flex items-center justify-center" do %>
             <i class="fas fa-rocket mr-2"></i>
-            Build My Winning Resume
+            Start Building My Resume <span class="hidden sm:inline">&nbsp;—&nbsp;</span> It's 100% Free!
           <% end %>
         </div>
 
         <!-- Trust Indicators -->
         <div class="mt-8 flex items-center space-x-6 text-sm text-gray-500">
-          <div class="flex items-center">
+          <!-- <div class="flex items-center">
             <i class="fas fa-shield-check text-green-500 mr-1"></i>
             <strong class="text-black">100% Free</strong>
           </div>
@@ -55,7 +68,7 @@
           <div class="flex items-center">
             <i class="fas fa-download text-purple-500 mr-1"></i>
             Instant PDF download
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -82,6 +95,7 @@
             </div>
           </div>
         </div>
+
         <!-- Floating elements -->
         <div class="absolute -top-4 -right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce">
           ATS Approved ✓
