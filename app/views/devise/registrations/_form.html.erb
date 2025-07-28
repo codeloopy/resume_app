@@ -24,16 +24,16 @@
 </div>
 
 <div class="mb-4">
-  <%= f.label :linked_in_url, class: "block text-gray-700 font-semibold mb-2" %>
+  <%= f.label :linked_in_url, "LinkedIn url", class: "block text-gray-700 font-semibold mb-2" %>
   <%= f.url_field :linked_in_url, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
 </div>
 
 <div class="mb-4">
-  <%= f.label :github_url, class: "block text-gray-700 font-semibold mb-2" %>
+  <%= f.label :github_url, "GitHub url <small class='text-xs text-gray-500'>(Leave blank if you don't have one)</small>".html_safe, class: "block text-gray-700 font-semibold mb-2" %>
   <%= f.url_field :github_url, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
 </div>
 
 <div class="mb-4">
-  <%= f.label :portfolio, class: "block text-gray-700 font-semibold mb-2" %>
+  <%= f.label :portfolio, "Portfolio or Additional url", class: "block text-gray-700 font-semibold mb-2" %>
   <%= f.url_field :portfolio, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
 </div>
