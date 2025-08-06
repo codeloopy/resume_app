@@ -1,35 +1,36 @@
 <% email = 'freeresumebuilderapp@gmail.com' %>
 
-
-<% if controller_name == 'resumes' && action_name == 'edit' || controller_name == 'resumes' && action_name == 'show' || controller_name == 'resumes' && action_name == 'public' || controller_name == 'resume_wizard' && action_name == 'show' %>
-<div class="container mx-auto p-8" data-controller="feedback">
-  <div class="block p-6 border border-gray-200 rounded-lg shadow-sm bg-gray-100">
-    <h2 class="small:text-2xl text-4xl font-bold flex-1 mb-1">Help us out!</h2>
-    <details>
-      <summary class="small:text-xl text-2xl font-bold flex-1 mb-6 cursor-pointer">
-        Got feedback or found a bug? <small class="text-sm italic font-normal">(Click here)</small>
-      </summary>
-      <div class="mb-6">
-        <form target="_blank" action="https://formsubmit.co/<%= email %>" method="POST" data-feedback-target="form" data-action="submit->feedback#trackFormSubmission">
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col hidden">
-                <input type="text" name="name" value=<%= current_user.first_name %> class="border border-gray-300 rounded-md p-2 w-full">
+<% if current_user %>
+  <% if controller_name == 'resumes' && action_name == 'edit' || controller_name == 'resumes' && action_name == 'show' || controller_name == 'resumes' && action_name == 'public' || controller_name == 'resume_wizard' && action_name == 'show' %>
+  <div class="container mx-auto p-8" data-controller="feedback">
+    <div class="block p-6 border border-gray-200 rounded-lg shadow-sm bg-gray-100">
+      <h2 class="small:text-2xl text-4xl font-bold flex-1 mb-1">Help us out!</h2>
+      <details>
+        <summary class="small:text-xl text-2xl font-bold flex-1 mb-6 cursor-pointer">
+          Got feedback or found a bug? <small class="text-sm italic font-normal">(Click here)</small>
+        </summary>
+        <div class="mb-6">
+          <form target="_blank" action="https://formsubmit.co/<%= email %>" method="POST" data-feedback-target="form" data-action="submit->feedback#trackFormSubmission">
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col hidden">
+                  <input type="text" name="name" value=<%= current_user&.first_name %> class="border border-gray-300 rounded-md p-2 w-full">
+                </div>
+                <div class="col hidden">
+                  <input type="email" name="email" value=<%= current_user&.email %> class="border border-gray-300 rounded-md p-2 w-full">
+                </div>
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://freeresumebuilderapp.com/resumes/edit">
               </div>
-              <div class="col hidden">
-                <input type="email" name="email" value=<%= current_user.email %> class="border border-gray-300 rounded-md p-2 w-full">
-              </div>
-              <input type="hidden" name="_captcha" value="false">
-              <input type="hidden" name="_next" value="https://freeresumebuilderapp.com/resumes/edit">
             </div>
-          </div>
-          <div class="form-group">
-            <textarea placeholder="Your feedback" name="message" rows="10" required class="border bg-white border-gray-300 rounded-md p-2 w-full"></textarea>
-          </div>
-          <button type="submit" class="btn btn-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg px-5 py-2.5 text-center me-2 mb-2 text-white">Submit Form</button>
-        </form>
-      </div>
-    </details>
+            <div class="form-group">
+              <textarea placeholder="Your feedback" name="message" rows="10" required class="border bg-white border-gray-300 rounded-md p-2 w-full"></textarea>
+            </div>
+            <button type="submit" class="btn btn-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg px-5 py-2.5 text-center me-2 mb-2 text-white">Submit Form</button>
+          </form>
+        </div>
+      </details>
+    </div>
   </div>
-</div>
+  <% end %>
 <% end %>
