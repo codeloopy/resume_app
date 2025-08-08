@@ -109,6 +109,8 @@
         })(document);
         smartlook('init', '92dd6efa7fd87a892727c8b33b06183e5f07d447', { region: 'eu' });
     </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1717026006715352" crossorigin="anonymous"></script>
   <% end %>
   <% if Rails.env.production? && defined?(Sentry) && Sentry.respond_to?(:get_trace_propagation_meta) %>
     <%= Sentry.get_trace_propagation_meta.html_safe %>
