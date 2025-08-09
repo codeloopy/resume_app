@@ -151,6 +151,12 @@ class ResumesController < ApplicationController
   end
 
   def public_pdf_download
+    # Block guest users from downloading PDFs
+    if current_user&.guest?
+      flash[:alert] = "Please create an account to download your resume as a PDF."
+      redirect_to resume_path and return
+    end
+
     template_name = case @resume.pdf_template
     when "classic"
       "classic"

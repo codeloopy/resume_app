@@ -17,11 +17,19 @@
         <%= link_to "View Resume", resume_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200" %>
       </div>
 
-      <div class="bg-white p-6 rounded-lg border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">Download PDF</h3>
-        <p class="text-gray-600 mb-4">Download your resume as a professional PDF file.</p>
-        <%= link_to "Download PDF", public_resume_pdf_download_path(@resume.slug), class: "inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition duration-200" %>
-      </div>
+      <% if current_user.guest %>
+        <div class="bg-white p-6 rounded-lg border border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800 mb-3">Complete Your FREE Account</h3>
+          <p class="text-gray-600 mb-4">Your resume is ready! Complete your account to download the PDF, get a public link, and save your progress.</p>
+          <%= link_to "Complete My Account", upgrade_guest_user_form_path, class: "inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition duration-200" %>
+        </div>
+      <% else %>
+        <div class="bg-white p-6 rounded-lg border border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800 mb-3">Download PDF</h3>
+          <p class="text-gray-600 mb-4">Download your resume as a professional PDF file.</p>
+          <%= link_to "Download PDF", public_resume_pdf_download_path(@resume.slug), class: "inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition duration-200" %>
+        </div>
+      <% end %>
     </div>
 
     <div class="bg-gray-50 p-6 rounded-lg">
@@ -31,14 +39,25 @@
           <p class="font-medium text-gray-800">✓ Resume Created</p>
           <p>Your professional resume is ready</p>
         </div>
-        <div>
-          <p class="font-medium text-gray-800">✓ PDF Available</p>
-          <p>Download and share your resume</p>
-        </div>
-        <div>
-          <p class="font-medium text-gray-800">✓ Always Editable</p>
-          <p>Update your resume anytime</p>
-        </div>
+        <% if current_user.guest %>
+          <div>
+            <p class="font-medium text-gray-800">⏳ PDF Available Soon</p>
+            <p>Complete your account to download</p>
+          </div>
+          <div>
+            <p class="font-medium text-gray-800">⏳ Public Link Soon</p>
+            <p>Share your resume with employers</p>
+          </div>
+        <% else %>
+          <div>
+            <p class="font-medium text-gray-800">✓ PDF Available</p>
+            <p>Download and share your resume</p>
+          </div>
+          <div>
+            <p class="font-medium text-gray-800">✓ Always Editable</p>
+            <p>Update your resume anytime</p>
+          </div>
+        <% end %>
       </div>
     </div>
 

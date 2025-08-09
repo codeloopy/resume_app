@@ -28,6 +28,38 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def upgrade_form
+    # This action renders the upgrade form for guest users
+    # Ensure user is authenticated and is a guest
+    unless current_user&.guest?
+      redirect_to root_path, alert: "Only guest users can access this page."
+      return
+    end
+
+    # Set the resource variable for the Devise form
+    @resource = current_user
+    render "devise/registrations/upgrade"
+  end
+
+    def upgrade
+    # Ensure user is authenticated and is a guest
+    unless current_user&.guest?
+      redirect_to root_path, alert: "Only guest users can access this page."
+      return
+    end
+
+    if current_user.update(user_params.merge(guest: false))
+      # Sign the user in again after updating their credentials
+      # This ensures they stay authenticated after the guest->regular conversion
+      sign_in(current_user, bypass: true)
+      redirect_to resume_path(current_user.resume), notice: "Your account is saved!"
+    else
+      # Set the resource variable for the Devise form when re-rendering
+      @resource = current_user
+      render "devise/registrations/upgrade"
+    end
+  end
+
   # DELETE /resource
   # def destroy
   #   super
@@ -57,6 +89,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up.
   def after_sign_up_path_for(resource)
     resume_wizard_path(:summary)
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :phone, :location, :linked_in_url, :github_url, :portfolio)
   end
 
   # The path used after sign up for inactive accounts.
