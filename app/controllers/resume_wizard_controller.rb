@@ -1,7 +1,7 @@
 class ResumeWizardController < ApplicationController
   include Wicked::Wizard
 
-  steps :summary, :experience, :skills, :education, :projects
+  steps :summary, :experience, :skills, :education, :projects, :completed
 
   before_action :authenticate_user!
   before_action :set_resume
@@ -25,6 +25,8 @@ class ResumeWizardController < ApplicationController
       # Education is managed separately via educations controller
     when :projects
       @resume.assign_attributes(resume_params)
+    when :completed
+      # No-op: final informational step; nothing to update
     end
 
     if @resume.save
