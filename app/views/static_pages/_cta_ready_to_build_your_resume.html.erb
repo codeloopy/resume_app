@@ -12,20 +12,17 @@
           <div class="text-white/80 text-sm">No credit card required</div>
       </div>
 
-      <%= link_to new_user_registration_path, class: "bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-xl hover:bg-gray-100 transition shadow-xl inline-flex items-center animate-bounce", id: "ready-to-start-building-now"  do %>
-        Build My Resume Now
-        <i class="fas fa-arrow-right ml-3"></i>
-      <% end %>
 
       <div class="mt-4">
-        <%= link_to guest_sign_up_path, method: :post, class: "text-white border-2 border-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition inline-flex items-center" do %>
-          Try as Guest
-          <i class="fas fa-user-clock ml-2"></i>
+        <%= button_to guest_sign_up_path,
+            class: "bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-xl hover:bg-gray-100 transition shadow-xl inline-flex items-center animate-bounce cursor-pointer" do %>
+          Build My Resume Now
+          <i class="fas fa-arrow-right ml-3"></i>
         <% end %>
       </div>
 
       <div class="mt-6 text-white text-sm">
-          ✓ Ready in 10 minutes &nbsp;&nbsp; ✓ ATS-optimized &nbsp;&nbsp; ✓ Instant download
+          ✓ Ready in minutes &nbsp;&nbsp; ✓ ATS-optimized &nbsp;&nbsp; ✓ Instant download
       </div>
   </div>
 </section>

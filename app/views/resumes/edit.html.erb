@@ -166,7 +166,9 @@
 </div>
 
 <div class="mx-4 my-4">
-  <%= render "view_public_resume_link" %>
+  <% if current_user && !current_user.guest %>
+    <%= render "view_public_resume_link" %>
+  <% end %>
   <%= form_with url: resume_path, method: :delete, local: true, class: "inline" do |f| %>
     <%= f.submit "Delete Resume & Start Over",
                  onclick: "return confirm('Are you absolutely sure you want to delete your resume? This action cannot be undone and you\\'ll start with a completely fresh resume.')",
