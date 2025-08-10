@@ -70,5 +70,29 @@ class User < ApplicationRecord
     guest == true
   end
 
+  # Class method to clean up old guest users
+  def self.cleanup_old_guests(cutoff_days = 7)
+    cutoff_date = cutoff_days.days.ago
+
+    old_guests = where(guest: true)
+                 .where("updated_at < ?", cutoff_date)
+
+    count = old_guests.count
+
+    if count > 0
+      # Delete associated resumes first (due to dependent: :destroy)
+      old_guests.each do |guest|
+        guest.resume&.destroy if guest.resume
+      end
+
+      # Delete the guest users
+      old_guests.destroy_all
+
+      Rails.logger.info "Cleaned up #{count} old guest users older than #{cutoff_days} days"
+    end
+
+    count
+  end
+
   private
 end
