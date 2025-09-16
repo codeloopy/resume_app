@@ -40,3 +40,8 @@ console_command = '/rails/bin/rails console'
 [[statics]]
   guest_path = '/rails/public'
   url_prefix = '/'
+
+# Cron job to clean up old guest users daily at 2 AM
+[[cron]]
+  schedule = "0 2 * * *"
+  command = "/rails/bin/rails runner 'User.cleanup_old_guests'"

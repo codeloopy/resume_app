@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   get "static_pages/home"
 
+  post "/guest_sign_up", to: "guest_users#create", as: "guest_sign_up"
+
   # Use a more explicit route structure to avoid conflicts
   resources :experiences, except: [ :index, :show ]
   resources :skills, except: [ :index, :show ]
@@ -16,6 +18,12 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
+
+  # Guest user upgrade routes - wrapped in devise_scope for proper Devise mapping
+  devise_scope :user do
+    put "/users/upgrade", to: "users/registrations#upgrade", as: :upgrade_guest_user
+    get "/users/upgrade", to: "users/registrations#upgrade_form", as: :upgrade_guest_user_form
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -13,6 +13,43 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  def self.create_guest
+    # Generate a unique email that won't conflict
+    email = nil
+    random_token = nil
+
+    loop do
+      random_token = SecureRandom.hex(10)
+      email = "guest_#{random_token}@example.com"
+      break unless User.exists?(email: email)
+    end
+
+    guest_user = User.create!(
+      email: email,
+      password: SecureRandom.hex(10),
+      first_name: "Guest",
+      last_name: "User",
+      guest: true
+    )
+    guest_user.create_resume!(slug: "guest-#{random_token}")
+    guest_user
+  end
+
+  def convert_to_regular_user(params)
+    update!(
+      email: params[:email],
+      password: params[:password],
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      phone: params[:phone],
+      location: params[:location],
+      linked_in_url: params[:linked_in_url],
+      github_url: params[:github_url],
+      portfolio: params[:portfolio],
+      guest: false
+    )
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -27,6 +64,34 @@ class User < ApplicationRecord
 
   def user?
     role === "user"
+  end
+
+  def guest?
+    guest == true
+  end
+
+  # Class method to clean up old guest users
+  def self.cleanup_old_guests(cutoff_days = 7)
+    cutoff_date = cutoff_days.days.ago
+
+    old_guests = where(guest: true)
+                 .where("updated_at < ?", cutoff_date)
+
+    count = old_guests.count
+
+    if count > 0
+      # Delete associated resumes first (due to dependent: :destroy)
+      old_guests.each do |guest|
+        guest.resume&.destroy if guest.resume
+      end
+
+      # Delete the guest users
+      old_guests.destroy_all
+
+      Rails.logger.info "Cleaned up #{count} old guest users older than #{cutoff_days} days"
+    end
+
+    count
   end
 
   private
