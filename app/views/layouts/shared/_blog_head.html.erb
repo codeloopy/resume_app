@@ -15,7 +15,7 @@
   <!-- SEO Meta Tags -->
   <meta name="description" content="<%= content_for(:description) || 'Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly. No hidden fees, no paywalls.' %>">
   <meta name="keywords" content="<%= content_for(:keywords) || 'resume builder, free resume, professional resume, ATS friendly resume, resume templates, job application' %>">
-  <meta name="author" content="<%= Constants::SITE_NAME %>">
+  <meta name="author" content="FreeResumeBuilderApp">
   <meta name="robots" content="<%= should_block_indexing? ? 'noindex, nofollow' : 'index, follow' %>">
 
   <!-- Open Graph Meta Tags -->
@@ -24,7 +24,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="<%= request.original_url %>">
   <meta property="og:image" content="<%= request.base_url %>/icon.png">
-  <meta property="og:site_name" content="<%= Constants::SITE_NAME %>">
+  <meta property="og:site_name" content="FreeResumeBuilderApp">
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">

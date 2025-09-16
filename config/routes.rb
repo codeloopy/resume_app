@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "/blog", to: "articles#index", as: :blog
   namespace :admin do
     get "/", to: "dashboard#index", as: :dashboard
   end
