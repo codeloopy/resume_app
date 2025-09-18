@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def track_ga_event(event_name, parameters = {})
     return unless Rails.env.production?
 

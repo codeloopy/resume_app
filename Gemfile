@@ -41,6 +41,7 @@ gem "grover"
 gem "prawn"
 gem "prawn-table"
 gem "pdf-reader", group: [ :development, :test ]
+gem "faker"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -74,6 +75,7 @@ gem "dockerfile-rails", ">= 1.7", group: :development
 gem "aws-sdk-s3", "~> 1.199", require: false
 gem "resend", "~> 0.24.0"
 gem "wicked"
+gem "pagy"
 
 group :production do
   gem "sentry-ruby"

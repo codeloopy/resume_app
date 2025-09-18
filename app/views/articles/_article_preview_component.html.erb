@@ -1,28 +1,28 @@
 <article class="bg-white rounded-xl shadow-lg overflow-hidden hover-lift">
-  <div class="h-48 bg-gradient-to-br from-<%= article[:color] %>-200 to-<%= article[:color] %>-300 flex items-center justify-center">
-    <i class="fas fa-<%= article[:icon] %> text-4xl text-<%= article[:color] %>-600"></i>
+  <div class="h-48 bg-gradient-to-br from-<%= article.color %>-200 to-<%= article.color %>-300 flex items-center justify-center">
+    <i class="fas fa-<%= article.icon %> text-4xl text-<%= article.color %>-600"></i>
   </div>
   <div class="p-6">
     <div class="flex items-center mb-3">
-      <%= render "article_category_component", category: article[:category], color: article[:color] %>
-      <span class="text-gray-500 ml-3 text-sm"><%= article[:read_time] %></span>
+      <%= render "article_category_component", category: article.category, color: article.color %>
+      <span class="text-gray-500 ml-3 text-sm"><%= article.read_time %></span>
     </div>
     <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary transition">
-      <a href="#"><%= article[:title] %></a>
+      <a href="#"><%= article.title %></a>
     </h3>
     <p class="text-gray-600 mb-4">
-      <%= article[:body] %>
+      <%= article.body.truncate(100) %>
     </p>
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <div class="w-8 h-8 bg-gradient-to-r from-<%= article[:color] %>-300 to-<%= article[:color] %>-500 rounded-full flex items-center justify-center text-white text-sm font-bold"><%= article[:author_initials] %></div>
+        <div class="w-8 h-8 bg-gradient-to-r from-<%= article.color %>-300 to-<%= article.color %>-500 rounded-full flex items-center justify-center text-white text-sm font-bold"><%= article.author_initials %></div>
         <div class="ml-2">
-          <div class="text-sm font-medium text-gray-900"><%= article[:author] %></div>
-          <div class="text-xs text-gray-500"><%= article[:date] %></div>
+          <div class="text-sm font-medium text-gray-900"><%= article.author %></div>
+          <div class="text-xs text-gray-500"><%= article.published_at %></div>
         </div>
       </div>
       <a href="#" class="text-primary hover:text-primary/80 transition">
-      <!-- <a href="/blog/<%#= article[:slug] %>" class="text-primary hover:text-primary/80 transition"> -->
+      <!-- <a href="/blog/<%#= article.slug %>" class="text-primary hover:text-primary/80 transition"> -->
         <i class="fas fa-arrow-right"></i>
       </a>
     </div>

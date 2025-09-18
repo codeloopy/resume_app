@@ -1,4 +1,5 @@
 @import './actiontext.css';
 @import './blog.css';
+@import './pagy.css';
 @import "tailwindcss/preflight";
 @tailwind utilities;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_16_205821) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_18_175143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_16_205821) do
     t.boolean "published", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
+    t.string "category"
+    t.string "read_time"
+    t.string "author"
+    t.string "author_initials"
+    t.boolean "featured"
+    t.string "color"
+    t.string "icon"
+    t.datetime "published_at"
   end
 
   create_table "educations", force: :cascade do |t|
