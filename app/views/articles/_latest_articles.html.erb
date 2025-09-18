@@ -86,26 +86,10 @@
       <p class="text-gray-600">Stay updated with the newest career insights and job market trends</p>
     </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Article 1 -->
-        <%# temp_articles.each do |article| %>
-          <%#= render "article_preview_component", article: article %>
-        <%# end %>
-
-          <%= render "article_preview_component", article: temp_articles[0] %>
-          <%= render "article_preview_component", article: temp_articles[1] %>
-          <%= render "article_preview_component", article: temp_articles[2] %>
-          <%= render "article_preview_component", article: temp_articles[3] %>
-          <%= render "article_preview_component", article: temp_articles[4] %>
-          <%= render "article_preview_component", article: temp_articles[5] %>
-
-      </div>
-
-      <!-- Load More Button -->
-      <div class="text-center mt-12 ">
-          <button class="bg-white text-primary border-2 border-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition">
-              Load More Articles
-          </button>
-      </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% temp_articles.each do |article| %>
+        <%= render "article_preview_component", article: article %>
+      <% end %>
+    </div>
   </div>
 </section>
