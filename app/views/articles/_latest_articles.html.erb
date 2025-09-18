@@ -1,0 +1,111 @@
+<% temp_articles = [
+  {
+    image: "https://via.placeholder.com/340x192",
+    category: "Interview Prep",
+    read_time: "3 min",
+    title: "10 Remote Interview Tips That Actually Work",
+    body: "Master virtual interviews with these proven strategies. From technical setup to body language, we cover everything you need to know.",
+    author: "Mike Rodriguez",
+    author_initials: "MR",
+    date: "Dec 15, 2024",
+    featured: false,
+    color: "blue",
+    icon: "handshake"
+  },
+  {
+    image: "https://via.placeholder.com/340x192",
+    category: "Career Growth",
+    read_time: "7 min",
+    title: "How to Negotiate Your Salary Like a Pro",
+    body: "Don't leave money on the table. Learn the exact scripts and strategies top performers use to negotiate higher salaries.",
+    author: "Anna Lee",
+    author_initials: "AL",
+    date: "Dec 12, 2024",
+    featured: false,
+    color: "green",
+    icon: "chart-line"
+  },
+  {
+    image: "https://via.placeholder.com/340x192",
+    category: "Job Search",
+    read_time: "4 min",
+    title: "LinkedIn Profile Optimization: Get Recruiters to Notice You",
+    body: "Transform your LinkedIn profile into a recruiter magnet. Simple changes that can double your profile views and connection requests.",
+    author: "David Chen",
+    author_initials: "DC",
+    date: "Dec 10, 2024",
+    featured: false,
+    color: "purple",
+    icon: "search"
+  },
+  {
+    image: "https://via.placeholder.com/340x192",
+    category: "Resume Tips",
+    read_time: "6 min",
+    title: "Resume Keywords: The Secret to Getting Past ATS",
+    body: "Discover which keywords recruiters are actually searching for and how to naturally incorporate them into your resume.",
+    author: "Sarah Johnson",
+    author_initials: "SJ",
+    date: "Dec 8, 2024",
+    featured: false,
+    color: "red",
+    icon: "edit"
+  },
+  {
+    image: "https://via.placeholder.com/340x192",
+    category: "Career Growth",
+    read_time: "5 min",
+    title: "Making a Career Change: A Step-by-Step Guide",
+    body: "Ready for a career pivot? Learn how to transition smoothly into a new field without starting from scratch.",
+    author: "Tom Wilson",
+    author_initials: "TW",
+    date: "Dec 5, 2024",
+    featured: false,
+    color: "yellow",
+    icon: "lightbulb"
+  },
+  {
+    image: "https://via.placeholder.com/340x192",
+    category: "Job Search",
+    read_time: "8 min",
+    title: "Networking That Actually Works: Build Meaningful Connections",
+    body: "Stop awkward networking events. Learn authentic ways to build professional relationships that advance your career.",
+    author: "Emily Martinez",
+    author_initials: "EM",
+    date: "Dec 3, 2024",
+    featured: false,
+    color: "indigo",
+    icon: "network-wired"
+  }
+] %>
+
+<section class="py-16 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-12 ">
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Latest Articles</h2>
+      <p class="text-gray-600">Stay updated with the newest career insights and job market trends</p>
+    </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Article 1 -->
+        <%# temp_articles.each do |article| %>
+          <%#= render "article_preview_component", article: article %>
+        <%# end %>
+
+          <%= render "article_preview_component", article: temp_articles[0] %>
+          <%= render "article_preview_component", article: temp_articles[1] %>
+          <%= render "article_preview_component", article: temp_articles[2] %>
+          <%= render "article_preview_component", article: temp_articles[3] %>
+          <%= render "article_preview_component", article: temp_articles[4] %>
+          <%= render "article_preview_component", article: temp_articles[5] %>
+
+      </div>
+
+      <!-- Load More Button -->
+      <div class="text-center mt-12 ">
+          <button class="bg-white text-primary border-2 border-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition">
+              Load More Articles
+          </button>
+      </div>
+  </div>
+</section>
