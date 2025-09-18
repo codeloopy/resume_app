@@ -8,6 +8,22 @@ module.exports = {
     './app/assets/stylesheets/**/*.css',
     './app/javascript/**/*.js'
   ],
+  safelist: [
+    // Dynamic gradient classes for article colors
+    'from-blue-200', 'to-blue-300', 'text-blue-600', 'from-blue-300', 'to-blue-500',
+    'from-green-200', 'to-green-300', 'text-green-600', 'from-green-300', 'to-green-500',
+    'from-purple-200', 'to-purple-300', 'text-purple-600', 'from-purple-300', 'to-purple-500',
+    'from-red-200', 'to-red-300', 'text-red-600', 'from-red-300', 'to-red-500',
+    'from-yellow-200', 'to-yellow-300', 'text-yellow-600', 'from-yellow-300', 'to-yellow-500',
+    'from-indigo-200', 'to-indigo-300', 'text-indigo-600', 'from-indigo-300', 'to-indigo-500',
+    // Category component colors
+    'bg-blue-100', 'text-blue-800',
+    'bg-green-100', 'text-green-800',
+    'bg-purple-100', 'text-purple-800',
+    'bg-red-100', 'text-red-800',
+    'bg-yellow-100', 'text-yellow-800',
+    'bg-indigo-100', 'text-indigo-800',
+  ],
   theme: {
     extend: {
       colors: {
