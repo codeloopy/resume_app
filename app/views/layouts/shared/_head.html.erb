@@ -42,11 +42,13 @@
   <!-- Preload critical resources -->
   <link rel="preload" href="<%= asset_path('tailwind.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="<%= asset_path('actiontext.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="<%= asset_path('pagy.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
   <!-- Fallback for browsers that don't support preload -->
   <noscript>
     <link rel="stylesheet" href="<%= asset_path('tailwind.css') %>">
     <link rel="stylesheet" href="<%= asset_path('actiontext.css') %>">
+    <link rel="stylesheet" href="<%= asset_path('pagy.css') %>">
   </noscript>
 
   <meta name="google-adsense-account" content="ca-pub-1717026006715352">
@@ -89,6 +91,7 @@
   <link rel="apple-touch-icon" href="/icon.png">
   <%= stylesheet_link_tag "tailwind.css", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "actiontext.css", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "pagy.css", "data-turbo-track": "reload" %>
   <% if controller_name == 'static_pages' && action_name == 'home' %>
     <%= javascript_include_tag "home", "data-turbo-track": "reload", type: "module" %>
   <% elsif controller_name == 'resumes' && action_name == 'edit' %>

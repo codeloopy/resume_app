@@ -1,89 +1,93 @@
-<div class="mt-4">
-  <div>
-    <h3 class="text-lg font-semibold ml-3 text-slate-800">Resume Data</h3>
-    <p class="text-slate-500 mb-5 ml-3">Overview of all the users of the app.</p>
+<%= turbo_frame_tag "resume_data_frame" do %>
+  <div class="mt-4">
+    <div>
+      <h3 class="text-lg font-semibold ml-3 text-slate-800">Resume Data</h3>
+      <p class="text-slate-500 mb-5 ml-3">Overview of all the users of the app.</p>
+    </div>
+
+    <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+      <table class="w-full text-left table-auto min-w-max">
+        <thead>
+          <tr>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                ID
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                User
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                Title
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                Summary
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                Work
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                Skills
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                Education
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                Projects
+              </p>
+            </th>
+            <th class="p-4 border-b border-slate-300 bg-slate-50">
+              <p class="block text-sm font-normal leading-none text-slate-500">
+                Date Created
+              </p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% resumes.each do |resume| %>
+          <tr class="hover:bg-slate-50">
+            <td class="p-4 border-b border-slate-200">
+              <p class="block text-sm text-slate-800">
+                <%= resume.id %>
+              </p>
+            </td>
+            <td class="p-4 border-b border-slate-200">
+              <p class="block text-sm text-slate-800">
+                <%= resume.user.email %>
+              </p>
+            </td>
+            <%= true_false_badge(resume.title.present?) %>
+            <%= true_false_badge(resume.summary.present?) %>
+            <%= true_false_badge(resume.experiences.present?) %>
+            <%= true_false_badge(resume.skills.present?) %>
+            <%= true_false_badge(resume.educations.present?) %>
+            <%= true_false_badge(resume.projects.present?) %>
+
+            <td class="p-4 border-b border-slate-200">
+              <a href="#" class="block text-sm font-semibold text-slate-800">
+                <%= resume.created_at.strftime("%d/%m/%Y") %>
+              </a>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-8">
+      <%== pagy_nav(pagy, link_extra: 'data-turbo-frame="resume_data_frame"') if pagy && pagy.pages > 1 %>
+    </div>
   </div>
-
-  <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
-    <table class="w-full text-left table-auto min-w-max">
-      <thead>
-        <tr>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              ID
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              User
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Title
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Summary
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Work
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Skills
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Education
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Projects
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Date Created
-            </p>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @users.each do |user| %>
-        <tr class="hover:bg-slate-50">
-          <td class="p-4 border-b border-slate-200">
-            <p class="block text-sm text-slate-800">
-              <%= user.id %>
-            </p>
-          </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="block text-sm text-slate-800">
-              <%= user.email %>
-            </p>
-          </td>
-          <%= true_false_badge(user.resume.title.present?) %>
-          <%= true_false_badge(user.resume.summary.present?) %>
-          <%= true_false_badge(user.resume.experiences.present?) %>
-          <%= true_false_badge(user.resume.skills.present?) %>
-          <%= true_false_badge(user.resume.educations.present?) %>
-          <%= true_false_badge(user.resume.projects.present?) %>
-
-          <td class="p-4 border-b border-slate-200">
-            <a href="#" class="block text-sm font-semibold text-slate-800">
-              <%= user.created_at.strftime("%d/%m/%Y") %>
-            </a>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-
-</div>
+<% end %>
