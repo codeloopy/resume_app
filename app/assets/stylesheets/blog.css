@@ -13,3 +13,9 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.sticky-sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}

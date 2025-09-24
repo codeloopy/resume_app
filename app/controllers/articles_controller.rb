@@ -2,7 +2,7 @@ class ArticlesController < ApplicationController
   layout "blog"
 
   def index
-    @pagy, @articles = pagy(Article.order(published_at: :desc), items: 6)
+    @pagy, @articles = pagy(Article.order(published_at: :desc), limit: 6)
   rescue Pagy::OverflowError
     redirect_to blog_path(page: 1)
   end
@@ -16,6 +16,11 @@ class ArticlesController < ApplicationController
     if @article.save
       redirect_to articles_path, notice: "Article created successfully"
     end
+  end
+
+  def show
+    @article = Article.find(params[:id])
+    @latest_articles = Article.order(published_at: :desc).limit(3)
   end
 
   private

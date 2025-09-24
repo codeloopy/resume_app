@@ -2,7 +2,18 @@
 <body>
 	<%= render "hero" %>
 	<%= render "featured_article" %>
-	<%= render "latest_articles" %>
+
+	<section class="py-16 bg-gray-50">
+		<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="mb-12 ">
+				<h2 class="text-3xl font-bold text-gray-900 mb-2">Latest Articles</h2>
+				<p class="text-gray-600">Stay updated with the newest career insights and job market trends</p>
+			</div>
+
+			<%= render "latest_articles", articles: @articles, pagy: @pagy %>
+		</div>
+	</section>
+
 	<%= render "newsletter_signup" %>
 	<%= render "shared/footer" %>
 

@@ -1,17 +1,10 @@
-<section class="py-16 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-12 ">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Latest Articles</h2>
-      <p class="text-gray-600">Stay updated with the newest career insights and job market trends</p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <% @articles.each do |article| %>
-        <%= render "article_preview_component", article: article %>
-      <% end %>
-    </div>
-  </div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <% articles.each do |article| %>
+    <%= render "article_preview_component", article: article %>
+  <% end %>
+</div>
+<% if defined?(pagy) %>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-8">
-    <%== pagy_nav(@pagy) if @pagy && @pagy.pages > 1 %>
+    <%== pagy_nav(pagy) if pagy && pagy.pages > 1 %>
   </div>
-</section>
+<% end %>
