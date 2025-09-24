@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :blog, to: "articles#index"
+  resources :blog, controller: "articles", as: "articles"
 
   namespace :admin do
     get "/", to: "dashboard#index", as: :dashboard

@@ -6,7 +6,8 @@
     "esbuild": "^0.25.5"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --minify",
+    "build": "esbuild app/javascript/*.js --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --minify",
+    "build:watch": "esbuild app/javascript/*.js --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --minify --watch",
     "build:production": "esbuild app/javascript/*.* --bundle --format=esm --outdir=app/assets/builds --public-path=/assets --minify",
     "build:home": "esbuild app/javascript/home.js --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --minify",
     "build:resume": "esbuild app/javascript/resume.js --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --minify",

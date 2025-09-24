@@ -1,23 +1,44 @@
 <%= form_with model: article, url: articles_path, method: :post do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-  <%= f.label :body %>
-  <%= f.text_area :body %>
-  <%= f.submit "Create Article" %>
-<% end %>
+  <div class="mb-4">
+    <%= f.label :title, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :body, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.text_area :body, class: "w-full p-2 border border-gray-300 rounded-md bg-white", size: "30x10" %>
+  </div>
+  <!-- <div class="mb-4">
+    <%#= f.label :image, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%#= f.file_field :image, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div> -->
+  <div class="mb-4">
+    <%= f.label :category, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.select :category, [ 'Interview Prep', 'Career Growth', 'Job Search', 'Resume Tips', 'Career Change', 'Networking' ], {}, { class: "w-full p-2 border border-gray-300 rounded-md bg-white" } %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :read_time, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.text_field :read_time, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :author, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.text_field :author, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :author_initials, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.text_field :author_initials, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+  <div class="mb-4 flex items-center">
+    <%= f.check_box :featured, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" %>
+    <%= f.label :featured, class: "ms-2 text-sm font-medium text-gray-900 dark:text-gray-300" %>
+  </div>
 
-<!-- create_table "articles", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "body", null: false
-    t.boolean "published", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "image"
-    t.string "category"
-    t.string "read_time"
-    t.string "author"
-    t.string "author_initials"
-    t.boolean "featured"
-    t.string "color"
-    t.string "icon"
-    t.datetime "published_at" -->
+  <!-- FYI: color and icon are set in the model -->
+
+  <div class="mb-4">
+    <%= f.label :published_at, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.datetime_field :published_at, value: Time.current.strftime("%Y-%m-%dT%H:%M"), class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+  </div>
+  <div class="mb-4">
+    <%= f.submit "Create Article", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-green-500 transition mt-8" %>
+  </div>
+<% end %>
