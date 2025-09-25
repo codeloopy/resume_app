@@ -1,4 +1,4 @@
-<%= form_with model: article, url: articles_path, method: :post do |f| %>
+<%= form_with model: article do |f| %>
   <div class="mb-4">
     <%= f.label :title, class: "block text-gray-700 text-sm font-bold mb-2" %>
     <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
@@ -39,6 +39,6 @@
     <%= f.datetime_field :published_at, value: Time.current.strftime("%Y-%m-%dT%H:%M"), class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
   </div>
   <div class="mb-4">
-    <%= f.submit "Create Article", class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-green-500 transition mt-8" %>
+    <%= f.submit nil, class: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-green-500 transition mt-8" %>
   </div>
 <% end %>

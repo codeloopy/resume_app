@@ -27,6 +27,25 @@ class ArticlesController < ApplicationController
     @latest_articles = Article.order(published_at: :desc).limit(3)
   end
 
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    if @article.update(article_params)
+      redirect_to articles_path, notice: "Article updated successfully"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+    redirect_to articles_path, notice: "Article deleted successfully"
+  end
+
   private
 
   def article_params
