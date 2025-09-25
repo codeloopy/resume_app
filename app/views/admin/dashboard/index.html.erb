@@ -1,5 +1,11 @@
 <h1 class="text-2xl font-bold text-center mb-6">Dashboard</h1>
 
+<%= turbo_frame_tag "articles_data_frame" do %>
+  <%= render "articles_data", articles: @articles, pagy: @pagy_articles %>
+<% end %>
+
+<p class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition mt-8 inline-block mb-8"><%= link_to "Create a new Article", new_article_path, class: "text-white" %></p>
+
 <%= turbo_frame_tag "users_data_frame" do %>
   <%= render "users_data", users: @users, pagy: @pagy_users %>
 <% end %>

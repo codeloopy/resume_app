@@ -16,6 +16,7 @@ module.exports = {
     'from-red-200', 'to-red-300', 'text-red-600', 'from-red-300', 'to-red-500',
     'from-yellow-200', 'to-yellow-300', 'text-yellow-600', 'from-yellow-300', 'to-yellow-500',
     'from-indigo-200', 'to-indigo-300', 'text-indigo-600', 'from-indigo-300', 'to-indigo-500',
+    'from-gray-200', 'to-gray-300', 'text-gray-600', 'from-gray-300', 'to-gray-500',
     // Category component colors
     'bg-blue-100', 'text-blue-800',
     'bg-green-100', 'text-green-800',
