@@ -2,7 +2,11 @@ class ArticlesController < ApplicationController
   layout "blog"
 
   def index
-    @pagy, @articles = pagy(Article.order(published_at: :desc), limit: 6)
+    @featured_article = Article.where(featured: true).order(published_at: :desc).first
+    @pagy, @articles = pagy(
+      Article.where.not(id: @featured_article&.id).order(published_at: :desc),
+      limit: 6
+    )
   rescue Pagy::OverflowError
     redirect_to blog_path(page: 1)
   end

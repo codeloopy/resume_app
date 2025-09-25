@@ -4,8 +4,7 @@
       <div class="flex items-center space-x-8">
         <a href="/" class="font-bold text-xl text-gray-900"><%= Constants::SITE_NAME %></a>
           <nav class="hidden md:flex items-center space-x-6">
-            <a href="/" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Home</a>
-            <%= link_to "Blog", articles_path, class: "text-gray-600 hover:text-gray-900 transition" %>
+            <%= link_to "Blog Home", articles_path, class: "text-gray-600 hover:text-gray-900 transition" %>
           </nav>
       </div>
       <div class="hidden md:flex items-center space-x-4">
@@ -21,10 +20,8 @@
   <!-- Mobile Menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-sm border-t border-gray-100/50">
     <div class="px-4 py-3 space-y-3">
-      <a href="/" class="block text-gray-600 hover:text-gray-900 py-2">Home</a>
-      <a href="/" class="text-gray-600 hover:text-gray-900 transition-colors duration-200">Home</a>
-            <%= link_to "Blog", articles_path, class: "text-gray-600 hover:text-gray-900 transition" %>
-      <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-primary/90 transition flex items-center justify-center cursor-pointer" do %>
+      <%= link_to "Blog Home", articles_path, class: "text-gray-600 hover:text-gray-900 transition font-bold" %>
+      <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-primary/90 transition flex items-center justify-center cursor-pointer mt-4" do %>
         Start Free!
       <% end %>
     </div>

@@ -23,6 +23,13 @@ module.exports = {
     'bg-red-100', 'text-red-800',
     'bg-yellow-100', 'text-yellow-800',
     'bg-indigo-100', 'text-indigo-800',
+    'hover:bg-blue-600', 'hover:text-white',
+    'hover:bg-green-600', 'hover:text-white',
+    'hover:bg-purple-600', 'hover:text-white',
+    'hover:bg-red-600', 'hover:text-white',
+    'hover:bg-yellow-600', 'hover:text-white',
+    'hover:bg-indigo-600', 'hover:text-white',
+    'hover:bg-gray-600', 'hover:text-white',
   ],
   theme: {
     extend: {
@@ -84,6 +91,7 @@ module.exports = {
           600: '#4b5563',
           800: '#1f2937',
         },
+        hover: {
       }
     },
   },
