@@ -9,7 +9,7 @@
       <%= render "article_category_component", category: article.category, color: article.color %>
       <span class="text-gray-500 ml-3 text-sm"><%= article.read_time %></span>
     </div>
-    <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary transition">
+    <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 transition">
       <%= link_to article.title, article_path(article) %>
     </h3>
     <p class="text-gray-600 mb-4">
@@ -26,7 +26,7 @@
       <%= link_to article_path(article) do %>
         <i class="fas fa-arrow-right"></i>
       <% end %>
-      <!-- <a href="/blog/<%#= article.slug %>" class="text-primary hover:text-primary/80 transition"> -->
+      <!-- <a href="/blog/<%#= article.slug %>" class="text-blue-600 hover:text-blue-600/80 transition"> -->
     </div>
   </div>
 </article>

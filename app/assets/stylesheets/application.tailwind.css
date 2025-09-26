@@ -1,5 +1,12 @@
 /* ALL @import statements must come first */
 @import "tailwindcss";
 @import "trix/dist/trix.css";
+@plugin "@tailwindcss/forms";
+
+/* Tell Tailwind CLI where to look (v4) */
+@source "./app/views/**/*.erb";
+@source "./app/helpers/**/*.rb";
+@source "./app/javascript/**/*.js";
+@source "./app/assets/stylesheets/**/*.css";
 
 /* Then any other CSS */

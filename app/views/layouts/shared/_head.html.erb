@@ -92,6 +92,7 @@
   <%= stylesheet_link_tag "tailwind.css", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "actiontext.css", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "pagy.css", "data-turbo-track": "reload" %>
+  <%= render "shared/tw_safelist" %>
   <% if controller_name == 'static_pages' && action_name == 'home' %>
     <%= javascript_include_tag "home", "data-turbo-track": "reload", type: "module" %>
   <% elsif controller_name == 'resumes' && action_name == 'edit' %>

@@ -8,7 +8,7 @@
           </nav>
       </div>
       <div class="hidden md:flex items-center space-x-4">
-        <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-primary/90 transition flex items-center justify-center cursor-pointer" do %>
+        <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-blue-600/90 transition flex items-center justify-center cursor-pointer" do %>
           Start Free!
         <% end %>
       </div>
@@ -21,7 +21,7 @@
   <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-sm border-t border-gray-100/50">
     <div class="px-4 py-3 space-y-3">
       <%= link_to "Blog Home", articles_path, class: "text-gray-600 hover:text-gray-900 transition font-bold" %>
-      <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-primary/90 transition flex items-center justify-center cursor-pointer mt-4" do %>
+      <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-blue-600/90 transition flex items-center justify-center cursor-pointer mt-4" do %>
         Start Free!
       <% end %>
     </div>
