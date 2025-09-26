@@ -1,7 +1,5 @@
-@import './actiontext.css';
-@import './blog.css';
-@import './pagy.css';
-@import "tailwindcss/preflight";
-@tailwind utilities;
-/* @import 'actiontext.css'; */
+/* ALL @import statements must come first */
+@import "tailwindcss";
 @import "trix/dist/trix.css";
+
+/* Then any other CSS */

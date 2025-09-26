@@ -39,17 +39,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Preload critical resources -->
-  <link rel="preload" href="<%= asset_path('tailwind') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="<%= asset_path('blog.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="<%= asset_path('actiontext.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-  <!-- Fallback for browsers that don't support preload -->
-  <noscript>
-    <link rel="stylesheet" href="<%= asset_path('tailwind') %>">
-    <link rel="stylesheet" href="<%= asset_path('blog.css') %>">
-    <link rel="stylesheet" href="<%= asset_path('actiontext.css') %>">
-  </noscript>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
   <meta name="google-adsense-account" content="ca-pub-1717026006715352">
 
@@ -90,10 +81,11 @@
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon.png">
 
-  <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag "actiontext.css", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag "pagy.css", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag "blog.css", "data-turbo-track": "reload" %>
+  <!-- Stylesheets -->
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "pagy", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "blog", "data-turbo-track": "reload" %>
 
   <% if controller_name == 'static_pages' && action_name == 'home' %>
     <%= javascript_include_tag "home", "data-turbo-track": "reload", type: "module" %>
@@ -104,7 +96,9 @@
   <% else %>
     <%= javascript_include_tag "resume", "data-turbo-track": "reload", type: "module" %>
   <% end %>
+
   <%= yield :head %>
+
   <% if Rails.env.production? %>
     <!-- Google Analytics 4 - Lightweight version -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3XWMFLD7D6"></script>
@@ -127,9 +121,8 @@
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1717026006715352" crossorigin="anonymous"></script>
   <% end %>
+
   <% if Rails.env.production? && defined?(Sentry) && Sentry.respond_to?(:get_trace_propagation_meta) %>
     <%= Sentry.get_trace_propagation_meta.html_safe %>
   <% end %>
 </head>
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
