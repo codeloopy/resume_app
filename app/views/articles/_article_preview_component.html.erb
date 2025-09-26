@@ -20,7 +20,7 @@
         <div class="w-8 h-8 bg-gradient-to-r from-<%= article.color %>-300 to-<%= article.color %>-500 rounded-full flex items-center justify-center text-white text-sm font-bold"><%= article.author_initials %></div>
         <div class="ml-2">
           <div class="text-sm font-medium text-gray-900"><%= article.author %></div>
-          <div class="text-xs text-gray-500"><%= article.published_at %></div>
+          <div class="text-xs text-gray-500"><%= article.published_at.strftime("%B %d, %Y") %></div>
         </div>
       </div>
       <%= link_to article_path(article) do %>
