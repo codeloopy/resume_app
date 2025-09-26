@@ -1,12 +1,73 @@
 <div class="flex items-center space-x-3">
   <span class="text-gray-500 text-sm">Share:</span>
-  <button class="text-gray-400 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-blue-50">
+  <button
+    class="text-gray-400 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-blue-50"
+    onclick="shareOnTwitter('<%= article.title %>', '<%= request.original_url %>')"
+    title="Share on Twitter"
+  >
     <i class="fab fa-twitter"></i>
   </button>
-  <button class="text-gray-400 hover:text-blue-700 transition-colors p-2 rounded-lg hover:bg-blue-50">
+  <button
+    class="text-gray-400 hover:text-blue-700 transition-colors p-2 rounded-lg hover:bg-blue-50"
+    onclick="shareOnLinkedIn('<%= article.title %>', '<%= request.original_url %>')"
+    title="Share on LinkedIn"
+  >
     <i class="fab fa-linkedin"></i>
   </button>
-  <button class="text-gray-400 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50">
+  <button
+    class="text-gray-400 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50"
+    onclick="copyLinkToClipboard('<%= request.original_url %>')"
+    title="Copy link"
+  >
     <i class="fas fa-link"></i>
   </button>
 </div>
+
+<script>
+  function shareOnTwitter(title, url) {
+    const text = encodeURIComponent(`Check out this article: ${title}`);
+    const shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(url)}`;
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  }
+
+  function shareOnLinkedIn(title, url) {
+    const shareText = `Check out this article: ${title}\n\n${url}`;
+    const shareUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(shareText)}`;
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  }
+
+  function copyLinkToClipboard(url) {
+    navigator.clipboard.writeText(url).then(function() {
+      // Show a temporary success message
+      const button = event.target.closest('button');
+      const originalIcon = button.innerHTML;
+      button.innerHTML = '<i class="fas fa-check"></i>';
+      button.classList.add('text-green-600');
+
+      setTimeout(function() {
+        button.innerHTML = originalIcon;
+        button.classList.remove('text-green-600');
+      }, 2000);
+    }).catch(function(err) {
+      // console.error('Could not copy text: ', err);
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = url;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+
+      // Show success message
+      const button = event.target.closest('button');
+      const originalIcon = button.innerHTML;
+      button.innerHTML = '<i class="fas fa-check"></i>';
+      button.classList.add('text-green-600');
+
+      setTimeout(function() {
+        button.innerHTML = originalIcon;
+        button.classList.remove('text-green-600');
+      }, 2000);
+    });
+  }
+</script>
