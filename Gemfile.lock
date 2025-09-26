@@ -304,7 +304,7 @@ GEM
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
-    resend (0.24.0)
+    resend (0.25.0)
       httparty (>= 0.21.0)
     responders (3.1.1)
       actionpack (>= 5.2)
@@ -444,7 +444,7 @@ DEPENDENCIES
   prawn-table
   puma (>= 5.0)
   rails (~> 7.2.2, >= 7.2.2.2)
-  resend (~> 0.24.0)
+  resend (~> 0.25.0)
   rubocop-rails-omakase
   selenium-webdriver
   sentry-rails
