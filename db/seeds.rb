@@ -20,20 +20,39 @@ Article.create!(
       read_time: "3 min",
       title: "10 Remote Interview Tips That Actually Work",
       body: <<~BODY,
-        Remote interviews have quickly become the new norm, but succeeding in them requires more than just answering questions well. You’re being judged on your ability to communicate, adapt, and present yourself through a screen. Here are 10 proven strategies to help you nail your next virtual interview:
+        Remote interviews are here to stay, and mastering them is crucial for landing your dream job. Here are 10 tips to help you shine.
 
-        1. **Test Your Tech Early** – A bad internet connection or faulty webcam sets a negative tone. Test everything at least a day before.
-        2. **Set the Stage** – Choose a quiet, clean, and well-lit space. Neutral backgrounds work best.
-        3. **Dress the Part** – Just because you’re at home doesn’t mean sweatpants are okay. Dress like you would for an in-person interview.
-        4. **Mind Your Body Language** – Sit upright, maintain eye contact by looking at the camera, and avoid slouching.
-        5. **Prepare Your Notes** – Keep a few bullet points handy, but don’t read directly from them.
-        6. **Practice Active Listening** – Show engagement with nods and verbal cues.
-        7. **Minimize Distractions** – Silence your phone, close other apps, and ask housemates to give you space.
-        8. **Be Concise and Clear** – Online communication magnifies rambling. Keep answers focused.
-        9. **Have Questions Ready** – Show initiative by preparing thoughtful questions about the company and role.
-        10. **Follow Up Promptly** – Send a thank-you email within 24 hours.
+        **1. Test Your Tech**
+        Before the interview, ensure your internet connection, webcam, and microphone are working perfectly. Do a test call with a friend.
 
-        Remote interviews aren’t going away. By preparing your environment, tech, and communication style, you’ll stand out as a confident, professional candidate ready for the modern workplace.
+        **2. Choose a Quiet, Clutter-Free Space**
+        Find a well-lit area with a neutral background. Minimize distractions and inform housemates you'll be busy.
+
+        **3. Dress Professionally**
+        Even if it's a remote interview, dress as you would for an in-person one. It helps you feel more confident.
+
+        **4. Have Water Nearby**
+        Keep a glass of water handy in case your throat gets dry.
+
+        **5. Research the Company & Role**
+        Know their mission, recent projects, and what the role entails. Tailor your answers to their needs.
+
+        **6. Prepare Questions for Them**
+        Asking thoughtful questions shows your engagement and interest.
+
+        **7. Practice Your Answers**
+        Rehearse common interview questions. Record yourself to identify areas for improvement.
+
+        **8. Make Eye Contact (with the camera)**
+        It might feel unnatural, but looking at your webcam simulates eye contact with your interviewer.
+
+        **9. Body Language Matters**
+        Sit upright, smile, and nod occasionally to show you're engaged.
+
+        **10. Send a Thank-You Note**
+        Follow up with a personalized thank-you email within 24 hours.
+
+        Mastering these tips will help you ace your next remote interview and make a lasting impression.
       BODY
       author: "Mike Rodriguez",
       author_initials: "MR",

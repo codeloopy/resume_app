@@ -7,6 +7,7 @@ class Article < ApplicationRecord
   validates :published_at, presence: true
 
   before_validation :set_color_and_icon
+  has_rich_text :body
 
   private
 

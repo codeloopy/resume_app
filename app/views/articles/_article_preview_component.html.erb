@@ -13,7 +13,7 @@
       <%= link_to article.title, article_path(article) %>
     </h3>
     <p class="text-gray-600 mb-4">
-      <%= article.body.truncate(100) %>
+      <%= truncate(article.body.to_plain_text, length: 150) %>
     </p>
     <div class="flex items-center justify-between">
       <div class="flex items-center">

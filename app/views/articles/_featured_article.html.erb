@@ -9,7 +9,7 @@
         <%= link_to featured_article.title, article_path(featured_article), class: "text-white" %>
       </h3>
       <p class="text-white/90 mb-6 text-lg leading-relaxed">
-        <%= featured_article.body.truncate(200) %>
+        <%= truncate(featured_article.body.to_plain_text, length: 200) %>
       </p>
         <div class="flex items-center justify-between">
           <div class="flex items-center">

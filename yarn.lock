@@ -344,10 +344,10 @@
   resolved "https://registry.npmjs.org/@rails/actioncable/-/actioncable-8.0.200.tgz"
   integrity sha512-EDqWyxck22BHmv1e+mD8Kl6GmtNkhEPdRfGFT7kvsv1yoXd9iYrqHDVAaR8bKmU/syC5eEZ2I5aWWxtB73ukMw==
 
-"@rails/actiontext@^8.0.200":
-  version "8.0.200"
-  resolved "https://registry.npmjs.org/@rails/actiontext/-/actiontext-8.0.200.tgz"
-  integrity sha512-p9SVulDmWKMChQpNYFrRBGa2aIfMSw8vyCRW9bwHzihFB8eAZ1NE6ak88nr037gwurbCBv4UVdnwndtuh2piAA==
+"@rails/actiontext@^8.0.300":
+  version "8.0.300"
+  resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-8.0.300.tgz#a5c89ef825f5e1b199456abc86c8f2f746227450"
+  integrity sha512-3uIRBH7SsjlgbpZQTEsgZg9bdH2umdjCoXp02oRF1PzEi/TcOTQD/PXTthkRiXdo0sA6y3PMgJNiPs/JfW4JLQ==
   dependencies:
     "@rails/activestorage" ">= 8.0.0-alpha"
 
@@ -1320,7 +1320,7 @@ to-regex-range@^5.0.1:
 
 trix@^2.1.15:
   version "2.1.15"
-  resolved "https://registry.npmjs.org/trix/-/trix-2.1.15.tgz"
+  resolved "https://registry.yarnpkg.com/trix/-/trix-2.1.15.tgz#fabad796ea779a8ae96522402fbc214cbfc4015f"
   integrity sha512-LoaXWczdTUV8+3Box92B9b1iaDVbxD14dYemZRxi3PwY+AuDm97BUJV2aHLBUFPuDABhxp0wzcbf0CxHCVmXiw==
   dependencies:
     dompurify "^3.2.5"

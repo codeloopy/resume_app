@@ -18,7 +18,7 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.16",
-    "@rails/actiontext": "^8.0.200",
+    "@rails/actiontext": "^8.0.300",
     "@tailwindcss/cli": "^4.1.10",
     "puppeteer": "^24.10.2",
     "tailwindcss": "^4.1.10",

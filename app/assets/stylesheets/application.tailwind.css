@@ -3,3 +3,5 @@
 @import './pagy.css';
 @import "tailwindcss/preflight";
 @tailwind utilities;
+/* @import 'actiontext.css'; */
+@import "trix/dist/trix.css";
