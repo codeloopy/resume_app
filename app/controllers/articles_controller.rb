@@ -1,4 +1,7 @@
 class ArticlesController < ApplicationController
+  before_action :set_article, only: [ :show, :edit, :update, :destroy ]
+  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :require_admin!, except: [ :index, :show ]
   layout "blog"
 
   def index
@@ -23,16 +26,13 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.find(params[:id])
     @latest_articles = Article.order(published_at: :desc).limit(3)
   end
 
   def edit
-    @article = Article.find(params[:id])
   end
 
   def update
-    @article = Article.find(params[:id])
     if @article.update(article_params)
       redirect_to articles_path, notice: "Article updated successfully"
     else
@@ -41,14 +41,21 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article = Article.find(params[:id])
     @article.destroy
     redirect_to articles_path, notice: "Article deleted successfully"
   end
 
   private
 
+  def set_article
+    @article = Article.find(params[:id])
+  end
+
   def article_params
     params.require(:article).permit(:title, :body, :image, :category, :read_time, :author, :author_initials, :featured, :color, :icon, :published_at)
+  end
+
+  def require_admin!
+    redirect_to articles_path, alert: "You are not authorized to access this page." unless current_user&.admin?
   end
 end
