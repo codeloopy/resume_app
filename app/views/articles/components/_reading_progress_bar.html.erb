@@ -1,0 +1,45 @@
+<style>
+  .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #7ca5ff, #165DFC);
+      z-index: 99999;
+      transition: width 0.3s ease;
+    }
+</style>
+
+<div class="progress-bar" id="progress-bar" style="margin-top: 63px;"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+
+      // Reading Progress Bar
+      const progressBar = document.getElementById('progress-bar');
+      const article = document.querySelector('.article-content');
+
+      if (article) {
+          window.addEventListener('scroll', function() {
+              const articleTop = article.offsetTop;
+              const articleHeight = article.offsetHeight;
+              const windowHeight = window.innerHeight;
+              const scrollTop = window.pageYOffset;
+
+              const articleStart = articleTop - windowHeight / 2;
+              const articleEnd = articleTop + articleHeight - windowHeight / 2;
+
+              if (scrollTop >= articleStart && scrollTop <= articleEnd) {
+                  const progress = (scrollTop - articleStart) / (articleEnd - articleStart);
+                  progressBar.style.width = Math.min(progress * 100, 100) + '%';
+              } else if (scrollTop < articleStart) {
+                  progressBar.style.width = '0%';
+              } else {
+                  progressBar.style.width = '100%';
+              }
+          });
+      }
+  });
+</script>

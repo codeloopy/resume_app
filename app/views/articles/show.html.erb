@@ -1,0 +1,75 @@
+<% if @article %>
+  <body>
+    <%= render "articles/components/reading_progress_bar" %>
+    <%= render "articles/components/breadcrumbs" %>
+
+    <!-- Article Header -->
+    <section class="py-12 bg-gray-50/50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <article>
+          <div class="flex items-center mb-6">
+            <span class="bg-<%= @article.color %>-100 text-<%= @article.color %>-800 px-3 py-1.5 rounded-full text-sm font-medium"><%= @article.category %></span>
+            <span class="text-gray-500 ml-4 text-sm flex items-center">
+              <i class="fas fa-clock mr-1"></i>
+              <%= @article.read_time %> min read
+            </span>
+            <span class="text-gray-500 ml-4 text-sm"><%= @article.published_at.strftime("%B %d, %Y") %></span>
+          </div>
+
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
+            <%= @article.title %>
+          </h1>
+        <% if current_user && current_user.admin? %>
+          <div class="mb-6 flex space-x-4">
+            <%= link_to "Edit", edit_article_path(@article), class: "bg-yellow-400 text-yellow-800 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-yellow-200 hover:text-yellow-900" %>
+            <%= button_to "Delete", article_path(@article), method: :delete, data: { confirm: "Are you sure you want to delete this article? This action cannot be undone." }, class: "bg-red-400 text-red-800 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-red-200 hover:text-red-900" %>
+          </div>
+        <% end %>
+          <div class="flex items-center justify-between border-t border-gray-200 pt-6">
+            <%= render "articles/components/author_info", article: @article %>
+            <%= render "articles/components/social_share" %>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="py-12 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-4 gap-12">
+          <div class="lg:col-span-1">
+            <div class="sticky-sidebar">
+              <%= render "articles/components/cta_box" %>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="lg:col-span-3">
+            <div class="article-content ">
+              <!-- [ ]: Featured Image - Consider moving to the top of the article -->
+              <%#= render "articles/components/featured_image", article: @article %>
+
+              <p><%= @article.body %></p>
+
+              <!-- Call to Action -->
+              <%= render "articles/components/cta_box_large" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-gray-50/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 ">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4 tracking-tight">Related Articles</h2>
+          <p class="text-gray-600">Continue your career journey with these helpful guides</p>
+        </div>
+
+        <%= render "articles/latest_articles", articles: @latest_articles %>
+      </div>
+    </section>
+
+    <%= render "shared/footer" %>
+  </body>
+<% end %>

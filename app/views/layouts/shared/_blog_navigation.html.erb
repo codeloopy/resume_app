@@ -1,0 +1,29 @@
+<header class="fixed top-0 w-full backdrop-blur-xl border-b border-gray-100/50 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center space-x-8">
+        <a href="/" class="font-bold text-xl text-gray-900"><%= Constants::SITE_NAME %></a>
+          <nav class="hidden md:flex items-center space-x-6">
+            <%= link_to "Blog Home", articles_path, class: "text-gray-600 hover:text-gray-900 transition" %>
+          </nav>
+      </div>
+      <div class="hidden md:flex items-center space-x-4">
+        <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-primary/90 transition flex items-center justify-center cursor-pointer" do %>
+          Start Free!
+        <% end %>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+        <i class="fas fa-bars text-gray-600"></i>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-sm border-t border-gray-100/50">
+    <div class="px-4 py-3 space-y-3">
+      <%= link_to "Blog Home", articles_path, class: "text-gray-600 hover:text-gray-900 transition font-bold" %>
+      <%= button_to guest_sign_up_path, class: "bg-blue-600 text-white px-8 py-2 rounded-sm font-semibold text-lg hover:bg-primary/90 transition flex items-center justify-center cursor-pointer mt-4" do %>
+        Start Free!
+      <% end %>
+    </div>
+  </div>
+</header>

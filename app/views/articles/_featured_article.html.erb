@@ -1,0 +1,34 @@
+<article class="bg-gradient-to-r from-<%= featured_article.color %>-600 to-<%= featured_article.color %>-300 rounded-2xl overflow-hidden shadow-2xl hover-lift ">
+  <div class="grid lg:grid-cols-2 gap-0">
+    <div class="p-8 lg:p-12 text-white">
+      <div class="flex items-center mb-4">
+        <span class="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">Featured</span>
+        <span class="text-white/80 ml-4 text-sm"><%= featured_article.read_time %> min read</span>
+      </div>
+      <h3 class="text-3xl lg:text-4xl font-bold mb-4 leading-tight">
+        <%= link_to featured_article.title, article_path(featured_article), class: "text-white" %>
+      </h3>
+      <p class="text-white/90 mb-6 text-lg leading-relaxed">
+        <%= truncate(featured_article.body.to_plain_text, length: 200) %>
+      </p>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                <%= featured_article.author_initials %>
+            </div>
+            <div>
+                <div class="font-medium"><%= featured_article.author %></div>
+                <div class="text-white/80 text-sm"><%= featured_article.published_at.strftime("%B %d, %Y") %></div>
+            </div>
+          </div>
+            <%= link_to "Read Article", article_path(featured_article), class: "bg-white text-#{featured_article.color}-500 px-6 py-3 rounded-lg font-semibold hover:bg-#{featured_article.color}-600 hover:text-white transition" %>
+        </div>
+    </div>
+    <div class="h-64 lg:h-auto bg-white/10 flex items-center justify-center">
+      <div class="text-center text-white/80">
+        <i class="fas fa-<%= featured_article.icon %> text-6xl mb-4"></i>
+        <p class="text-2xl font-medium"><%= featured_article.category %></p>
+      </div>
+    </div>
+  </div>
+</article>

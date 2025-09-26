@@ -1,0 +1,13 @@
+<section class="pt-20 pb-4 bg-gray-50/50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="text-sm">
+      <ol class="flex items-center space-x-2">
+        <!-- <li><%#= button_to 'Start Building My Resume', guest_sign_up_path, class: "text-blue-800 cursor-pointer" %></li> -->
+        <!-- <li><i class="fas fa-chevron-right text-gray-400 text-xs"></i></li> -->
+        <li><%= link_to "Home", articles_path, class: "text-gray-500 hover:text-gray-700 transition-colors cursor-pointer" %></li>
+        <li><i class="fas fa-chevron-right text-gray-400 text-xs"></i></li>
+        <li class="text-gray-900"><%= @article.title %></li>
+      </ol>
+    </nav>
+  </div>
+</section>

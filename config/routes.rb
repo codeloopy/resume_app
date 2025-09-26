@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
+  resources :blog, controller: "articles", as: "articles"
+
   namespace :admin do
     get "/", to: "dashboard#index", as: :dashboard
+    get "/feedbacks", to: "dashboard#feedbacks", as: :dashboard_feedbacks
+    get "/resumes", to: "dashboard#resumes", as: :dashboard_resumes
+    get "/users", to: "dashboard#users", as: :dashboard_users
   end
 
   get "static_pages/home"
