@@ -41,7 +41,6 @@ gem "grover"
 gem "prawn"
 gem "prawn-table"
 gem "pdf-reader", group: [ :development, :test ]
-gem "faker"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -81,3 +80,6 @@ group :production do
   gem "sentry-ruby"
   gem "sentry-rails"
 end
+
+gem "faker"
+gem "friendly_id", "~> 5.5"
