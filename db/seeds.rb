@@ -17,7 +17,7 @@ Article.create!(
     {
       image: "https://via.placeholder.com/340x192",
       category: "Interview Prep",
-      read_time: "3 min",
+      read_time: "3",
       title: "10 Remote Interview Tips That Actually Work",
       body: <<~BODY,
         Remote interviews are here to stay, and mastering them is crucial for landing your dream job. Here are 10 tips to help you shine.
@@ -64,7 +64,7 @@ Article.create!(
     {
       image: "https://via.placeholder.com/340x192",
       category: "Career Growth",
-      read_time: "7 min",
+      read_time: "7",
       title: "How to Negotiate Your Salary Like a Pro",
       body: <<~BODY,
         Negotiating salary can feel intimidating, but the truth is, employers expect it. Failing to negotiate could mean leaving thousands of dollars on the table over your career. Here’s how to approach it like a professional.
@@ -101,7 +101,7 @@ Article.create!(
     {
       image: "https://via.placeholder.com/340x192",
       category: "Job Search",
-      read_time: "4 min",
+      read_time: "4",
       title: "LinkedIn Profile Optimization: Get Recruiters to Notice You",
       body: <<~BODY,
         Your LinkedIn profile is often the first impression recruiters have of you. A strong profile can double your chances of landing interviews.
@@ -136,7 +136,7 @@ Article.create!(
     {
       image: "https://via.placeholder.com/340x192",
       category: "Resume Tips",
-      read_time: "6 min",
+      read_time: "6",
       title: "Resume Keywords: The Secret to Getting Past ATS",
       body: <<~BODY,
         Applicant Tracking Systems (ATS) filter résumés before a human even sees them. If your résumé lacks the right keywords, it may never reach the hiring manager.
@@ -170,7 +170,7 @@ Article.create!(
     {
       image: "https://via.placeholder.com/340x192",
       category: "Career Growth",
-      read_time: "5 min",
+      read_time: "5",
       title: "Making a Career Change: A Step-by-Step Guide",
       body: <<~BODY,
         Thinking about switching careers? You’re not alone. Millions of professionals pivot into new fields every year. With the right approach, you don’t need to start from zero.
@@ -202,7 +202,7 @@ Article.create!(
     {
       image: "https://via.placeholder.com/340x192",
       category: "Job Search",
-      read_time: "8 min",
+      read_time: "8",
       title: "Networking That Actually Works: Build Meaningful Connections",
       body: <<~BODY,
         Networking often gets a bad rap—awkward events, forced conversations, and business card exchanges that go nowhere. But real networking is about building authentic, long-lasting professional relationships.
@@ -245,7 +245,7 @@ Article.create!(
   Article.create!(
     image: "https://via.placeholder.com/340x192",
     category: [ 'Interview Prep', 'Career Growth', 'Job Search', 'Resume Tips', 'Career Change', 'Networking' ].sample,
-    read_time: "#{rand(3..10)} min",
+    read_time: "#{rand(3..10)}",
     title: Faker::Marketing.buzzwords.titleize,
     body: Faker::Lorem.paragraphs(number: 5).join("\n\n"),
     author: author_name,
