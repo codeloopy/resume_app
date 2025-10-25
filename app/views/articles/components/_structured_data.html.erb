@@ -1,0 +1,22 @@
+<%= tag.script(type: "application/ld+json") do %>
+  <%= {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": @article.title,
+    "description": truncate(strip_tags(@article.body.to_s), length: 160),
+    "author": { "@type": "Person", "name": @article.author },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FreeResumeBuilderApp",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://freeresumebuilderapp.com/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": article_url(@article)
+    },
+    "datePublished": @article.published_at.strftime("%Y-%m-%d")
+  }.to_json.html_safe %>
+<% end %>

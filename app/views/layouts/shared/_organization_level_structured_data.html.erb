@@ -1,0 +1,37 @@
+<%# app/views/shared/_organization_schema.html.erb %>
+<%= tag.script(type: "application/ld+json") do %>
+  <%= {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FreeResumeBuilderApp",
+    "url": "https://freeresumebuilderapp.com",
+    "logo": "https://freeresumebuilderapp.com/icon.png",
+    "sameAs": [
+      "https://www.linkedin.com/company/freeresumebuilderapp/",
+      "https://twitter.com/freeresumebuilder",
+      "https://www.facebook.com/freeresumebuilderapp",
+      "https://www.instagram.com/freeresumebuilderapp/"
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Pedro Monsalve",
+      "url": "https://www.linkedin.com/in/pedrom/",
+      "sameAs": [
+        "https://pedromonsalve.com",
+        "https://github.com/codeloopy"
+      ]
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "freeresumebuilderapp@gmail.com",
+      "url": "https://freeresumebuilderapp.com/contact"
+    },
+    "description": "FreeResumeBuilderApp helps job seekers easily create professional, modern resumes and share them online. Start building your resume for free in minutes.",
+    "brand": {
+      "@type": "Brand",
+      "name": "FreeResumeBuilderApp",
+      "logo": "https://freeresumebuilderapp.com/icon.png"
+    }
+  }.to_json.html_safe %>
+<% end %>
