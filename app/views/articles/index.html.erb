@@ -47,3 +47,29 @@
 		});
 	</script>
 </body>
+
+
+<% content_for :structured_data do %>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Free Resume Builder Blog",
+      "description": "Stay updated with the newest career insights and job market trends",
+      "url": "https://freeresumebuilderapp.com/blog",
+      "author": {
+        "@type": "Person",
+        "name": "Pedro Monsalve"
+      }
+      "publisher": {
+        "@type": "Organization",
+        "name": "Free Resume Builder App"
+      }
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://freeresumebuilderapp.com/blog"
+      }
+      "keywords": "career advice, job market trends, resume building, job search"
+    }
+  </script>
+<% end %>

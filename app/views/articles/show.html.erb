@@ -74,4 +74,6 @@
   </body>
 <% end %>
 
-<%= render "articles/components/structured_data", article: @article %>
+<% content_for :structured_data do %>
+  <%= render "articles/components/structured_data", article: @article %>
+<% end %>

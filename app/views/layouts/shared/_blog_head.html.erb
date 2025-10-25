@@ -45,33 +45,7 @@
   <meta name="google-adsense-account" content="ca-pub-1717026006715352">
 
   <!-- Structured Data (JSON-LD) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Free Resume Builder",
-    "description": "Create professional, ATS-friendly resumes for free. Choose from modern templates and download instantly.",
-    "url": "https://freeresumebuilderapp.com",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web Browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "creator": {
-      "@type": "Person",
-      "name": "Pedro Monsalve"
-    },
-    "featureList": [
-      "ATS-Friendly Templates",
-      "Instant PDF Download",
-      "Mobile Responsive",
-      "No Hidden Fees",
-      "Professional Design"
-    ]
-  }
-  </script>
+  <%= yield :structured_data %>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
