@@ -5,9 +5,9 @@ class ArticlesController < ApplicationController
   layout "blog"
 
   def index
-    @featured_article = Article.where(featured: true).order(published_at: :desc).first
+    @featured_article = Article.published.where(featured: true).order(published_at: :desc).first
     @pagy, @articles = pagy(
-      Article.where.not(id: @featured_article&.id).order(published_at: :desc),
+      Article.published.where.not(id: @featured_article&.id).order(published_at: :desc),
       limit: 9
     )
   rescue Pagy::OverflowError
@@ -26,7 +26,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @latest_articles = Article.order(published_at: :desc).limit(3)
+    @latest_articles = Article.published.order(published_at: :desc).limit(3)
   end
 
   def edit
@@ -49,6 +49,10 @@ class ArticlesController < ApplicationController
 
   def set_article
     @article = Article.friendly.find(params[:slug])
+    # For non-admin users, only show published articles
+    unless current_user&.admin?
+      not_found unless @article.published_at <= Time.current
+    end
   end
 
   def article_params

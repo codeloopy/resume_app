@@ -12,6 +12,8 @@ class Article < ApplicationRecord
   before_validation :set_color_and_icon
   has_rich_text :body
 
+  scope :published, -> { where("published_at <= ?", Time.current) }
+
   private
 
   def set_color_and_icon
