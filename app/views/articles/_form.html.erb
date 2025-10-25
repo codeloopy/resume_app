@@ -35,6 +35,10 @@
   <!-- FYI: color and icon are set in the model -->
 
   <div class="mb-4">
+    <%= f.label :meta_description, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= f.text_area :meta_description, rows: 3, class: "w-full p-2 border border-gray-300 rounded-md bg-white", placeholder: "Brief description for search engines (150-160 characters recommended)" %>
+  </div>
+  <div class="mb-4">
     <%= f.label :published_at, class: "block text-gray-700 text-sm font-bold mb-2" %>
     <%= f.datetime_field :published_at, value: Time.current.strftime("%Y-%m-%dT%H:%M"), class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
   </div>

@@ -1,4 +1,10 @@
 <% if @article %>
+  <% content_for :description, @article.meta_description.present? ? @article.meta_description : truncate(strip_tags(@article.body.to_s), length: 160) %>
+  <% content_for :og_description, @article.meta_description.present? ? @article.meta_description : truncate(strip_tags(@article.body.to_s), length: 160) %>
+  <% content_for :twitter_description, @article.meta_description.present? ? @article.meta_description : truncate(strip_tags(@article.body.to_s), length: 160) %>
+  <% content_for :title, @article.title %>
+  <% content_for :og_title, @article.title %>
+  <% content_for :twitter_title, @article.title %>
   <body>
     <%= render "articles/components/reading_progress_bar" %>
     <%= render "articles/components/breadcrumbs" %>
