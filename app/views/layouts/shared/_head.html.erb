@@ -33,7 +33,7 @@
   <meta name="twitter:image" content="<%= request.base_url %>/icon.png">
 
   <!-- Canonical URL -->
-  <link rel="canonical" href="<%= request.original_url %>">
+  <link rel="canonical" href="<%= content_for(:canonical_url) || request.original_url %>">
 
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

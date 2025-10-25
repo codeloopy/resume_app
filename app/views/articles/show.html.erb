@@ -5,6 +5,7 @@
   <% content_for :title, @article.title %>
   <% content_for :og_title, @article.title %>
   <% content_for :twitter_title, @article.title %>
+  <% content_for :canonical_url, article_url(@article) %>
   <body>
     <%= render "articles/components/reading_progress_bar" %>
     <%= render "articles/components/breadcrumbs" %>
