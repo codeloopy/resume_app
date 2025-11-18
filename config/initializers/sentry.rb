@@ -17,18 +17,73 @@ if Rails.env.production?
 
       # Filter out system-level exceptions that shouldn't be reported
       config.before_send = lambda do |event, hint|
+        exception = hint[:exception]
+
         # Don't send SignalException (SIGTERM, SIGINT, etc.)
-        return nil if hint[:exception].is_a?(SignalException)
+        return nil if exception.is_a?(SignalException)
 
         # Don't send SystemExit exceptions
-        return nil if hint[:exception].is_a?(SystemExit)
+        return nil if exception.is_a?(SystemExit)
 
         # Don't send Interrupt exceptions
-        return nil if hint[:exception].is_a?(Interrupt)
+        return nil if exception.is_a?(Interrupt)
 
         # Don't send exceptions from the boot process
-        if hint[:exception].backtrace&.first&.include?("config/boot")
+        if exception.backtrace&.first&.include?("config/boot")
           return nil
+        end
+
+        # Filter out transient Resend errors (infrastructure issues)
+        # Check if Resend is loaded (it might not be in all environments)
+        if defined?(Resend) && (exception.is_a?(Resend::Error) || exception.is_a?(JSON::ParserError))
+          # Check if this is a transient error
+          is_transient = false
+
+          # Check for known transient error classes
+          if defined?(Resend::Error::InternalServerError)
+            transient_classes = [
+              Resend::Error::InternalServerError,
+              Resend::Error::ServiceUnavailable,
+              Resend::Error::TimeoutError
+            ].compact
+            is_transient = true if transient_classes.any? { |klass| exception.is_a?(klass) }
+          end
+
+          # Check for JSON::ParserError with HTML response (Cloudflare errors)
+          if exception.is_a?(JSON::ParserError)
+            error_message = exception.message.to_s.downcase
+            is_transient = true if error_message.include?("<!doctype html>") || error_message.include?("cloudflare")
+          end
+
+          # Check error message for transient indicators
+          unless is_transient
+            error_message = exception.message.to_s.downcase
+            transient_indicators = [
+              "internal server error",
+              "service unavailable",
+              "timeout",
+              "temporarily",
+              "try again",
+              "cloudflare",
+              "502",
+              "503",
+              "504"
+            ]
+            is_transient = true if transient_indicators.any? { |indicator| error_message.include?(indicator) }
+          end
+
+          # Don't report transient errors to Sentry (they're infrastructure issues)
+          if is_transient
+            Rails.logger.debug("Filtering transient Resend error from Sentry: #{exception.class} - #{exception.message[0..100]}")
+            return nil
+          end
+        elsif exception.is_a?(JSON::ParserError)
+          # Also check JSON::ParserError even if Resend isn't loaded (might be from Resend)
+          error_message = exception.message.to_s.downcase
+          if error_message.include?("<!doctype html>") || error_message.include?("cloudflare") || error_message.include?("resend")
+            Rails.logger.debug("Filtering transient JSON parse error (likely Resend infrastructure issue) from Sentry: #{exception.message[0..100]}")
+            return nil
+          end
         end
 
         event
