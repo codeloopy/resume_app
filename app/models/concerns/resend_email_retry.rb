@@ -15,12 +15,17 @@ module ResendEmailRetry
   # Note: JSON::ParserError is handled separately to check if it's Resend-related
   TRANSIENT_ERRORS = begin
     errors = []
-    if defined?(Resend::Error::InternalServerError)
-      errors += [
-        Resend::Error::InternalServerError,
-        Resend::Error::ServiceUnavailable,
-        Resend::Error::TimeoutError
-      ]
+    if defined?(Resend::Error)
+      # Check each error class individually to avoid NameError if they don't exist
+      %w[
+        InternalServerError
+        ServiceUnavailable
+        TimeoutError
+      ].each do |error_name|
+        if Resend::Error.const_defined?(error_name, false)
+          errors << Resend::Error.const_get(error_name)
+        end
+      end
     end
     errors.freeze
   end
@@ -30,14 +35,17 @@ module ResendEmailRetry
   PERMANENT_ERRORS = begin
     errors = []
     if defined?(Resend::Error)
-      [
-        Resend::Error::BadRequest,
-        Resend::Error::Unauthorized,
-        Resend::Error::Forbidden,
-        Resend::Error::NotFound,
-        Resend::Error::UnprocessableEntity
-      ].each do |error_class|
-        errors << error_class if defined?(error_class)
+      # Check each error class individually to avoid NameError if they don't exist
+      %w[
+        BadRequest
+        Unauthorized
+        Forbidden
+        NotFound
+        UnprocessableEntity
+      ].each do |error_name|
+        if Resend::Error.const_defined?(error_name, false)
+          errors << Resend::Error.const_get(error_name)
+        end
       end
     end
     errors.freeze

@@ -40,12 +40,14 @@ if Rails.env.production?
           is_transient = false
 
           # Check for known transient error classes
-          if defined?(Resend::Error::InternalServerError)
-            transient_classes = [
-              Resend::Error::InternalServerError,
-              Resend::Error::ServiceUnavailable,
-              Resend::Error::TimeoutError
-            ].compact
+          # Use const_defined? to safely check each error class
+          if defined?(Resend::Error)
+            transient_classes = []
+            %w[InternalServerError ServiceUnavailable TimeoutError].each do |error_name|
+              if Resend::Error.const_defined?(error_name, false)
+                transient_classes << Resend::Error.const_get(error_name)
+              end
+            end
             is_transient = true if transient_classes.any? { |klass| exception.is_a?(klass) }
           end
 
