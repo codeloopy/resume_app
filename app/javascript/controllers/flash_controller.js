@@ -7,6 +7,11 @@ export default class extends Controller {
   }
 
   connect() {
+    // Ensure element starts visible
+    this.element.style.opacity = "1"
+    this.element.style.transition = "opacity 0.5s ease-out"
+
+    // Start the auto-dismiss timer
     this.timeout = setTimeout(() => {
       this.dismiss()
     }, this.delayValue)
@@ -19,11 +24,14 @@ export default class extends Controller {
   }
 
   dismiss() {
-    this.element.style.transition = "opacity 0.5s ease-out"
+    // Fade out
     this.element.style.opacity = "0"
 
+    // Remove from DOM after fade completes
     setTimeout(() => {
-      this.element.remove()
+      if (this.element && this.element.parentNode) {
+        this.element.remove()
+      }
     }, 500) // Wait for fade out animation
   }
 }
