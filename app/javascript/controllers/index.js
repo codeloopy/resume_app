@@ -15,3 +15,6 @@ application.register("responsibility", ResponsibilityController)
 
 import FeedbackController from "./feedback_controller"
 application.register("feedback", FeedbackController)
+
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)
