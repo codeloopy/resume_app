@@ -4,7 +4,7 @@
 #
 
 app = 'resume-app'
-primary_region = 'mia'
+primary_region = 'dfw'
 console_command = '/rails/bin/rails console'
 
 [build]
