@@ -431,42 +431,61 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  aws-sdk-s3 (~> 1.208)
+  aws-partitions (~> 1.1197.0)
+  aws-sdk-core (~> 3.240.0)
+  aws-sdk-kms (~> 1.118.0)
+  aws-sdk-s3 (~> 1.208.0)
   bcrypt (~> 3.1.7)
-  bootsnap
+  bootsnap (~> 1.19.0)
   brakeman
   capybara
+  cgi (~> 0.5.1)
+  concurrent-ruby (~> 1.3.6)
+  connection_pool (~> 3.0.2)
   cssbundling-rails
+  date (~> 3.5.1)
   debug
   devise
   dockerfile-rails (>= 1.7)
+  erb (~> 6.0.1)
   error_highlight (>= 0.4.0)
-  faker
-  friendly_id (~> 5.6)
-  grover
+  faker (~> 3.5.3)
+  friendly_id (~> 5.6.0)
+  grover (~> 1.2.4)
   image_processing (~> 1.2)
+  io-console (~> 0.8.2)
+  irb (~> 1.16.0)
   jbuilder
   jsbundling-rails
+  loofah (~> 2.25.0)
+  minitest (~> 6.0.0)
   pagy
   pdf-reader
   pg (~> 1.6)
   prawn
   prawn-table
+  prism (~> 1.7.0)
+  psych (~> 5.3.1)
   puma (>= 5.0)
+  rackup (~> 2.3.1)
   rails (~> 7.2.3)
+  rdoc (~> 7.0.1)
   resend (~> 1.0.0)
   rubocop-rails-omakase
   selenium-webdriver
-  sentry-rails
-  sentry-ruby
+  sentry-rails (~> 6.2.0)
+  sentry-ruby (~> 6.2.0)
   sprockets-rails
   stimulus-rails
+  stringio (~> 3.2.0)
   tailwindcss-rails
   tailwindcss-ruby
+  timeout (~> 0.6.0)
   turbo-rails
   tzinfo-data
   web-console
   wicked
+  zeitwerk (~> 2.7.4)
 
 BUNDLED WITH
    2.6.9

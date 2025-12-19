@@ -31,13 +31,13 @@ gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
+gem "bootsnap", "~> 1.19.0", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
 # PDF generation
-gem "grover"
+gem "grover", "~> 1.2.4"
 gem "prawn"
 gem "prawn-table"
 gem "pdf-reader", group: [ :development, :test ]
@@ -71,15 +71,35 @@ gem "devise"
 gem "tailwindcss-ruby"
 gem "tailwindcss-rails"
 gem "dockerfile-rails", ">= 1.7", group: :development
-gem "aws-sdk-s3", "~> 1.208", require: false
+gem "aws-sdk-s3", "~> 1.208.0", require: false
 gem "resend", "~> 1.0.0"
 gem "wicked"
 gem "pagy"
 
 group :production do
-  gem "sentry-ruby"
-  gem "sentry-rails"
+  gem "sentry-ruby", "~> 6.2.0"
+  gem "sentry-rails", "~> 6.2.0"
 end
 
-gem "faker"
-gem "friendly_id", "~> 5.6"
+gem "faker", "~> 3.5.3"
+gem "friendly_id", "~> 5.6.0"
+
+gem "irb", "~> 1.16.0"
+gem "aws-sdk-core", "~> 3.240.0"
+gem "aws-sdk-kms", "~> 1.118.0"
+gem "concurrent-ruby", "~> 1.3.6"
+gem "zeitwerk", "~> 2.7.4"
+gem "cgi", "~> 0.5.1"
+gem "timeout", "~> 0.6.0"
+gem "connection_pool", "~> 3.0.2"
+gem "minitest", "~> 6.0.0"
+gem "rackup", "~> 2.3.1"
+gem "rdoc", "~> 7.0.1"
+gem "io-console", "~> 0.8.2"
+gem "aws-partitions", "~> 1.1197.0"
+gem "loofah", "~> 2.25.0"
+gem "prism", "~> 1.7.0"
+gem "erb", "~> 6.0.1"
+gem "psych", "~> 5.3.1"
+gem "date", "~> 3.5.1"
+gem "stringio", "~> 3.2.0"
