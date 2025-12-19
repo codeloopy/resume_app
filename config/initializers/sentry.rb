@@ -8,6 +8,7 @@ if Rails.env.production?
 
     Sentry.init do |config|
       config.dsn = "https://37e3e7f914dea837f69e0cc7d14570f8@o4507951856025600.ingest.us.sentry.io/4509578236002304"
+      config.enable_logs = true
       config.breadcrumbs_logger = [ :active_support_logger, :http_logger ]
 
       # Add data like request headers and IP for users,
