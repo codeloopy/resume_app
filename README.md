@@ -23,4 +23,4 @@ Things you may want to cover:
 
 * ...
 
-* Test commit for GH Actions
+* Test commit for GH Actions v2
