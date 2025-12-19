@@ -15,7 +15,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-      - run: bin/brakeman --no-pager
+          # ADD THIS LINE BELOW
+          update-rubygems: true
+      - run: bundle exec brakeman --no-pager
 
   style_lint:
     name: Style Lint (RuboCop)
@@ -26,4 +28,6 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-      - run: bin/rubocop -f github
+          # ADD THIS LINE BELOW
+          update-rubygems: true
+      - run: bundle exec rubocop -f github
