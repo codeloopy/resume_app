@@ -14,9 +14,13 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
-          bundler-cache: true
-          # ADD THIS LINE BELOW
-          update-rubygems: true
+          bundler-cache: false # We'll handle the install ourselves to update gems first
+
+      - name: Update RubyGems and Install
+        run: |
+          gem update --system 3.3.22
+          bundle install
+
       - run: bundle exec brakeman --no-pager
 
   style_lint:
@@ -27,7 +31,11 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
-          bundler-cache: true
-          # ADD THIS LINE BELOW
-          update-rubygems: true
+          bundler-cache: false
+
+      - name: Update RubyGems and Install
+        run: |
+          gem update --system 3.3.22
+          bundle install
+
       - run: bundle exec rubocop -f github
