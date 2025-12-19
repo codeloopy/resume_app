@@ -82,4 +82,4 @@ group :production do
 end
 
 gem "faker"
-gem "friendly_id", "~> 5.5"
+gem "friendly_id", "~> 5.6"
