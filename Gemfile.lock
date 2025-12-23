@@ -103,7 +103,7 @@ GEM
     benchmark (0.5.0)
     bigdecimal (3.3.1)
     bindex (0.8.1)
-    bootsnap (1.19.0)
+    bootsnap (1.20.0)
       msgpack (~> 1.2)
     brakeman (7.1.1)
       racc
@@ -436,7 +436,7 @@ DEPENDENCIES
   aws-sdk-kms (~> 1.118.0)
   aws-sdk-s3 (~> 1.208.0)
   bcrypt (~> 3.1.7)
-  bootsnap (~> 1.19.0)
+  bootsnap (~> 1.20.0)
   brakeman
   capybara
   cgi (~> 0.5.1)
