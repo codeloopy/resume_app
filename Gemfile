@@ -71,7 +71,7 @@ gem "devise"
 gem "tailwindcss-ruby"
 gem "tailwindcss-rails"
 gem "dockerfile-rails", ">= 1.7", group: :development
-gem "aws-sdk-s3", "~> 1.208.0", require: false
+gem "aws-sdk-s3", "~> 1.209.0", require: false
 gem "resend", "~> 1.0.0"
 gem "wicked"
 gem "pagy"
