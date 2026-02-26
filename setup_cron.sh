@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Script to set up cron job for guest user cleanup (24-hour retention)
+# NOTE: If you deploy to Fly.io, cron runs automatically via Supercronic (see crontab + fly.toml).
+#       Just run: fly scale count cron=1 app=1
+# This script is for local development or self-hosted servers only.
 echo "Setting up cron job for guest user cleanup..."
 
 # Get the current directory

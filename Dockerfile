@@ -106,6 +106,15 @@ RUN apt-get update -qq && \
 RUN which chromium || which chromium-browser || which google-chrome || (echo "No Chromium found" && exit 1) && \
     echo "Chromium installation verified"
 
+# Install Supercronic for cron jobs (https://github.com/aptible/supercronic)
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.29/supercronic-linux-amd64 \
+    SUPERCRONIC=supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=cd48d45c4b10f3f0bfdd3a57d054cd05ac96812b
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+    && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+    && chmod +x "$SUPERCRONIC" \
+    && mv "$SUPERCRONIC" /usr/local/bin/supercronic
+
 # Set up Chromium for non-root user
 RUN mkdir -p /home/rails/.cache/chromium && \
     chown -R 1000:1000 /home/rails/.cache && \

@@ -1,0 +1,2 @@
+# Clean up guest users older than 24 hours (runs hourly)
+0 * * * * cd /rails && /rails/bin/rails guest:cleanup
