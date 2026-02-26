@@ -2,7 +2,12 @@
   <h2 class="text-xl font-bold text-gray-900 mb-4">Guest Analytics</h2>
   <p class="text-gray-600 mb-4 text-sm">Guest accounts are automatically removed after 24 hours. These metrics show how guests interact with the app before cleanup.</p>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-slate-100 border border-slate-300 rounded-lg p-4">
+      <p class="text-sm font-medium text-slate-800">Total Guest Signups (All Time)</p>
+      <p class="text-2xl font-bold text-slate-900"><%= number_with_delimiter(@total_guest_signups_all_time) %></p>
+      <p class="text-xs text-slate-600 mt-1">Lifetime tally — persists after cleanup</p>
+    </div>
     <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
       <p class="text-sm font-medium text-amber-800">Active Guest Accounts</p>
       <p class="text-2xl font-bold text-amber-900"><%= @current_guest_count %></p>

@@ -9,6 +9,7 @@ class Admin::DashboardController < Admin::BaseController
     @guest_conversion_rate_today = GuestActivity.conversion_rate(Time.current.beginning_of_day)
     @guest_conversion_rate_7_days = GuestActivity.conversion_rate(7.days.ago)
     @current_guest_count = User.where(guest: true).count
+    @total_guest_signups_all_time = GuestActivity.signups.count
   end
 
   def feedbacks
