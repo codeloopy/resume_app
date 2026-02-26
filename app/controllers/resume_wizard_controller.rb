@@ -30,6 +30,7 @@ class ResumeWizardController < ApplicationController
     end
 
     if @resume.save
+      track_guest_wizard_activity
       render_wizard @resume
     else
       render_wizard @resume, status: :unprocessable_entity
@@ -60,6 +61,19 @@ class ResumeWizardController < ApplicationController
     params.require(:resume).permit(
       :title, :summary, :skills_title, :pdf_template,
       skills_attributes: [ :id, :name, :_destroy ]
+    )
+  end
+
+  def track_guest_wizard_activity
+    return unless current_user&.guest?
+
+    event_type = step == :completed ? "wizard_completed" : "wizard_step_completed"
+    metadata = step == :completed ? {} : { step: step.to_s }
+    GuestActivity.track!(
+      event_type: event_type,
+      guest_user: current_user,
+      session_id: session.id&.to_s,
+      metadata: metadata
     )
   end
 end

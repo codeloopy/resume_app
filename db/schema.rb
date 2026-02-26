@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_25_191847) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_26_205406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -111,6 +111,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_25_191847) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "guest_activities", force: :cascade do |t|
+    t.string "event_type", null: false
+    t.string "session_id"
+    t.bigint "guest_user_id"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_guest_activities_on_created_at"
+    t.index ["event_type", "created_at"], name: "index_guest_activities_on_event_type_and_created_at"
+    t.index ["event_type"], name: "index_guest_activities_on_event_type"
   end
 
   create_table "projects", force: :cascade do |t|
