@@ -1,0 +1,61 @@
+<div class="mb-8">
+  <h2 class="text-xl font-bold text-gray-900 mb-4">Guest Analytics</h2>
+  <p class="text-gray-600 mb-4 text-sm">Guest accounts are automatically removed after 24 hours. These metrics show how guests interact with the app before cleanup.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+    <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+      <p class="text-sm font-medium text-amber-800">Active Guest Accounts</p>
+      <p class="text-2xl font-bold text-amber-900"><%= @current_guest_count %></p>
+      <p class="text-xs text-amber-700 mt-1">Will be cleaned up if inactive 24+ hours</p>
+    </div>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <p class="text-sm font-medium text-blue-800">Conversion Rate (Today)</p>
+      <p class="text-2xl font-bold text-blue-900"><%= @guest_conversion_rate_today %>%</p>
+      <p class="text-xs text-blue-700 mt-1">Guests who upgraded to full account</p>
+    </div>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <p class="text-sm font-medium text-blue-800">Conversion Rate (7 Days)</p>
+      <p class="text-2xl font-bold text-blue-900"><%= @guest_conversion_rate_7_days %>%</p>
+      <p class="text-xs text-blue-700 mt-1">Guests who upgraded to full account</p>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left table-auto border border-gray-200 rounded-lg">
+      <thead>
+        <tr class="bg-gray-50">
+          <th class="p-3 text-sm font-semibold text-gray-700">Metric</th>
+          <th class="p-3 text-sm font-semibold text-gray-700">Today</th>
+          <th class="p-3 text-sm font-semibold text-gray-700">Last 7 Days</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="p-3 text-gray-800">Guest Signups</td>
+          <td class="p-3 font-medium"><%= @guest_stats_today[:signups] %></td>
+          <td class="p-3 font-medium"><%= @guest_stats_7_days[:signups] %></td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="p-3 text-gray-800">Wizard Completions</td>
+          <td class="p-3 font-medium"><%= @guest_stats_today[:wizard_completions] %></td>
+          <td class="p-3 font-medium"><%= @guest_stats_7_days[:wizard_completions] %></td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="p-3 text-gray-800">PDF Views</td>
+          <td class="p-3 font-medium"><%= @guest_stats_today[:pdf_views] %></td>
+          <td class="p-3 font-medium"><%= @guest_stats_7_days[:pdf_views] %></td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="p-3 text-gray-800">Public Resume Views</td>
+          <td class="p-3 font-medium"><%= @guest_stats_today[:public_resume_views] %></td>
+          <td class="p-3 font-medium"><%= @guest_stats_7_days[:public_resume_views] %></td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="p-3 text-gray-800">Conversions (Guest → Full User)</td>
+          <td class="p-3 font-medium"><%= @guest_stats_today[:conversions] %></td>
+          <td class="p-3 font-medium"><%= @guest_stats_7_days[:conversions] %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

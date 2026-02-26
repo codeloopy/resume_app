@@ -49,6 +49,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     if current_user.update(user_params.merge(guest: false))
+      GuestActivity.track!(
+        event_type: "converted",
+        guest_user: current_user,
+        session_id: session.id&.to_s
+      )
       # Sign the user in again after updating their credentials
       # This ensures they stay authenticated after the guest->regular conversion
       sign_in(current_user, bypass: true)

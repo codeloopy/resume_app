@@ -69,9 +69,11 @@ class ResumesController < ApplicationController
   end
 
   def public
+    track_guest_public_resume_view
   end
 
   def public_pdf
+    track_guest_pdf_view
     template_name = case @resume.pdf_template
     when "classic"
       "classic"
@@ -832,6 +834,26 @@ class ResumesController < ApplicationController
       redirect_to root_path
       nil
     end
+  end
+
+  def track_guest_public_resume_view
+    return unless current_user&.guest? && current_user.resume&.id == @resume&.id
+
+    GuestActivity.track!(
+      event_type: "public_resume_view",
+      guest_user: current_user,
+      session_id: session.id&.to_s
+    )
+  end
+
+  def track_guest_pdf_view
+    return unless current_user&.guest? && current_user.resume&.id == @resume&.id
+
+    GuestActivity.track!(
+      event_type: "pdf_view",
+      guest_user: current_user,
+      session_id: session.id&.to_s
+    )
   end
 
   def resume_params

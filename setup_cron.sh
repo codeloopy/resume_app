@@ -1,23 +1,23 @@
 #!/bin/bash
 
-# Script to set up cron job for guest user cleanup
+# Script to set up cron job for guest user cleanup (24-hour retention)
 echo "Setting up cron job for guest user cleanup..."
 
 # Get the current directory
 CURRENT_DIR=$(pwd)
 
-# Create the cron job entry
-CRON_JOB="0 2 * * * cd $CURRENT_DIR && rails runner \"User.cleanup_old_guests\""
+# Run hourly to clean up guests older than 24 hours
+CRON_JOB="0 * * * * cd $CURRENT_DIR && bundle exec rails guest:cleanup"
 
 # Check if cron job already exists
-if crontab -l 2>/dev/null | grep -q "User.cleanup_old_guests"; then
+if crontab -l 2>/dev/null | grep -q "guest:cleanup"; then
     echo "Cron job already exists!"
-    crontab -l | grep "User.cleanup_old_guests"
+    crontab -l | grep "guest:cleanup"
 else
     # Add the cron job
     (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
     echo "Cron job added successfully!"
-    echo "The job will run daily at 2 AM and clean up old guest users"
+    echo "The job will run hourly and clean up guest users older than 24 hours"
 fi
 
 echo ""
@@ -26,4 +26,4 @@ crontab -l 2>/dev/null || echo "No crontab entries found"
 
 echo ""
 echo "To manually test the cleanup, run:"
-echo "rails runner \"User.cleanup_old_guests\""
+echo "bundle exec rails guest:cleanup"

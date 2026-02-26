@@ -70,12 +70,12 @@ class User < ApplicationRecord
     guest == true
   end
 
-  # Class method to clean up old guest users
-  def self.cleanup_old_guests(cutoff_days = 7)
-    cutoff_date = cutoff_days.days.ago
+  # Class method to clean up old guest users (default: 24 hours)
+  def self.cleanup_old_guests(cutoff_hours = 24)
+    cutoff_time = cutoff_hours.hours.ago
 
     old_guests = where(guest: true)
-                 .where("updated_at < ?", cutoff_date)
+                 .where("updated_at < ?", cutoff_time)
 
     count = old_guests.count
 
@@ -88,7 +88,7 @@ class User < ApplicationRecord
       # Delete the guest users
       old_guests.destroy_all
 
-      Rails.logger.info "Cleaned up #{count} old guest users older than #{cutoff_days} days"
+      Rails.logger.info "Cleaned up #{count} old guest users older than #{cutoff_hours} hours"
     end
 
     count
