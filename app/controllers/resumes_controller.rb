@@ -69,6 +69,14 @@ class ResumesController < ApplicationController
     end
   end
 
+  def analyze
+    unless @resume
+      redirect_to resumes_path, alert: "No resume to analyze."
+      return
+    end
+    @ats_analysis = @resume.ats_analysis
+  end
+
   def update
     unless @resume
       redirect_to new_user_session_path, alert: "Please sign in to update your resume."

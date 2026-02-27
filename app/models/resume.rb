@@ -52,6 +52,12 @@ class Resume < ApplicationRecord
     projects.any?
   end
 
+  def ats_analysis
+    return @ats_analysis if defined?(@ats_analysis)
+
+    @ats_analysis = ::AtsAnalyzerService.new(self).analyze
+  end
+
   def regenerate_slug!
     self.slug = nil
     generate_slug

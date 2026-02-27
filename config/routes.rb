@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   resources :skills, except: [ :index, :show ]
   resources :educations, except: [ :index, :show ]
   resources :projects, except: [ :index, :show ]
-  resource :resume, only: [ :show, :edit, :update, :destroy ]
+  resource :resume, only: [ :show, :edit, :update, :destroy ] do
+    get :analyze
+  end
   resources :resumes, only: [ :index, :create, :destroy ], param: :slug do
     post :switch, on: :member
   end

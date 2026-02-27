@@ -16,6 +16,10 @@ module ResumeApp
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Add app/services to autoload and eager load paths
+    config.autoload_paths << Rails.root.join("app", "services").to_s
+    config.eager_load_paths << Rails.root.join("app", "services").to_s
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
