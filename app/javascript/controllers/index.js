@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ExperienceDateController from "./experience_date_controller"
+application.register("experience-date", ExperienceDateController)
+
 import ClipboardController from "./clipboard_controller"
 application.register("clipboard", ClipboardController)
 

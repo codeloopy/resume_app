@@ -1,4 +1,5 @@
 <%= form_with model: experience, local: true do |f| %>
+  <div data-controller="experience-date">
   <div class="mb-4">
     <%= f.label :company_name, class: "block text-gray-700 font-semibold mb-2" %>
     <%= f.text_field :company_name, class: "w-full p-2 border border-gray-300 rounded-md bg-white", placeholder: "Company Name" %>
@@ -20,11 +21,12 @@
   </div>
 
   <div class="mb-4">
-    <%= f.label :end_date, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.date_select :end_date, start_year: Date.today.year - 50, end_year: Date.today.year + 5, include_blank: true, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.label :end_date, "End Date (leave blank for current job)", class: "block text-gray-700 font-semibold mb-2" %>
+    <%= f.date_select :end_date, start_year: Date.today.year - 50, end_year: Date.today.year + 5, include_blank: true, default: (experience.end_date || Date.today), class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
   </div>
 
   <%= render "experience_bullet", f: f %>
 
   <%= f.submit class: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" %>
+  </div>
 <% end %>
