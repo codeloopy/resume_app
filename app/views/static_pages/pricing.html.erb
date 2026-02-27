@@ -4,10 +4,11 @@
     <p class="text-xl text-gray-600">Start free. Upgrade when you need more.</p>
   </div>
 
-  <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+  <div class="grid gap-8 max-w-5xl mx-auto <%= user_signed_in? ? 'md:grid-cols-2' : 'md:grid-cols-3' %>">
+    <% unless user_signed_in? %>
     <!-- Free Plan -->
     <div class="bg-white rounded-2xl border-2 border-gray-200 p-8 shadow-sm">
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">Free</h2>
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Free*</h2>
       <p class="text-4xl font-bold text-gray-900 mb-6">$0<span class="text-lg font-normal text-gray-500">/forever</span></p>
       <ul class="space-y-4 mb-8">
         <li class="flex items-center text-gray-700">
@@ -27,8 +28,9 @@
           ATS-optimized
         </li>
       </ul>
-      <%= link_to "Get Started Free", guest_sign_up_path, class: "block w-full text-center py-3 px-6 bg-gray-100 text-gray-800 font-semibold rounded-lg hover:bg-gray-200 transition" %>
+      <%= button_to "Get Started Free", guest_sign_up_path, method: :post, form_class: "w-full", class: "w-full py-3 px-6 bg-gray-100 text-gray-800 font-semibold rounded-lg hover:bg-gray-200 transition border-0 cursor-pointer" %>
     </div>
+    <% end %>
 
     <!-- Growth Plan -->
     <div class="bg-gradient-to-br from-white to-green-500 rounded-2xl border-2 border-green-400 p-8 shadow-xl relative">
@@ -92,4 +94,7 @@
   </div>
 
   <p class="text-center text-gray-500 mt-8 text-sm">Secure payments via Stripe. Cancel anytime.</p>
+  <% unless user_signed_in? %>
+  <p class="text-center text-gray-500 mt-2 text-sm">* 100% free without registration, resume will be deleted in 24hrs. If you want to save your info, just register—it's still free.</p>
+  <% end %>
 </div>
