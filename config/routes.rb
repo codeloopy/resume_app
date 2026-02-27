@@ -9,6 +9,13 @@ Rails.application.routes.draw do
   end
 
   get "static_pages/home"
+  get "pricing", to: "static_pages#pricing", as: :pricing
+
+  post "checkout", to: "checkouts#create", as: :checkout
+  get "checkout/success", to: "checkouts#success", as: :success_checkout
+  get "checkout/cancel", to: "checkouts#cancel", as: :cancel_checkout
+
+  post "webhooks/stripe", to: "webhooks#stripe", as: :stripe_webhook
 
   post "/guest_sign_up", to: "guest_users#create", as: "guest_sign_up"
 

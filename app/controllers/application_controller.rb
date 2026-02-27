@@ -58,6 +58,11 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :should_block_indexing?
+  helper_method :current_user_pro?
+
+  def current_user_pro?
+    current_user&.pro?
+  end
 
   private
 

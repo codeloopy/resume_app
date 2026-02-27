@@ -71,8 +71,59 @@
           </div>
       </div>
 
+      <div class="grid md:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
+        <!-- Premium Template 1 -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 border-2 border-indigo-100">
+          <div class="relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+            <div class="absolute top-3 right-3 bg-indigo-600 text-white px-2 py-1 rounded text-xs font-bold">Pro</div>
+            <div class="bg-white rounded p-3 h-full shadow-sm">
+              <div class="h-2 bg-slate-300 rounded w-24 mb-3"></div>
+              <div class="h-1 bg-slate-200 rounded mb-2"></div>
+              <div class="h-1 bg-slate-200 rounded w-4/5 mb-2"></div>
+              <div class="h-1 bg-slate-200 rounded w-3/5"></div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-gray-900 mb-1">Minimal</h3>
+            <p class="text-gray-600 text-sm">Ultra-clean design with maximum whitespace. Perfect for design-focused roles.</p>
+          </div>
+        </div>
+        <!-- Premium Template 2 -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 border-2 border-purple-100">
+          <div class="relative h-48 bg-gradient-to-br from-purple-50 to-purple-100 p-6">
+            <div class="absolute top-3 right-3 bg-purple-600 text-white px-2 py-1 rounded text-xs font-bold">Pro</div>
+            <div class="bg-white rounded p-3 h-full shadow-sm border-l-4 border-purple-500">
+              <div class="h-2 bg-gray-800 rounded w-20 mb-3"></div>
+              <div class="h-1 bg-gray-200 rounded mb-2"></div>
+              <div class="h-1 bg-gray-200 rounded w-4/5"></div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-gray-900 mb-1">Creative</h3>
+            <p class="text-gray-600 text-sm">Elegant styling with accent colors. Stand out in creative industries.</p>
+          </div>
+        </div>
+        <!-- Premium Template 3 -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 border-2 border-amber-100">
+          <div class="relative h-48 bg-gradient-to-br from-amber-50 to-amber-100 p-6">
+            <div class="absolute top-3 right-3 bg-amber-600 text-white px-2 py-1 rounded text-xs font-bold">Pro</div>
+            <div class="bg-white rounded p-3 h-full shadow-sm text-center">
+              <div class="h-2 bg-gray-800 rounded w-28 mx-auto mb-3"></div>
+              <div class="h-1 bg-gray-200 rounded mb-2"></div>
+              <div class="h-1 bg-gray-200 rounded w-4/5 mx-auto"></div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-gray-900 mb-1">Executive</h3>
+            <p class="text-gray-600 text-sm">Formal, centered layout. Ideal for senior and C-level positions.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="text-center mt-8">
-        <h3 class="font-bold mb-1 text-xl">More Templates Coming Soon!</h3>
+        <%= link_to pricing_path, class: "inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition" do %>
+          View Pro Templates & Pricing
+        <% end %>
       </div>
   </div>
 </section>

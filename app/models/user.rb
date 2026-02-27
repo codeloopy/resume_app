@@ -70,6 +70,18 @@ class User < ApplicationRecord
     guest == true
   end
 
+  def pro?
+    subscription_tier == "pro"
+  end
+
+  def growth?
+    subscription_tier == "growth"
+  end
+
+  def free?
+    subscription_tier == "free" || subscription_tier.blank?
+  end
+
   # Class method to clean up old guest users (default: 24 hours)
   def self.cleanup_old_guests(cutoff_hours = 24)
     cutoff_time = cutoff_hours.hours.ago

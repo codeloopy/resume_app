@@ -1,4 +1,7 @@
 class StaticPagesController < ApplicationController
+  def pricing
+  end
+
   def home
     # Set cache headers for the static landing page
     # Set cache expiration to 1 hour and make it publicly cacheable

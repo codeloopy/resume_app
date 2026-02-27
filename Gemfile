@@ -68,6 +68,7 @@ group :test do
 end
 
 gem "devise"
+gem "stripe"
 gem "tailwindcss-ruby"
 gem "tailwindcss-rails"
 gem "dockerfile-rails", ">= 1.7", group: :development

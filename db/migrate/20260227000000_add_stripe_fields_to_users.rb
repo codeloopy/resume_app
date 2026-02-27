@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+class AddStripeFieldsToUsers < ActiveRecord::Migration[7.2]
+  def change
+    add_column :users, :stripe_customer_id, :string
+    add_column :users, :stripe_subscription_id, :string
+    add_index :users, :stripe_customer_id, unique: true
+  end
+end

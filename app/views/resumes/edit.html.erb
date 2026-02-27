@@ -154,10 +154,10 @@
 
     <div class="mx-4 mb-4">
       <%= f.label :pdf_template, "PDF Style Template" %>
-      <%= f.select :pdf_template, options_for_select(
-        [["Modern", "modern"], ["Classic", "classic"]],
-        @resume.pdf_template
-      ), {}, class: "form-select mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white" %>
+      <%= f.select :pdf_template, pdf_template_options_for_select(@resume.pdf_template), {}, class: "form-select mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white" %>
+      <% unless current_user&.pro? %>
+        <p class="text-sm text-indigo-600 mt-1"><%= link_to "Upgrade to Pro", pricing_path, class: "font-medium hover:underline" %> for premium templates.</p>
+      <% end %>
     </div>
 
     <div class="mx-4 my-4 flex justify-center">

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= resume.user.first_name %> <%= resume.user.last_name %> - Resume</title>
+    <style>
+      @media print { body { print-color-adjust: exact; } }
+      body { font-family: Georgia, "Times New Roman", serif; font-size: 11px; line-height: 1.5; color: #2d3748; margin: 0; padding: 24px; background: white; }
+      .container { max-width: 750px; margin: 0 auto; }
+      header { border-left: 4px solid #805ad5; padding-left: 16px; margin-bottom: 28px; }
+      h1 { font-size: 22px; font-weight: 700; margin: 0 0 4px 0; color: #2d3748; }
+      .title { font-size: 13px; color: #805ad5; font-style: italic; }
+      .contact { font-size: 10px; color: #718096; margin-top: 8px; }
+      h2 { font-size: 12px; font-weight: 700; color: #805ad5; margin: 24px 0 10px 0; }
+      .experience-item, .education-item, .project-item { margin-bottom: 18px; }
+      .experience-item h3, .education-item h3, .project-item h3 { font-size: 12px; font-weight: 700; margin: 0 0 4px 0; color: #2d3748; }
+      .meta { font-size: 10px; color: #718096; margin-bottom: 6px; }
+      ul { margin: 0; padding: 0 0 0 18px; }
+      li { margin-bottom: 4px; }
+      .skills-list { font-size: 11px; color: #4a5568; }
+      a { color: #805ad5; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><%= user_full_name(resume) %></h1>
+        <div class="title"><%= resume.title %></div>
+        <div class="contact">
+          <% parts = [] %>
+          <% parts << resume.user.location if resume.user.location.present? %>
+          <% parts << styled_telephone_number(resume.user.phone) if resume.user.phone.present? %>
+          <% parts << resume.user.email if resume.user.email.present? %>
+          <% parts << "/in/#{resume.user.linked_in_url.split('/').last}" if resume.user.linked_in_url.present? %>
+          <% parts << resume.user.github_url.split('//').last if resume.user.github_url.present? %>
+          <%= parts.join(" · ") %>
+        </div>
+      </header>
+
+      <% if resume.summary&.body&.present? %>
+        <h2>Summary</h2>
+        <div><%= resume.summary.body.to_s.html_safe %></div>
+      <% end %>
+
+      <% if resume.skills.any? %>
+        <h2><%= skills_title(resume) %></h2>
+        <div class="skills-list"><% resume.skills.each do |skill| %><%= skill.name %><%= skill == resume.skills.last ? "" : " · " %><% end %></div>
+      <% end %>
+
+      <% if resume.experiences.any? %>
+        <h2>Experience</h2>
+        <% resume.experiences.each do |exp| %>
+          <div class="experience-item">
+            <h3><%= exp.title %> at <%= exp.company_name %></h3>
+            <div class="meta"><%= exp.location %> · <%= exp.start_date&.strftime("%b %Y") %> – <%= exp.end_date&.strftime("%b %Y") || "Present" %></div>
+            <% if exp.responsibilities.any? %><ul><% exp.responsibilities.each do |b| %><li><%= b.content %></li><% end %></ul><% end %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if resume.educations.any? %>
+        <h2>Education</h2>
+        <% resume.educations.each do |edu| %>
+          <div class="education-item">
+            <h3><%= edu.school %></h3>
+            <div class="meta"><%= edu.field_of_study %> · <%= edu.start_date&.year %> – <%= edu.end_date&.year || "Present" %></div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if resume.projects.any? %>
+        <h2>Projects</h2>
+        <% resume.projects.each do |proj| %>
+          <div class="project-item">
+            <h3><%= proj.title %></h3>
+            <% if proj.url.present? %><div class="meta"><a href="<%= proj.url %>"><%= proj.url %></a></div><% end %>
+            <% if proj.description&.body&.present? %><div><%= proj.description.body.to_s.html_safe %></div><% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </body>
+</html>

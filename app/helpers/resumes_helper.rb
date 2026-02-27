@@ -1,4 +1,24 @@
 module ResumesHelper
+  def pdf_template_options_for_select(current_value)
+    free_options = [
+      [ "Modern - Clean and contemporary", "modern" ],
+      [ "Classic - Traditional and professional", "classic" ]
+    ]
+    premium_options = [
+      [ "Minimal - Ultra-clean, maximum whitespace (Pro)", "minimal" ],
+      [ "Creative - Elegant with accent styling (Pro)", "creative" ],
+      [ "Executive - Formal, centered layout (Pro)", "executive" ]
+    ]
+
+    if current_user&.pro?
+      options_for_select(free_options + premium_options, current_value)
+    else
+      options = free_options.map { |label, value| [ label, value ] }
+      options += premium_options.map { |label, value| [ label, value, { disabled: true } ] }
+      options_for_select(options, current_value)
+    end
+  end
+
   def user_full_name(resume)
     "#{resume.user_first_name} #{resume.user_last_name}"
   end

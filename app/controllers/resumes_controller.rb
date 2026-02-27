@@ -74,12 +74,7 @@ class ResumesController < ApplicationController
 
   def public_pdf
     track_guest_pdf_view
-    template_name = case @resume.pdf_template
-    when "classic"
-      "classic"
-    else
-      "modern"
-    end
+    template_name = resolve_pdf_template(@resume.pdf_template)
 
     # Render HTML first to catch any template errors
     html = render_to_string(
@@ -159,12 +154,7 @@ class ResumesController < ApplicationController
       redirect_to resume_path and return
     end
 
-    template_name = case @resume.pdf_template
-    when "classic"
-      "classic"
-    else
-      "modern"
-    end
+    template_name = resolve_pdf_template(@resume.pdf_template)
 
     # Render HTML first to catch any template errors
     html = render_to_string(
@@ -469,20 +459,24 @@ class ResumesController < ApplicationController
 
   private
 
+  def resolve_pdf_template(template)
+    # Resume#pdf_template already enforces Pro for premium; use raw value for rendering
+    raw = template.presence || "modern"
+    Resume::ALL_TEMPLATES.include?(raw) ? raw : "modern"
+  end
+
   def generate_prawn_pdf(resume, template_name)
     require "prawn"
     require "prawn/table"
 
-    # Get the unified template data
-    template_data = get_template_data(resume, template_name)
-
-    # Generate PDF based on template
-    case template_name
-    when "classic"
-      generate_prawn_from_template(resume, template_data, "classic")
-    else
-      generate_prawn_from_template(resume, template_data, "modern")
+    # Map premium templates to Prawn styles (Prawn has modern/classic only)
+    prawn_style = case template_name
+    when "classic", "executive" then "classic"
+    else "modern"
     end
+
+    template_data = get_template_data(resume, template_name)
+    generate_prawn_from_template(resume, template_data, prawn_style)
   end
 
   def get_template_data(resume, template_name)
@@ -495,16 +489,16 @@ class ResumesController < ApplicationController
       },
       sections: {
         summary: resume.summary&.body&.present? ? {
-          title: template_name == "classic" ? "SUMMARY" : "Summary",
+          title: %w[classic executive].include?(template_name) ? "SUMMARY" : "Summary",
           content: sanitize_text(resume.summary.body.to_plain_text)
         } : nil,
         skills: resume.skills.any? ? {
-          title: (resume.skills_title.presence || "Skills").then { |t| template_name == "classic" ? t.upcase : t },
+          title: (resume.skills_title.presence || "Skills").then { |t| %w[classic executive].include?(template_name) ? t.upcase : t },
           content: resume.skills.map { |skill| sanitize_text(skill.name) },
-          separator: template_name == "classic" ? " | " : ", "
+          separator: %w[classic executive].include?(template_name) ? " | " : ", "
         } : nil,
         experience: resume.experiences.any? ? {
-          title: template_name == "classic" ? "EXPERIENCE" : "Experience",
+          title: %w[classic executive].include?(template_name) ? "EXPERIENCE" : "Experience",
           items: resume.experiences.map do |exp|
             {
               company: sanitize_text(exp.company_name),
@@ -517,7 +511,7 @@ class ResumesController < ApplicationController
           end
         } : nil,
         education: resume.educations.any? ? {
-          title: template_name == "classic" ? "EDUCATION" : "Education",
+          title: %w[classic executive].include?(template_name) ? "EDUCATION" : "Education",
           items: resume.educations.map do |edu|
             {
               school: sanitize_text(edu.school),
@@ -528,7 +522,7 @@ class ResumesController < ApplicationController
           end
         } : nil,
         projects: resume.projects.any? ? {
-          title: template_name == "classic" ? "PROJECTS" : "Projects",
+          title: %w[classic executive].include?(template_name) ? "PROJECTS" : "Projects",
           items: resume.projects.map do |proj|
             {
               title: sanitize_text(proj.title),
@@ -539,7 +533,7 @@ class ResumesController < ApplicationController
         } : nil
       },
       styling: {
-        font_family: template_name == "classic" ? "Noto Serif" : "Noto Sans",
+        font_family: %w[classic executive].include?(template_name) ? "Noto Serif" : "Noto Sans",
         margins: {
           left: 18,
           right: 18,
