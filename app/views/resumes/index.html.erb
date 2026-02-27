@@ -1,0 +1,49 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">My Resumes</h1>
+    <% if @resumes.any? && current_user.premium? && !current_user.at_resume_limit? %>
+      <%= button_to "New Resume", resumes_path, method: :post, class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition" %>
+    <% end %>
+  </div>
+
+  <% if @resumes.empty? %>
+    <div class="text-center py-16 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+      <p class="text-gray-600 mb-6">You don't have any resumes yet.</p>
+      <%= button_to "Start Resume", resumes_path, method: :post, class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition text-lg" %>
+    </div>
+  <% else %>
+  <p class="text-gray-600 mb-6">
+    You have <%= current_user.resume_count %> of <%= current_user.resume_limit %> resume<%= current_user.resume_limit == 1 ? '' : 's' %>.
+    <% if current_user.free? %>
+      <%= link_to "Upgrade to Growth or Pro", pricing_path, class: "text-blue-600 hover:underline font-medium" %> for multiple resumes.
+    <% end %>
+  </p>
+
+  <div class="space-y-4">
+    <% @resumes.each do |resume| %>
+      <div class="border border-gray-200 rounded-lg p-4 flex items-center justify-between bg-white shadow-sm hover:shadow-md transition">
+        <div class="flex-1 min-w-0">
+          <h2 class="font-semibold text-gray-900 truncate">
+            <%= resume.title.presence || "Untitled Resume" %>
+          </h2>
+          <p class="text-sm text-gray-500 mt-1">
+            Updated <%= time_ago_in_words(resume.updated_at) %> ago
+            <% if resume.id == current_user.current_resume_id %>
+              <span class="ml-2 text-blue-600 font-medium">(current)</span>
+            <% end %>
+          </p>
+        </div>
+        <div class="flex items-center gap-2 ml-4 flex-shrink-0">
+          <% if resume.id != current_user.current_resume_id %>
+            <%= button_to "Edit", switch_resume_path(resume), method: :post, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+          <% else %>
+            <%= link_to "Edit", edit_resume_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+          <% end %>
+          <%= link_to "View", public_resume_path(resume.slug), target: "_blank", class: "ml-2 text-gray-600 hover:text-gray-800 text-sm" %>
+          <%= button_to "Delete", resume_path(resume), method: :delete, form: { data: { turbo_confirm: "Delete this resume?" } }, class: "ml-2 text-red-600 hover:text-red-800 font-medium text-sm" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+</div>

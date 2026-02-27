@@ -1,12 +1,50 @@
 class ResumesController < ApplicationController
   before_action :authenticate_user!, except: [ :show, :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic, :pdf_health_check, :test_pdf, :pdf_diagnostic ]
   before_action :set_resume_public, only: [ :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic ]
-  before_action :set_resume, except: [ :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic, :pdf_health_check, :test_pdf, :pdf_diagnostic ]
+  before_action :set_resume, except: [ :index, :create, :destroy, :switch, :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic, :pdf_health_check, :test_pdf, :pdf_diagnostic ]
+  before_action :set_resume_for_destroy, only: [ :destroy ]
+
+  def index
+    @resumes = current_user.resumes.order(updated_at: :desc)
+    # Free users with 1 resume: redirect to edit (no need for list view)
+    if @resumes.one? && !current_user.premium?
+      redirect_to edit_resume_path and return
+    end
+    # Users with 0 resumes stay on index to see "Start Resume" button
+  end
+
+  def create
+    # Allow create when: premium (multi-resume) OR has no resumes (everyone gets at least one)
+    unless current_user.premium? || current_user.resume_count.zero?
+      redirect_to pricing_path, alert: "Upgrade to Growth or Pro to create multiple resumes."
+      return
+    end
+    if current_user.at_resume_limit?
+      redirect_to resumes_path, alert: "You've reached your resume limit."
+      return
+    end
+
+    new_resume = current_user.create_resume
+    redirect_to edit_resume_path, notice: "New resume created! Start editing."
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to resumes_path, alert: "Could not create resume: #{e.message}"
+  end
+
+  def switch
+    resume = current_user.resumes.find_by(slug: params[:slug])
+    unless resume
+      redirect_to resumes_path, alert: "Resume not found."
+      return
+    end
+    current_user.switch_resume!(resume)
+    redirect_to edit_resume_path, notice: "Switched to #{resume.title.presence || 'Untitled'} resume."
+  end
 
   def show
     if current_user
       # User is authenticated, show their own resume
       @resume = current_user.resume
+      redirect_to resumes_path and return if @resume.nil?
     else
       # If !current_user, redirect to public view if slug is provided
       if params[:slug]
@@ -55,16 +93,9 @@ class ResumesController < ApplicationController
     end
 
     if @resume.destroy
-      # Create a new resume for the user
-      current_user.create_resume
-
-      if @resume.has_content?
-        redirect_to resume_wizard_path(:summary), notice: "Resume deleted and a new one has been created. You can now start fresh!"
-      else
-        redirect_to resume_wizard_path(:summary), notice: "Empty resume deleted and a new one has been created."
-      end
+      redirect_to resumes_path, notice: "Resume deleted."
     else
-      redirect_to resume_path, alert: "Failed to delete resume. Please try again."
+      redirect_to((params[:slug] ? resumes_path : resume_path), alert: "Failed to delete resume. Please try again.")
     end
   end
 
@@ -816,8 +847,18 @@ class ResumesController < ApplicationController
     if current_user
       @resume = current_user.resume
     else
-
       @resume = nil
+    end
+  end
+
+  def set_resume_for_destroy
+    @resume = if params[:slug]
+      current_user.resumes.find_by(slug: params[:slug])
+    else
+      current_user.resume
+    end
+    unless @resume
+      redirect_to((params[:slug] ? resumes_path : resume_path), alert: "Resume not found.")
     end
   end
 

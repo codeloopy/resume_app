@@ -57,7 +57,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # Sign the user in again after updating their credentials
       # This ensures they stay authenticated after the guest->regular conversion
       sign_in(current_user, bypass: true)
-      redirect_to resume_path(current_user.resume), notice: "Your account is saved!"
+      redirect_to resume_path, notice: "Your account is saved!"
     else
       # Set the resource variable for the Devise form when re-rendering
       @resource = current_user

@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  has_one :resume, dependent: :destroy
+  has_many :resumes, dependent: :destroy
+  belongs_to :current_resume, class_name: "Resume", optional: true
   has_many :feedbacks
 
   validates :first_name, presence: true
@@ -31,7 +32,7 @@ class User < ApplicationRecord
       last_name: "User",
       guest: true
     )
-    guest_user.create_resume!(slug: "guest-#{random_token}")
+    guest_user.resume.update!(slug: "guest-#{random_token}")
     guest_user
   end
 
@@ -54,8 +55,22 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def create_resume
-    build_resume.save
+  # Returns the resume the user is currently editing (for backwards compatibility)
+  def resume
+    current_resume || resumes.first
+  end
+
+  def create_resume(slug: nil)
+    new_resume = resumes.build(slug: slug)
+    new_resume.save!
+    update_column(:current_resume_id, new_resume.id)
+    new_resume
+  end
+
+  def switch_resume!(resume)
+    return unless resumes.include?(resume)
+
+    update!(current_resume_id: resume.id)
   end
 
   def admin?
@@ -71,7 +86,7 @@ class User < ApplicationRecord
   end
 
   def pro?
-    subscription_tier == "pro"
+    admin? || subscription_tier == "pro"
   end
 
   def growth?
@@ -79,7 +94,7 @@ class User < ApplicationRecord
   end
 
   def free?
-    subscription_tier == "free" || subscription_tier.blank?
+    !admin? && (subscription_tier == "free" || subscription_tier.blank?)
   end
 
   def premium?
@@ -87,14 +102,15 @@ class User < ApplicationRecord
   end
 
   # Resume limits by tier (for future multi-resume support)
+  # Admins automatically get Pro limits
   RESUME_LIMITS = { "free" => 1, "growth" => 2, "pro" => 10 }.freeze
 
   def resume_limit
-    RESUME_LIMITS[subscription_tier] || RESUME_LIMITS["free"]
+    admin? ? RESUME_LIMITS["pro"] : (RESUME_LIMITS[subscription_tier] || RESUME_LIMITS["free"])
   end
 
   def resume_count
-    resume.present? ? 1 : 0
+    resumes.count
   end
 
   def at_resume_limit?

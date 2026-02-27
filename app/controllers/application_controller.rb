@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    resume_path
+    resource.resumes.any? ? resume_path : resumes_path
   end
 
   def sitemap

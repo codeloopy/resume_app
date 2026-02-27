@@ -9,6 +9,7 @@ class Resume < ApplicationRecord
   before_validation :generate_slug, on: :create
   before_validation :ensure_slug_present
   before_validation :enforce_premium_template_access
+  before_destroy :clear_user_current_resume
 
   has_many :experiences, dependent: :destroy
   accepts_nested_attributes_for :experiences, allow_destroy: true
@@ -76,5 +77,9 @@ class Resume < ApplicationRecord
 
     raw_template = read_attribute(:pdf_template)
     self.pdf_template = "modern" if raw_template.present? && PREMIUM_TEMPLATES.include?(raw_template)
+  end
+
+  def clear_user_current_resume
+    User.where(current_resume_id: id).update_all(current_resume_id: nil)
   end
 end

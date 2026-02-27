@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   resources :educations, except: [ :index, :show ]
   resources :projects, except: [ :index, :show ]
   resource :resume, only: [ :show, :edit, :update, :destroy ]
+  resources :resumes, only: [ :index, :create, :destroy ], param: :slug do
+    post :switch, on: :member
+  end
   resources :feedbacks, only: [ :create ]
 
   devise_for :users, controllers: {
