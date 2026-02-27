@@ -4,9 +4,9 @@
     <%= f.label :pdf_template, "Choose your preferred PDF style", class: "block text-gray-700 font-semibold mb-2" %>
     <%= f.select :pdf_template, pdf_template_options_for_select(@resume.pdf_template), {}, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
     <p class="text-sm text-gray-500 mt-1">This will be used when generating your PDF resume</p>
-    <% unless current_user&.pro? %>
+    <% unless current_user&.pro? || current_user&.growth? %>
       <p class="text-sm text-indigo-600 mt-2">
-        <%= link_to "Upgrade to Pro", pricing_path, class: "font-medium hover:underline" %> for 3 more premium templates.
+        <%= link_to "Upgrade to Growth or Pro", pricing_path, class: "font-medium hover:underline" %> for 3 premium templates (Minimal, Creative, Executive).
       </p>
     <% end %>
   </div>

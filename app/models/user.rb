@@ -82,6 +82,25 @@ class User < ApplicationRecord
     subscription_tier == "free" || subscription_tier.blank?
   end
 
+  def premium?
+    pro? || growth?
+  end
+
+  # Resume limits by tier (for future multi-resume support)
+  RESUME_LIMITS = { "free" => 1, "growth" => 2, "pro" => 10 }.freeze
+
+  def resume_limit
+    RESUME_LIMITS[subscription_tier] || RESUME_LIMITS["free"]
+  end
+
+  def resume_count
+    resume.present? ? 1 : 0
+  end
+
+  def at_resume_limit?
+    resume_count >= resume_limit
+  end
+
   # Class method to clean up old guest users (default: 24 hours)
   def self.cleanup_old_guests(cutoff_hours = 24)
     cutoff_time = cutoff_hours.hours.ago

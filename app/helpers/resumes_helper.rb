@@ -5,12 +5,12 @@ module ResumesHelper
       [ "Classic - Traditional and professional", "classic" ]
     ]
     premium_options = [
-      [ "Minimal - Ultra-clean, maximum whitespace (Pro)", "minimal" ],
-      [ "Creative - Elegant with accent styling (Pro)", "creative" ],
-      [ "Executive - Formal, centered layout (Pro)", "executive" ]
+      [ "Minimal - Ultra-clean, maximum whitespace", "minimal" ],
+      [ "Creative - Elegant with accent styling", "creative" ],
+      [ "Executive - Formal, centered layout", "executive" ]
     ]
 
-    if current_user&.pro?
+    if current_user&.pro? || current_user&.growth?
       options_for_select(free_options + premium_options, current_value)
     else
       options = free_options.map { |label, value| [ label, value ] }
