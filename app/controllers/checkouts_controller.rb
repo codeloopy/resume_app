@@ -5,11 +5,20 @@ class CheckoutsController < ApplicationController
   before_action :reject_guest_user
 
   def create
-    plan = params[:plan]
+    plan = params[:plan].to_s.strip.downcase
     price_id = price_id_for_plan(plan)
 
     unless price_id.present?
-      redirect_to pricing_path, alert: "Invalid plan selected."
+      if %w[growth pro].include?(plan)
+        msg = if Rails.env.production?
+          "Stripe price IDs not set. Run: fly secrets set STRIPE_PRICE_GROWTH_ID=price_xxx STRIPE_PRICE_PRO_ID=price_xxx"
+        else
+          "Stripe not configured. Ensure .env has STRIPE_PRICE_GROWTH_ID and STRIPE_PRICE_PRO_ID, then restart the server (run: spring stop)."
+        end
+        redirect_to pricing_path, alert: msg
+      else
+        redirect_to pricing_path, alert: "Invalid plan selected."
+      end
       return
     end
 
@@ -31,11 +40,16 @@ class CheckoutsController < ApplicationController
   private
 
   def price_id_for_plan(plan)
-    case plan.to_s
-    when "growth" then ENV["STRIPE_PRICE_GROWTH_ID"]
-    when "pro" then ENV["STRIPE_PRICE_PRO_ID"]
+    case plan
+    when "growth" then stripe_price_id(:price_growth_id)
+    when "pro" then stripe_price_id(:price_pro_id)
     else nil
     end
+  end
+
+  def stripe_price_id(key)
+    env_key = key == :price_growth_id ? "STRIPE_PRICE_GROWTH_ID" : "STRIPE_PRICE_PRO_ID"
+    Rails.configuration.stripe[key].presence || ENV[env_key].presence
   end
 
   def create_checkout_session(price_id, plan)

@@ -56,7 +56,7 @@
         </li>
       </ul>
       <% if user_signed_in? && !current_user.guest? %>
-        <%= link_to "Get Growth", checkout_path(plan: "growth"), data: { turbo_method: :post }, class: "block w-full text-center py-3 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition" %>
+        <%= button_to "Get Growth", checkout_path(plan: "growth"), method: :post, form_class: "w-full", form: { data: { turbo: false } }, class: "w-full py-3 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition border-0 cursor-pointer" %>
       <% else %>
         <%= link_to "Get Growth", new_user_registration_path, class: "block w-full text-center py-3 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition" %>
       <% end %>
@@ -86,7 +86,7 @@
         </li>
       </ul>
       <% if user_signed_in? && !current_user.guest? %>
-        <%= link_to "Upgrade to Pro", checkout_path(plan: "pro"), data: { turbo_method: :post }, class: "block w-full text-center py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition" %>
+        <%= button_to "Upgrade to Pro", checkout_path(plan: "pro"), method: :post, form_class: "w-full", form: { data: { turbo: false } }, class: "w-full py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition border-0 cursor-pointer" %>
       <% else %>
         <%= link_to "Upgrade to Pro", new_user_registration_path, class: "block w-full text-center py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition" %>
       <% end %>

@@ -136,6 +136,10 @@ GEM
       warden (~> 1.2.3)
     dockerfile-rails (1.7.10)
       rails (>= 3.0.0)
+    dotenv (3.2.0)
+    dotenv-rails (3.2.0)
+      dotenv (= 3.2.0)
+      railties (>= 6.1)
     drb (2.2.3)
     erb (6.0.1)
     error_highlight (0.7.0)
@@ -448,6 +452,7 @@ DEPENDENCIES
   debug
   devise
   dockerfile-rails (>= 1.7)
+  dotenv-rails
   erb (~> 6.0.1)
   error_highlight (>= 0.4.0)
   faker (~> 3.5.3)

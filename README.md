@@ -32,6 +32,8 @@ Things you may want to cover:
    - **Pro**: $9/month recurring → copy the Price ID
 
 2. **Set environment variables**:
+   - **Local**: Copy `.env.example` to `.env` and fill in your Stripe test keys and price IDs
+   - **Production** (e.g. Fly.io): `fly secrets set STRIPE_PUBLISHABLE_KEY=... STRIPE_SECRET_KEY=... STRIPE_PRICE_GROWTH_ID=... STRIPE_PRICE_PRO_ID=... STRIPE_WEBHOOK_SECRET=...`
    ```bash
    STRIPE_PUBLISHABLE_KEY=pk_test_...
    STRIPE_SECRET_KEY=sk_test_...
