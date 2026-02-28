@@ -23,6 +23,8 @@ class Resume < ApplicationRecord
   has_many :projects, dependent: :destroy
   accepts_nested_attributes_for :projects, allow_destroy: true
 
+  has_many :resume_events, dependent: :destroy
+
   delegate :first_name, :last_name, :email, :phone, :linked_in_url, :github_url, :portfolio, :location, to: :user, prefix: true
 
   def to_param
@@ -56,6 +58,17 @@ class Resume < ApplicationRecord
     return @ats_analysis if defined?(@ats_analysis)
 
     @ats_analysis = ::AtsAnalyzerService.new(self).analyze
+  end
+
+  def analytics_summary(since: 30.days.ago)
+    {
+      total_views: resume_events.views.count,
+      total_downloads: resume_events.downloads.count,
+      views_since: resume_events.views.since(since).count,
+      downloads_since: resume_events.downloads.since(since).count,
+      views_by_day: resume_events.views.since(since).group("DATE(created_at)").count,
+      downloads_by_day: resume_events.downloads.since(since).group("DATE(created_at)").count
+    }
   end
 
   def regenerate_slug!

@@ -43,6 +43,9 @@
             <%= link_to "Edit", edit_resume_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
           <% end %>
           <%= link_to "View", public_resume_path(resume.slug), class: "ml-2 text-gray-600 hover:text-gray-800 text-sm" %>
+          <% if current_user.pro? %>
+            <%= link_to "Analytics", analytics_for_resume_path(resume.slug), class: "ml-2 text-blue-600 hover:text-blue-800 text-sm" %>
+          <% end %>
           <%= button_to "Delete", resume_path(resume), method: :delete, form: { data: { turbo_confirm: "Delete this resume?" } }, class: "ml-2 text-red-600 hover:text-red-800 font-medium text-sm" %>
         </div>
       </div>

@@ -1,7 +1,8 @@
 class ResumesController < ApplicationController
   before_action :authenticate_user!, except: [ :show, :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic, :pdf_health_check, :test_pdf, :pdf_diagnostic ]
   before_action :set_resume_public, only: [ :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic ]
-  before_action :set_resume, except: [ :index, :create, :destroy, :switch, :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic, :pdf_health_check, :test_pdf, :pdf_diagnostic ]
+  before_action :set_resume, except: [ :index, :create, :destroy, :switch, :analytics, :public, :public_pdf, :public_pdf_download, :public_pdf_modern, :public_pdf_classic, :pdf_health_check, :test_pdf, :pdf_diagnostic ]
+  before_action :set_resume_for_analytics, only: [ :analytics ]
   before_action :set_resume_for_destroy, only: [ :destroy ]
 
   def index
@@ -77,6 +78,18 @@ class ResumesController < ApplicationController
     @ats_analysis = @resume.ats_analysis
   end
 
+  def analytics
+    unless @resume
+      redirect_to resumes_path, alert: "Resume not found."
+      return
+    end
+    unless current_user.pro?
+      redirect_to (params[:slug] ? resumes_path : resume_path), alert: "Resume analytics is a Pro feature. Upgrade to see views and downloads."
+      return
+    end
+    @analytics = @resume.analytics_summary(since: 30.days.ago)
+  end
+
   def update
     unless @resume
       redirect_to new_user_session_path, alert: "Please sign in to update your resume."
@@ -109,10 +122,13 @@ class ResumesController < ApplicationController
 
   def public
     track_guest_public_resume_view
+    track_resume_event("view")
   end
 
   def public_pdf
     track_guest_pdf_view
+    is_download = params[:download] == "true" || params[:download] == true || request.query_string.include?("download=true") || request.referer&.include?("download=true")
+    track_resume_event(is_download ? "download" : "view")
     template_name = resolve_pdf_template(@resume.pdf_template)
 
     # Render HTML first to catch any template errors
@@ -192,6 +208,7 @@ class ResumesController < ApplicationController
       flash[:alert] = "Please create an account to download your resume as a PDF."
       redirect_to resume_path and return
     end
+    track_resume_event("download")
 
     template_name = resolve_pdf_template(@resume.pdf_template)
 
@@ -870,6 +887,17 @@ class ResumesController < ApplicationController
     end
   end
 
+  def set_resume_for_analytics
+    @resume = if params[:slug]
+      current_user.resumes.find_by(slug: params[:slug])
+    else
+      current_user.resume
+    end
+    unless @resume
+      redirect_to (params[:slug] ? resumes_path : resume_path), alert: "Resume not found."
+    end
+  end
+
   def set_resume_public
     @resume = Resume.find_by(slug: params[:slug])
     unless @resume
@@ -897,6 +925,14 @@ class ResumesController < ApplicationController
       guest_user: current_user,
       session_id: session.id&.to_s
     )
+  end
+
+  def track_resume_event(event_type)
+    return unless @resume
+
+    ResumeEvent.track!(resume: @resume, event_type: event_type)
+  rescue ActiveRecord::RecordInvalid
+    # Silently ignore tracking errors (e.g. invalid event_type)
   end
 
   def resume_params

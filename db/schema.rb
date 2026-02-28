@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_27_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_27_224418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -143,6 +143,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_120000) do
     t.index ["experience_id"], name: "index_responsibilities_on_experience_id"
   end
 
+  create_table "resume_events", force: :cascade do |t|
+    t.bigint "resume_id", null: false
+    t.string "event_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resume_id", "event_type", "created_at"], name: "index_resume_events_on_resume_id_and_event_type_and_created_at"
+    t.index ["resume_id"], name: "index_resume_events_on_resume_id"
+  end
+
   create_table "resumes", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -196,6 +205,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_120000) do
   add_foreign_key "feedbacks", "users"
   add_foreign_key "projects", "resumes"
   add_foreign_key "responsibilities", "experiences"
+  add_foreign_key "resume_events", "resumes"
   add_foreign_key "resumes", "users"
   add_foreign_key "skills", "resumes"
   add_foreign_key "users", "resumes", column: "current_resume_id"

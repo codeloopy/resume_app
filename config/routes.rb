@@ -26,9 +26,11 @@ Rails.application.routes.draw do
   resources :projects, except: [ :index, :show ]
   resource :resume, only: [ :show, :edit, :update, :destroy ] do
     get :analyze
+    get :analytics
   end
   resources :resumes, only: [ :index, :create, :destroy ], param: :slug do
     post :switch, on: :member
+    get :analytics, on: :member, as: :analytics_for
   end
   resources :feedbacks, only: [ :create ]
 

@@ -1,0 +1,69 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Resume Analytics</h1>
+    <%= link_to (params[:slug] ? "Back to Resumes" : "Back to Edit"), (params[:slug] ? resumes_path : edit_resume_path), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+  </div>
+
+  <p class="text-gray-600 mb-6">
+    Analytics for <strong><%= @resume.title.presence || "Untitled Resume" %></strong>
+  </p>
+
+  <% a = @analytics %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Total views</p>
+          <p class="text-2xl font-bold text-gray-900"><%= a[:total_views] %></p>
+        </div>
+      </div>
+      <p class="text-xs text-gray-400 mt-2"><%= a[:views_since] %> in last 30 days</p>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Total downloads</p>
+          <p class="text-2xl font-bold text-gray-900"><%= a[:total_downloads] %></p>
+        </div>
+      </div>
+      <p class="text-xs text-gray-400 mt-2"><%= a[:downloads_since] %> in last 30 days</p>
+    </div>
+  </div>
+
+  <% if a[:views_by_day].any? || a[:downloads_by_day].any? %>
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+      <h3 class="font-semibold text-gray-900 mb-4">Activity (last 30 days)</h3>
+      <div class="space-y-4 max-h-80 overflow-y-auto">
+        <% dates = (a[:views_by_day].keys + a[:downloads_by_day].keys).uniq.sort.reverse.first(14) %>
+        <% dates.each do |date| %>
+          <% display_date = date.respond_to?(:strftime) ? date : Date.parse(date.to_s) %>
+          <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+            <span class="text-gray-700"><%= display_date.strftime("%b %d, %Y") %></span>
+            <div class="flex gap-4 text-sm">
+              <span class="text-blue-600"><%= a[:views_by_day][date] || 0 %> views</span>
+              <span class="text-green-600"><%= a[:downloads_by_day][date] || 0 %> downloads</span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="bg-gray-50 border border-gray-200 rounded-xl p-8 text-center">
+      <p class="text-gray-600">No views or downloads yet.</p>
+      <p class="text-sm text-gray-500 mt-1">Share your public link to start tracking engagement.</p>
+      <%= link_to "View public link", public_resume_path(@resume.slug), target: "_blank", class: "inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium" %>
+    </div>
+  <% end %>
+</div>
