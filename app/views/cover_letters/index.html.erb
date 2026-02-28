@@ -1,0 +1,38 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Cover Letters</h1>
+    <div class="flex items-center gap-2">
+      <%= link_to "Back to Resumes", resumes_path, class: "inline-flex items-center text-gray-600 hover:text-gray-900 font-medium text-sm mr-2 py-2" %>
+      <%= link_to "New Cover Letter", new_resume_cover_letter_path(@resume), class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition" %>
+    </div>
+  </div>
+
+  <% if @cover_letters.empty? %>
+    <div class="text-center py-16 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+      <p class="text-gray-600 mb-6">You don't have any cover letters yet.</p>
+      <p class="text-gray-500 text-sm mb-6">Create a cover letter tailored to each job application using your resume.</p>
+      <%= link_to "Create Cover Letter", new_resume_cover_letter_path(@resume), class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition text-lg inline-block" %>
+    </div>
+  <% else %>
+    <div class="space-y-4">
+      <% @cover_letters.each do |cover_letter| %>
+        <div class="border border-gray-200 rounded-lg p-4 flex items-center justify-between bg-white shadow-sm hover:shadow-md transition">
+          <div class="flex-1 min-w-0">
+            <h2 class="font-semibold text-gray-900 truncate">
+              <%= link_to cover_letter.display_title, resume_cover_letter_path(@resume, cover_letter), class: "text-blue-600 hover:text-blue-800 hover:underline" %>
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+              <%= cover_letter.company_name.presence || "No company" %> · <%= cover_letter.job_title.presence || "No title" %>
+            </p>
+            <p class="text-xs text-gray-400 mt-1">Updated <%= time_ago_in_words(cover_letter.updated_at) %> ago</p>
+          </div>
+          <div class="flex items-center gap-2 ml-4 flex-shrink-0">
+            <%= link_to "Edit", edit_resume_cover_letter_path(@resume, cover_letter), class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+            <%= link_to "PDF", pdf_resume_cover_letter_path(@resume, cover_letter), class: "text-gray-600 hover:text-gray-800 text-sm ml-2", target: "_blank" %>
+            <%= button_to "Delete", resume_cover_letter_path(@resume, cover_letter), method: :delete, form: { data: { turbo_confirm: "Delete this cover letter?" } }, class: "text-red-600 hover:text-red-800 font-medium text-sm ml-2" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

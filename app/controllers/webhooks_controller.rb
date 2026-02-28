@@ -41,11 +41,18 @@ class WebhooksController < ActionController::Base
     user = User.find_by(id: user_id)
     return unless user
 
-    user.update!(
-      stripe_customer_id: session.customer_id,
-      stripe_subscription_id: session.subscription,
-      subscription_tier: plan.to_s
-    )
+    if session.mode == "payment" && plan.to_s == "cover_letter"
+      user.update!(
+        stripe_customer_id: session.customer_id,
+        cover_letter_purchased: true
+      )
+    else
+      user.update!(
+        stripe_customer_id: session.customer_id,
+        stripe_subscription_id: session.subscription,
+        subscription_tier: plan.to_s
+      )
+    end
   end
 
   def handle_subscription_updated(subscription)

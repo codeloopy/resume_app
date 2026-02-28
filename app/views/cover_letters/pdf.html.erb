@@ -1,0 +1,27 @@
+<div class="max-w-4xl mx-auto bg-white p-8">
+  <div class="mb-6">
+    <p class="text-sm text-gray-600">
+      <%= cover_letter.user.full_name %><br>
+      <% if cover_letter.user.email.present? %><%= cover_letter.user.email %><br><% end %>
+      <% if cover_letter.user.phone.present? %><%= cover_letter.user.phone %><br><% end %>
+      <% if cover_letter.user.location.present? %><%= cover_letter.user.location %><% end %>
+    </p>
+  </div>
+
+  <p class="text-sm text-gray-600 mb-4"><%= Time.current.strftime("%B %d, %Y") %></p>
+
+  <% if cover_letter.company_name.present? %>
+    <p class="text-sm text-gray-600 mb-4">
+      Hiring Manager<br>
+      <%= cover_letter.company_name %>
+    </p>
+  <% end %>
+
+  <div class="prose prose-gray max-w-none text-sm leading-relaxed">
+    <% if cover_letter.content.present? %>
+      <%= cover_letter.content %>
+    <% else %>
+      <p>Cover letter content goes here.</p>
+    <% end %>
+  </div>
+</div>

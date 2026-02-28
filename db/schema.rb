@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_27_224418) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_27_230002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,6 +67,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_224418) do
     t.datetime "published_at"
     t.string "slug"
     t.text "meta_description"
+  end
+
+  create_table "cover_letters", force: :cascade do |t|
+    t.bigint "resume_id", null: false
+    t.string "title"
+    t.string "company_name"
+    t.string "job_title"
+    t.text "job_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resume_id"], name: "index_cover_letters_on_resume_id"
   end
 
   create_table "educations", force: :cascade do |t|
@@ -193,6 +204,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_224418) do
     t.string "stripe_customer_id"
     t.string "stripe_subscription_id"
     t.bigint "current_resume_id"
+    t.boolean "cover_letter_purchased", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
@@ -200,6 +212,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_224418) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cover_letters", "resumes"
   add_foreign_key "educations", "resumes"
   add_foreign_key "experiences", "resumes"
   add_foreign_key "feedbacks", "users"

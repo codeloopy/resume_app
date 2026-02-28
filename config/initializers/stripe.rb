@@ -17,7 +17,8 @@ Rails.configuration.stripe = {
   secret_key: ENV.fetch("STRIPE_SECRET_KEY", ""),
   webhook_secret: ENV.fetch("STRIPE_WEBHOOK_SECRET", ""),
   price_growth_id: ENV.fetch("STRIPE_PRICE_GROWTH_ID", ""),
-  price_pro_id: ENV.fetch("STRIPE_PRICE_PRO_ID", "")
+  price_pro_id: ENV.fetch("STRIPE_PRICE_PRO_ID", ""),
+  price_cover_letter_id: ENV.fetch("STRIPE_PRICE_COVER_LETTER_ID", "")
 }
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]

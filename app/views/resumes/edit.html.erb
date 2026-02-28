@@ -28,9 +28,16 @@
 
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-center flex-1">Edit Resume</h1>
-    <% if current_user.premium? && current_user.resumes.many? %>
-      <%= link_to "My Resumes", resumes_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
-    <% end %>
+    <div class="flex gap-4">
+      <% if current_user.cover_letter_access? %>
+        <%= link_to "Cover Letters", resume_cover_letters_path(@resume), class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+      <% else %>
+        <%= link_to "Cover Letters", pricing_path, class: "text-gray-500 hover:text-gray-700 font-medium text-sm", title: "Growth & Pro feature" %>
+      <% end %>
+      <% if current_user.premium? && current_user.resumes.many? %>
+        <%= link_to "My Resumes", resumes_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+      <% end %>
+    </div>
   </div>
 
   <div class="max-w-4xl mx-auto mb-6">

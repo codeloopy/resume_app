@@ -31,6 +31,10 @@ Rails.application.routes.draw do
   resources :resumes, only: [ :index, :create, :destroy ], param: :slug do
     post :switch, on: :member
     get :analytics, on: :member, as: :analytics_for
+    resources :cover_letters do
+      post :generate, on: :collection
+      get :pdf, on: :member
+    end
   end
   resources :feedbacks, only: [ :create ]
 

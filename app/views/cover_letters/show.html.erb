@@ -1,0 +1,26 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="mb-6 flex justify-between items-center">
+    <%= link_to "← Back to Cover Letters", resume_cover_letters_path(@resume), class: "text-gray-600 hover:text-gray-900 font-medium text-sm" %>
+    <div class="flex items-center gap-2">
+      <%= link_to "Edit", edit_resume_cover_letter_path(@resume, @cover_letter), class: "inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm mr-2 py-2" %>
+      <%= link_to "Download PDF", pdf_resume_cover_letter_path(@resume, @cover_letter), class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm", target: "_blank" %>
+    </div>
+  </div>
+
+  <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
+    <h1 class="text-2xl font-bold text-gray-900 mb-2"><%= @cover_letter.display_title %></h1>
+    <% if @cover_letter.company_name.present? || @cover_letter.job_title.present? %>
+      <p class="text-gray-500 text-sm mb-6">
+        <%= [@cover_letter.company_name, @cover_letter.job_title].compact.join(" · ") %>
+      </p>
+    <% end %>
+
+    <div class="prose prose-gray max-w-none">
+      <% if @cover_letter.content.present? %>
+        <%= @cover_letter.content %>
+      <% else %>
+        <p class="text-gray-500 italic">No content yet. Edit to add your cover letter.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

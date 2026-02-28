@@ -24,6 +24,7 @@ class Resume < ApplicationRecord
   accepts_nested_attributes_for :projects, allow_destroy: true
 
   has_many :resume_events, dependent: :destroy
+  has_many :cover_letters, dependent: :destroy
 
   delegate :first_name, :last_name, :email, :phone, :linked_in_url, :github_url, :portfolio, :location, to: :user, prefix: true
 
