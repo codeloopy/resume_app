@@ -105,6 +105,10 @@ class User < ApplicationRecord
     pro? || growth?
   end
 
+  def job_application_access?
+    pro?
+  end
+
   # Resume limits by tier (for future multi-resume support)
   # Admins automatically get Pro limits
   RESUME_LIMITS = { "free" => 1, "growth" => 2, "pro" => 10 }.freeze

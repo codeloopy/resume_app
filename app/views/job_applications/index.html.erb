@@ -1,0 +1,67 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Job Application Tracker</h1>
+    <div class="flex items-center gap-2">
+      <%= link_to "Back to Resumes", resumes_path, class: "inline-flex items-center text-gray-600 hover:text-gray-900 font-medium text-sm mr-2 py-2" %>
+      <%= link_to "Add Application", new_resume_job_application_path(@resume), class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition" %>
+    </div>
+  </div>
+
+  <p class="text-sm text-gray-500 mb-6">
+    Tracking applications for <strong><%= @resume.title.presence || "Untitled Resume" %></strong>
+  </p>
+
+  <% if @resume.job_applications.any? %>
+    <div class="mb-6 flex flex-wrap gap-3 items-center">
+      <span class="text-sm font-medium text-gray-700">Filter by status:</span>
+      <%= link_to "All", resume_job_applications_path(@resume), class: "px-3 py-1 rounded-full text-sm font-medium #{params[:status].blank? ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% JobApplication::STATUSES.each do |status| %>
+        <%= link_to status.titleize, resume_job_applications_path(@resume, status: status), class: "px-3 py-1 rounded-full text-sm font-medium #{params[:status] == status ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% end %>
+    </div>
+
+    <% if @job_applications.any? %>
+    <div class="space-y-4">
+      <% @job_applications.each do |job_application| %>
+        <div class="border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between bg-white shadow-sm hover:shadow-md transition gap-4">
+          <div class="flex-1 min-w-0">
+            <h2 class="font-semibold text-gray-900 truncate">
+              <%= link_to job_application.display_title, resume_job_application_path(@resume, job_application), class: "text-blue-600 hover:text-blue-800 hover:underline" %>
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+              <%= job_application.company %> · <%= job_application.role %>
+            </p>
+            <p class="text-xs text-gray-400 mt-1">
+              <% if job_application.applied_at %>
+                Applied <%= job_application.applied_at.strftime("%b %d, %Y") %>
+              <% end %>
+              <% if job_application.next_follow_up_at %>
+                · Follow up <%= job_application.next_follow_up_at.strftime("%b %d") %>
+              <% end %>
+            </p>
+          </div>
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <%= form_with model: [ @resume, job_application ], url: resume_job_application_path(@resume, job_application), method: :patch, class: "inline-flex items-center gap-2", data: { turbo_frame: "_top" } do |f| %>
+              <%= hidden_field_tag :from, "index" %>
+              <%= f.select :status, JobApplication::STATUSES.map { |s| [ s.titleize, s ] }, {}, class: "text-sm border border-gray-300 rounded-md py-1.5 px-2 bg-white", onchange: "this.form.requestSubmit()" %>
+            <% end %>
+            <%= link_to "Edit", edit_resume_job_application_path(@resume, job_application), class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
+            <%= button_to "Delete", resume_job_application_path(@resume, job_application), method: :delete, form: { data: { turbo_confirm: "Remove this application?" } }, class: "text-red-600 hover:text-red-800 font-medium text-sm" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <% else %>
+    <div class="text-center py-12 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+      <p class="text-gray-600">No applications with "<%= params[:status]&.titleize || "this" %>" status.</p>
+      <p class="text-sm text-gray-500 mt-2"><%= link_to "View all", resume_job_applications_path(@resume), class: "text-blue-600 hover:underline" %></p>
+    </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-16 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+      <p class="text-gray-600 mb-6">You don't have any job applications tracked yet.</p>
+      <p class="text-gray-500 text-sm mb-6">Track your applications by company, role, and status to stay organized.</p>
+      <%= link_to "Add First Application", new_resume_job_application_path(@resume), class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition text-lg inline-block" %>
+    </div>
+  <% end %>
+</div>

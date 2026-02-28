@@ -25,6 +25,7 @@ class Resume < ApplicationRecord
 
   has_many :resume_events, dependent: :destroy
   has_many :cover_letters, dependent: :destroy
+  has_many :job_applications, dependent: :destroy
 
   delegate :first_name, :last_name, :email, :phone, :linked_in_url, :github_url, :portfolio, :location, to: :user, prefix: true
 

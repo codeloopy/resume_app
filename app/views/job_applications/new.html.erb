@@ -1,0 +1,9 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="mb-6">
+    <%= link_to "← Back to Tracker", resume_job_applications_path(@resume), class: "text-gray-600 hover:text-gray-900 font-medium text-sm" %>
+  </div>
+
+  <h1 class="text-2xl font-bold text-gray-900 mb-8">Add Job Application</h1>
+
+  <%= render "form", job_application: @job_application, resume: @resume %>
+</div>

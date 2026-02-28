@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       post :generate, on: :collection
       get :pdf, on: :member
     end
+    resources :job_applications
   end
   resources :feedbacks, only: [ :create ]
 

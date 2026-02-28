@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_27_230002) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_27_240000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -136,6 +136,21 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_230002) do
     t.index ["event_type"], name: "index_guest_activities_on_event_type"
   end
 
+  create_table "job_applications", force: :cascade do |t|
+    t.bigint "resume_id", null: false
+    t.string "company", null: false
+    t.string "role", null: false
+    t.string "status", default: "applied", null: false
+    t.text "notes"
+    t.date "applied_at"
+    t.date "next_follow_up_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resume_id", "applied_at"], name: "index_job_applications_on_resume_id_and_applied_at"
+    t.index ["resume_id", "status"], name: "index_job_applications_on_resume_id_and_status"
+    t.index ["resume_id"], name: "index_job_applications_on_resume_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -216,6 +231,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_230002) do
   add_foreign_key "educations", "resumes"
   add_foreign_key "experiences", "resumes"
   add_foreign_key "feedbacks", "users"
+  add_foreign_key "job_applications", "resumes"
   add_foreign_key "projects", "resumes"
   add_foreign_key "responsibilities", "experiences"
   add_foreign_key "resume_events", "resumes"

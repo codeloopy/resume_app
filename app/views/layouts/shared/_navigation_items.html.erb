@@ -14,6 +14,11 @@
     <% else %>
       <%= link_to "Cover Letters", pricing_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-500 hover:text-gray-700 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200", title: "Growth & Pro feature" %>
     <% end %>
+    <% if current_user.job_application_access? %>
+      <%= link_to "Job Tracker", resume_job_applications_path(nav_resume), class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
+    <% else %>
+      <%= link_to "Job Tracker", pricing_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-500 hover:text-gray-700 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200", title: "Pro feature" %>
+    <% end %>
   <% end %>
   <% if current_user.premium? %>
     <%= link_to "My Resumes", resumes_path, class: local_assigns[:mobile] ? "mobile-menu-link bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-200" : "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>

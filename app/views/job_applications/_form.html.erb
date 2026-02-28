@@ -1,0 +1,45 @@
+<%= form_with model: [ resume, job_application ], local: true do |f| %>
+  <% if job_application.errors.any? %>
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+      <h3 class="text-sm font-medium text-red-800 mb-2"><%= pluralize(job_application.errors.count, "error") %> prevented saving:</h3>
+      <ul class="list-disc list-inside text-sm text-red-700">
+        <% job_application.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-4">
+    <div>
+      <%= f.label :company, "Company", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :company, class: "w-full border border-gray-300 rounded-md p-2", placeholder: "Acme Inc." %>
+    </div>
+    <div>
+      <%= f.label :role, "Role / Job Title", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :role, class: "w-full border border-gray-300 rounded-md p-2", placeholder: "Senior Software Engineer" %>
+    </div>
+    <div>
+      <%= f.label :status, "Status", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.select :status, JobApplication::STATUSES.map { |s| [ s.titleize, s ] }, {}, class: "w-full border border-gray-300 rounded-md p-2" %>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :applied_at, "Date Applied", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.date_field :applied_at, class: "w-full border border-gray-300 rounded-md p-2" %>
+      </div>
+      <div>
+        <%= f.label :next_follow_up_at, "Next Follow-up", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.date_field :next_follow_up_at, class: "w-full border border-gray-300 rounded-md p-2" %>
+      </div>
+    </div>
+    <div>
+      <%= f.label :notes, "Notes", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_area :notes, rows: 4, class: "w-full border border-gray-300 rounded-md p-2", placeholder: "Interview dates, recruiter contact, etc." %>
+    </div>
+    <div class="flex gap-2">
+      <%= f.submit class: "bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition cursor-pointer" %>
+      <%= link_to "Cancel", job_application.persisted? ? resume_job_application_path(resume, job_application) : resume_job_applications_path(resume), class: "text-gray-600 hover:text-gray-900 font-medium py-2" %>
+    </div>
+  </div>
+<% end %>
