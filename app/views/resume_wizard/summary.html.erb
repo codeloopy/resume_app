@@ -27,7 +27,7 @@
   <h1 class="text-2xl font-bold mb-6 text-center">Step 1: Resume Summary</h1>
 
   <div class="max-w-4xl mx-auto mb-6">
-    <%= render "resumes/ats_score_card", resume: @resume %>
+    <%= render "resumes/ats_score_card", resume: @resume, user: current_user %>
   </div>
 
   <div class="max-w-4xl mx-auto">

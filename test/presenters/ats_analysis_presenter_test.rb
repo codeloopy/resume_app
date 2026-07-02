@@ -20,6 +20,13 @@ class AtsAnalysisPresenterTest < ActiveSupport::TestCase
     assert presenter.locked?
   end
 
+  test "handles nil user gracefully" do
+    presenter = AtsAnalysisPresenter.new(FULL_ANALYSIS, user: nil)
+
+    assert_equal 3, presenter.suggestions.size
+    assert presenter.locked?
+  end
+
   test "growth user sees full analysis" do
     user = User.new(subscription_tier: "growth")
     presenter = AtsAnalysisPresenter.new(FULL_ANALYSIS, user: user)

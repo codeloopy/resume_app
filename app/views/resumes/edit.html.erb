@@ -42,7 +42,7 @@
   </div>
 
   <div class="max-w-4xl mx-auto mb-6">
-    <%= render "ats_score_card", resume: @resume %>
+    <%= render "ats_score_card", resume: @resume, user: current_user %>
   </div>
 
   <%= form_with model: @resume, url: resume_path, method: :patch do |f| %>

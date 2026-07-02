@@ -27,7 +27,7 @@ class AtsAnalysisPresenter
   end
 
   def full_access?
-    @user.deep_ats_analysis?
+    @user&.deep_ats_analysis? || false
   end
 
   def locked?

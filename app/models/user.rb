@@ -63,7 +63,8 @@ class User < ApplicationRecord
   def create_resume(slug: nil)
     new_resume = resumes.build(slug: slug)
     new_resume.save!
-    update_column(:current_resume_id, new_resume.id)
+    update!(current_resume_id: new_resume.id)
+    association(:current_resume).reset
     new_resume
   end
 

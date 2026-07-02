@@ -26,6 +26,7 @@ class ResumesController < ApplicationController
     end
 
     new_resume = current_user.create_resume
+    current_user.reload
     redirect_to edit_resume_path, notice: "New resume created! Start editing."
   rescue ActiveRecord::RecordInvalid => e
     redirect_to resumes_path, alert: "Could not create resume: #{e.message}"
