@@ -4,9 +4,9 @@
     <%= link_to "Back to Edit", edit_resume_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
   </div>
 
-  <% analysis = @ats_analysis %>
-  <% score = analysis[:score] %>
-  <% grade = analysis[:grade] %>
+  <% presenter = @ats_presenter %>
+  <% score = presenter.score %>
+  <% grade = presenter.grade %>
 
   <% score_color = case score
     when 90..100 then "bg-green-500"
@@ -27,33 +27,47 @@
       </div>
     </div>
 
-    <h3 class="font-semibold text-gray-900 mb-4">Score Breakdown</h3>
-    <div class="space-y-4">
-      <% analysis[:breakdown].each do |key, data| %>
-        <div>
-          <div class="flex justify-between text-sm mb-1">
-            <span><%= data[:label] %></span>
-            <span><%= data[:score] %>/<%= data[:max] %></span>
+    <% if presenter.breakdown.present? %>
+      <h3 class="font-semibold text-gray-900 mb-4">Score Breakdown</h3>
+      <div class="space-y-4">
+        <% presenter.breakdown.each do |key, data| %>
+          <div>
+            <div class="flex justify-between text-sm mb-1">
+              <span><%= data[:label] %></span>
+              <span><%= data[:score] %>/<%= data[:max] %></span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-blue-500 rounded-full" style="width: <%= (data[:score].to_f / data[:max] * 100).round %>%"></div>
+            </div>
           </div>
-          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-full bg-blue-500 rounded-full" style="width: <%= (data[:score].to_f / data[:max] * 100).round %>%"></div>
-          </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
+    <% elsif presenter.locked? %>
+      <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
+        <p class="text-indigo-900 font-medium">Unlock the full score breakdown</p>
+        <p class="text-indigo-700 text-sm mt-1">See exactly how each section scores and get all improvement suggestions.</p>
+        <%= link_to "Upgrade to Growth or Pro", pricing_path, class: "inline-block mt-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm" %>
+      </div>
+    <% end %>
   </div>
 
-  <% if analysis[:suggestions].any? %>
+  <% if presenter.suggestions.any? %>
     <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
       <h3 class="font-semibold text-gray-900 mb-4">Suggestions to Improve Your Score</h3>
       <ul class="space-y-3">
-        <% analysis[:suggestions].each do |suggestion| %>
+        <% presenter.suggestions.each do |suggestion| %>
           <li class="flex items-start gap-3">
             <span class="text-amber-500 mt-0.5">•</span>
             <span class="text-gray-700"><%= suggestion %></span>
           </li>
         <% end %>
       </ul>
+      <% if presenter.locked? %>
+        <p class="text-sm text-gray-500 mt-4">
+          Showing top 3 suggestions.
+          <%= link_to "Upgrade for the full list", pricing_path, class: "text-indigo-600 font-medium hover:underline" %>.
+        </p>
+      <% end %>
       <%= link_to "Edit Resume", edit_resume_path, class: "inline-block mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition" %>
     </div>
   <% else %>

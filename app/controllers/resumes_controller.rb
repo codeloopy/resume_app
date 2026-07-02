@@ -75,7 +75,7 @@ class ResumesController < ApplicationController
       redirect_to resumes_path, alert: "No resume to analyze."
       return
     end
-    @ats_analysis = @resume.ats_analysis
+    @ats_presenter = AtsAnalysisPresenter.new(@resume.ats_analysis, user: current_user)
   end
 
   def analytics

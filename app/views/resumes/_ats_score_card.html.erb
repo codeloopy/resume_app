@@ -1,7 +1,8 @@
 <% analysis = resume.ats_analysis %>
-<% score = analysis[:score] %>
-<% grade = analysis[:grade] %>
-<% suggestions = analysis[:suggestions] %>
+<% presenter = AtsAnalysisPresenter.new(analysis, user: current_user) %>
+<% score = presenter.score %>
+<% grade = presenter.grade %>
+<% suggestions = presenter.suggestions %>
 
 <% score_color = case score
   when 90..100 then "bg-green-100 text-green-800 border-green-300"
@@ -29,6 +30,11 @@ end %>
           <li><%= suggestion %></li>
         <% end %>
       </ul>
+      <% if presenter.locked? && analysis[:suggestions].size > 3 %>
+        <p class="text-xs mt-2 opacity-80">
+          <%= link_to "Upgrade for more suggestions", pricing_path, class: "underline hover:no-underline" %>
+        </p>
+      <% end %>
     </div>
   <% end %>
 </div>
