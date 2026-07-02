@@ -49,8 +49,8 @@ class UserEntitlements
   end
 
   def ai_credit_limit
-    return nil if pro_features? && !job_search_pass_active? && !@user.admin?
-    return SubscriptionPlans::PASS_AI_CREDIT_LIMIT if job_search_pass_active? && !pro_features?
+    return nil if pro_features?
+    return SubscriptionPlans::PASS_AI_CREDIT_LIMIT if job_search_pass_active?
 
     SubscriptionPlans.ai_credit_limit_for(effective_tier)
   end

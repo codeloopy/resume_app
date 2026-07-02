@@ -105,6 +105,10 @@ class User < ApplicationRecord
     @entitlements ||= UserEntitlements.new(self)
   end
 
+  def usage_quota
+    @usage_quota ||= UsageQuota.new(self)
+  end
+
   def cover_letter_access?
     entitlements.cover_letter_access?
   end

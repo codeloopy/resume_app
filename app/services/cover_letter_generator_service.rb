@@ -7,8 +7,9 @@ class CoverLetterGeneratorService
     @user = @resume.user
   end
 
-  def generate(use_ai: false)
+  def generate
     if use_ai && ai_available?
+      spend_ai_credits_for!(:cover_letter)
       generate_with_ai
     else
       generate_template_based
@@ -81,6 +82,11 @@ class CoverLetterGeneratorService
 
   def ai_available?
     ENV["OPENAI_API_KEY"].present?
+  end
+
+  def spend_ai_credits_for!(action)
+    cost = SubscriptionPlans::AI_CREDIT_COSTS.fetch(action)
+    user.usage_quota.spend_ai_credits!(cost)
   end
 
   def generate_with_ai

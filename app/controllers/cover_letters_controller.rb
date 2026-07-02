@@ -47,10 +47,17 @@ class CoverLettersController < ApplicationController
     @cover_letter = @resume.cover_letters.build(cover_letter_params)
     use_ai = params[:use_ai] == "true" && ENV["OPENAI_API_KEY"].present?
 
+    if use_ai && !current_user.usage_quota.can_spend_ai_credits?(SubscriptionPlans::AI_CREDIT_COSTS[:cover_letter])
+      redirect_to pricing_path, alert: "You've used all your AI credits this month. Upgrade for more."
+      return
+    end
+
     CoverLetterGeneratorService.new(@cover_letter).generate(use_ai: use_ai)
     @cover_letter.save!
 
     redirect_to edit_resume_cover_letter_path(@resume, @cover_letter), notice: "Cover letter generated. Review and edit as needed."
+  rescue UsageQuota::LimitExceeded
+    redirect_to pricing_path, alert: "You've used all your AI credits this month. Upgrade for more."
   rescue ActiveRecord::RecordInvalid => e
     @cover_letter = @resume.cover_letters.build(cover_letter_params)
     flash.now[:alert] = "Could not generate: #{e.message}"
