@@ -1,0 +1,43 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Job Match Scans</h1>
+      <p class="text-gray-600 text-sm mt-1">Compare your resume against job descriptions to find missing keywords.</p>
+    </div>
+    <%= link_to "New Scan", new_resume_job_match_scan_path(@resume), class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm" %>
+  </div>
+
+  <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm text-blue-900">
+  <% if @quota.jd_scans_remaining.infinite? %>
+    <span>Unlimited scans available this month.</span>
+  <% else %>
+    <span><strong><%= @quota.jd_scans_remaining.to_i %></strong> scans remaining this month.</span>
+    <% if @quota.jd_scans_remaining.to_i.zero? %>
+      <%= link_to "Upgrade for more", pricing_path, class: "ml-2 font-semibold underline" %>
+    <% end %>
+  <% end %>
+  </div>
+
+  <% if @scans.any? %>
+    <div class="space-y-3">
+      <% @scans.each do |scan| %>
+        <%= link_to resume_job_match_scan_path(@resume, scan), class: "block bg-white border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition" do %>
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="font-semibold text-gray-900"><%= scan.display_title %></div>
+              <div class="text-sm text-gray-500"><%= scan.created_at.strftime("%b %d, %Y") %></div>
+            </div>
+            <div class="text-2xl font-bold <%= scan.match_score >= 70 ? 'text-green-600' : scan.match_score >= 50 ? 'text-yellow-600' : 'text-red-600' %>">
+              <%= scan.match_score %>%
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white border border-gray-200 rounded-lg p-8 text-center">
+      <p class="text-gray-600 mb-4">No scans yet. Paste a job description to see how well your resume matches.</p>
+      <%= link_to "Scan Your First Job", new_resume_job_match_scan_path(@resume), class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition" %>
+    </div>
+  <% end %>
+</div>

@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       get :pdf, on: :member
     end
     resources :job_applications
+    resources :job_match_scans, only: [ :index, :new, :create, :show ]
   end
   resources :feedbacks, only: [ :create ]
 
