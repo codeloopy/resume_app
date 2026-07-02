@@ -52,7 +52,7 @@
         </li>
         <li class="flex items-center text-gray-800">
           <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          <strong>5 premium templates</strong>
+          <strong>3 premium templates</strong> (Minimal, Creative, Executive)
         </li>
         <li class="flex items-center text-gray-800">
           <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
@@ -121,7 +121,43 @@
     </div>
   </div>
 
-  <p class="text-center text-gray-500 mt-8 text-sm">Secure payments via Stripe. Cancel anytime.</p>
+  <p class="text-center text-gray-500 mt-8 text-sm">Secure payments via Stripe. Cancel subscriptions anytime.</p>
+
+  <div class="max-w-3xl mx-auto mt-12 grid gap-6 md:grid-cols-2">
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <h3 class="text-lg font-bold text-gray-900 mb-1">Job Search Pass</h3>
+      <p class="text-3xl font-bold text-gray-900 mb-4">$29<span class="text-base font-normal text-gray-500">/90 days</span></p>
+      <p class="text-gray-600 text-sm mb-4">Actively applying? Get unlimited job matching, cover letters, job tracker, and 3 resume variants for 90 days — no subscription.</p>
+      <ul class="text-sm text-gray-700 space-y-2 mb-6">
+        <li>✓ Unlimited job-description matching</li>
+        <li>✓ Cover letter generator + PDF</li>
+        <li>✓ Job application tracker</li>
+        <li>✓ 3 resumes for 90 days</li>
+      </ul>
+      <% if user_signed_in? && !current_user.guest? %>
+        <%= button_to "Get Job Search Pass", checkout_path(plan: "job_search_pass"), method: :post, form_class: "w-full", form: { data: { turbo: false } }, class: "w-full py-2.5 px-4 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition border-0 cursor-pointer text-sm" %>
+      <% else %>
+        <%= link_to "Get Job Search Pass", new_user_registration_path, class: "block w-full text-center py-2.5 px-4 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition text-sm" %>
+      <% end %>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <h3 class="text-lg font-bold text-gray-900 mb-1">Lifetime Access</h3>
+      <p class="text-3xl font-bold text-gray-900 mb-4">$149<span class="text-base font-normal text-gray-500">/once</span></p>
+      <p class="text-gray-600 text-sm mb-4">One payment, forever access to all Pro features. Perfect if you job-search periodically.</p>
+      <ul class="text-sm text-gray-700 space-y-2 mb-6">
+        <li>✓ Everything in Pro, forever</li>
+        <li>✓ Unlimited job matching</li>
+        <li>✓ 10 resumes, analytics, tracker</li>
+        <li>✓ No recurring charges</li>
+      </ul>
+      <% if user_signed_in? && !current_user.guest? %>
+        <%= button_to "Get Lifetime", checkout_path(plan: "lifetime"), method: :post, form_class: "w-full", form: { data: { turbo: false } }, class: "w-full py-2.5 px-4 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-900 transition border-0 cursor-pointer text-sm" %>
+      <% else %>
+        <%= link_to "Get Lifetime", new_user_registration_path, class: "block w-full text-center py-2.5 px-4 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-900 transition text-sm" %>
+      <% end %>
+    </div>
+  </div>
   <% unless user_signed_in? %>
   <p class="text-center text-gray-500 mt-2 text-sm">* 100% free without registration, resume will be deleted in 24hrs. If you want to save your info, just register—it's still free.</p>
   <% end %>

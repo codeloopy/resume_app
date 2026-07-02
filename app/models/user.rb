@@ -86,7 +86,7 @@ class User < ApplicationRecord
   end
 
   def pro?
-    admin? || subscription_tier == "pro"
+    entitlements.pro_features? || job_search_pass_active?
   end
 
   def growth?
@@ -94,27 +94,39 @@ class User < ApplicationRecord
   end
 
   def free?
-    !admin? && (subscription_tier == "free" || subscription_tier.blank?)
+    !admin? && (subscription_tier == "free" || subscription_tier.blank?) && !lifetime_access? && !job_search_pass_active?
   end
 
   def premium?
-    pro? || growth?
+    entitlements.premium?
+  end
+
+  def entitlements
+    @entitlements ||= UserEntitlements.new(self)
   end
 
   def cover_letter_access?
-    pro? || growth?
+    entitlements.cover_letter_access?
   end
 
   def job_application_access?
-    pro?
+    entitlements.job_application_access?
   end
 
-  # Resume limits by tier (for future multi-resume support)
-  # Admins automatically get Pro limits
-  RESUME_LIMITS = { "free" => 1, "growth" => 2, "pro" => 10 }.freeze
+  def deep_ats_analysis?
+    entitlements.deep_ats_analysis?
+  end
+
+  def job_search_pass_active?
+    entitlements.job_search_pass_active?
+  end
+
+  def lifetime_access?
+    entitlements.lifetime_access?
+  end
 
   def resume_limit
-    admin? ? RESUME_LIMITS["pro"] : (RESUME_LIMITS[subscription_tier] || RESUME_LIMITS["free"])
+    entitlements.resume_limit
   end
 
   def resume_count

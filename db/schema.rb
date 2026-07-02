@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_27_240000) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_02_120100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -151,6 +151,19 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_240000) do
     t.index ["resume_id"], name: "index_job_applications_on_resume_id"
   end
 
+  create_table "job_match_scans", force: :cascade do |t|
+    t.bigint "resume_id", null: false
+    t.string "job_title"
+    t.string "company_name"
+    t.text "job_description", null: false
+    t.integer "match_score", null: false
+    t.jsonb "result", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resume_id", "created_at"], name: "index_job_match_scans_on_resume_id_and_created_at"
+    t.index ["resume_id"], name: "index_job_match_scans_on_resume_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -220,6 +233,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_240000) do
     t.string "stripe_subscription_id"
     t.bigint "current_resume_id"
     t.boolean "cover_letter_purchased", default: false, null: false
+    t.boolean "lifetime_access", default: false, null: false
+    t.datetime "job_search_pass_expires_at"
+    t.integer "jd_scans_used", default: 0, null: false
+    t.date "jd_scans_period_start"
+    t.integer "ai_credits_used", default: 0, null: false
+    t.date "ai_credits_period_start"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
@@ -232,6 +251,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_240000) do
   add_foreign_key "experiences", "resumes"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "job_applications", "resumes"
+  add_foreign_key "job_match_scans", "resumes"
   add_foreign_key "projects", "resumes"
   add_foreign_key "responsibilities", "experiences"
   add_foreign_key "resume_events", "resumes"

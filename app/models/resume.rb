@@ -36,7 +36,7 @@ class Resume < ApplicationRecord
   def pdf_template
     template = super.presence || "modern"
     # Fallback to modern if user doesn't have access to premium template
-    if PREMIUM_TEMPLATES.include?(template) && !user.pro? && !user.growth?
+    if PREMIUM_TEMPLATES.include?(template) && !user.premium?
       "modern"
     else
       template
@@ -94,7 +94,7 @@ class Resume < ApplicationRecord
   end
 
   def enforce_premium_template_access
-    return if user.pro? || user.growth?
+    return if user.premium?
 
     raw_template = read_attribute(:pdf_template)
     self.pdf_template = "modern" if raw_template.present? && PREMIUM_TEMPLATES.include?(raw_template)
