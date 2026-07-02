@@ -66,7 +66,7 @@ class CheckoutsController < ApplicationController
       # One-time payment for cover letter access
       session_params = {
         mode: "payment",
-        line_items: [{ price: price_id, quantity: 1 }],
+        line_items: [ { price: price_id, quantity: 1 } ],
         success_url: "#{success_checkout_url}?purchase=cover_letter",
         cancel_url: cancel_checkout_url,
         metadata: {
@@ -80,7 +80,7 @@ class CheckoutsController < ApplicationController
       # Subscription for Growth/Pro
       session_params = {
         mode: "subscription",
-        line_items: [{ price: price_id, quantity: 1 }],
+        line_items: [ { price: price_id, quantity: 1 } ],
         success_url: success_checkout_url,
         cancel_url: cancel_checkout_url,
         metadata: {

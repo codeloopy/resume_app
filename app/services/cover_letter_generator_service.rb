@@ -28,7 +28,7 @@ class CoverLetterGeneratorService
     body = build_body(job_desc)
     closing = build_closing(company)
 
-    full_content = [intro, body, closing].compact.join("\n\n")
+    full_content = [ intro, body, closing ].compact.join("\n\n")
     cover_letter.content = full_content
     cover_letter
   end
