@@ -63,8 +63,10 @@ class JobApplicationsController < ApplicationController
   end
 
   def job_application_params
-    permitted = params.require(:job_application).permit(:company, :role, :notes, :applied_at, :next_follow_up_at)
-    status = params.dig(:job_application, :status)
+    permitted = params.require(:job_application).permit(:company, :notes, :applied_at, :next_follow_up_at)
+    job_application = params[:job_application]
+    permitted[:role] = job_application[:role] if job_application&.key?(:role)
+    status = job_application&.dig(:status)
     permitted[:status] = status if status.in?(JobApplication::STATUSES)
     permitted
   end
