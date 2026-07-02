@@ -41,11 +41,8 @@ class WebhooksController < ActionController::Base
     user = User.find_by(id: user_id)
     return unless user
 
-    if session.mode == "payment" && plan.to_s == "cover_letter"
-      user.update!(
-        stripe_customer_id: session.customer_id,
-        cover_letter_purchased: true
-      )
+    if session.mode == "payment"
+      handle_one_time_purchase(user, session, plan)
     else
       user.update!(
         stripe_customer_id: session.customer_id,
@@ -53,6 +50,24 @@ class WebhooksController < ActionController::Base
         subscription_tier: plan.to_s
       )
     end
+  end
+
+  def handle_one_time_purchase(user, session, plan)
+    attrs = { stripe_customer_id: session.customer_id }
+
+    case plan.to_s
+    when "cover_letter"
+      attrs[:cover_letter_purchased] = true
+    when "job_search_pass"
+      base_time = [ user.job_search_pass_expires_at, Time.current ].compact.max
+      attrs[:job_search_pass_expires_at] = base_time + SubscriptionPlans::JOB_SEARCH_PASS_DURATION
+    when "lifetime"
+      attrs[:lifetime_access] = true
+    else
+      return
+    end
+
+    user.update!(attrs)
   end
 
   def handle_subscription_updated(subscription)

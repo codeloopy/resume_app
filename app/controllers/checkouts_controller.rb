@@ -4,14 +4,18 @@ class CheckoutsController < ApplicationController
   before_action :authenticate_user!
   before_action :reject_guest_user
 
+  ONE_TIME_PLANS = %w[cover_letter job_search_pass lifetime].freeze
+  SUBSCRIPTION_PLANS = %w[growth pro].freeze
+  VALID_PLANS = (ONE_TIME_PLANS + SUBSCRIPTION_PLANS).freeze
+
   def create
     plan = params[:plan].to_s.strip.downcase
     price_id = price_id_for_plan(plan)
 
     unless price_id.present?
-      if %w[growth pro cover_letter].include?(plan)
+      if VALID_PLANS.include?(plan)
         msg = if Rails.env.production?
-          "Stripe price IDs not set. Run: fly secrets set STRIPE_PRICE_GROWTH_ID=price_xxx STRIPE_PRICE_PRO_ID=price_xxx STRIPE_PRICE_COVER_LETTER_ID=price_xxx"
+          "Stripe price IDs not set. Configure STRIPE_PRICE_* env vars for this plan."
         else
           "Stripe not configured. Ensure .env has the required price IDs, then restart the server (run: spring stop)."
         end
@@ -30,7 +34,12 @@ class CheckoutsController < ApplicationController
   end
 
   def success
-    notice = params[:purchase] == "cover_letter" ? "Thank you! Cover letter access is now active." : "Thank you! Your subscription is now active."
+    notice = case params[:purchase]
+    when "cover_letter" then "Thank you! Cover letter access is now active."
+    when "job_search_pass" then "Thank you! Your 90-day Job Search Pass is now active."
+    when "lifetime" then "Thank you! Lifetime access is now active."
+    else "Thank you! Your subscription is now active."
+    end
     redirect_to resume_path, notice: notice
   end
 
@@ -41,19 +50,26 @@ class CheckoutsController < ApplicationController
   private
 
   def price_id_for_plan(plan)
-    case plan
-    when "growth" then stripe_price_id(:price_growth_id)
-    when "pro" then stripe_price_id(:price_pro_id)
-    when "cover_letter" then stripe_price_id(:price_cover_letter_id)
-    else nil
-    end
+    key = {
+      "growth" => :price_growth_id,
+      "pro" => :price_pro_id,
+      "cover_letter" => :price_cover_letter_id,
+      "job_search_pass" => :price_job_search_pass_id,
+      "lifetime" => :price_lifetime_id
+    }[plan]
+
+    return nil unless key
+
+    stripe_price_id(key)
   end
 
   def stripe_price_id(key)
     env_keys = {
       price_growth_id: "STRIPE_PRICE_GROWTH_ID",
       price_pro_id: "STRIPE_PRICE_PRO_ID",
-      price_cover_letter_id: "STRIPE_PRICE_COVER_LETTER_ID"
+      price_cover_letter_id: "STRIPE_PRICE_COVER_LETTER_ID",
+      price_job_search_pass_id: "STRIPE_PRICE_JOB_SEARCH_PASS_ID",
+      price_lifetime_id: "STRIPE_PRICE_LIFETIME_ID"
     }
     env_key = env_keys[key]
     Rails.configuration.stripe[key].presence || (env_key && ENV[env_key].presence)
@@ -62,22 +78,18 @@ class CheckoutsController < ApplicationController
   def create_checkout_session(price_id, plan)
     customer_id = current_user.stripe_customer_id
 
-    if plan == "cover_letter"
-      # One-time payment for cover letter access
+    if ONE_TIME_PLANS.include?(plan)
       session_params = {
         mode: "payment",
         line_items: [ { price: price_id, quantity: 1 } ],
-        success_url: "#{success_checkout_url}?purchase=cover_letter",
+        success_url: "#{success_checkout_url}?purchase=#{plan}",
         cancel_url: cancel_checkout_url,
         metadata: {
           user_id: current_user.id,
           plan: plan
         }
       }
-      session_params[:customer] = customer_id if customer_id.present?
-      session_params[:customer_email] = current_user.email if customer_id.blank?
     else
-      # Subscription for Growth/Pro
       session_params = {
         mode: "subscription",
         line_items: [ { price: price_id, quantity: 1 } ],
@@ -91,9 +103,10 @@ class CheckoutsController < ApplicationController
           metadata: { user_id: current_user.id.to_s, plan: plan }
         }
       }
-      session_params[:customer] = customer_id if customer_id.present?
-      session_params[:customer_email] = current_user.email if customer_id.blank?
     end
+
+    session_params[:customer] = customer_id if customer_id.present?
+    session_params[:customer_email] = current_user.email if customer_id.blank?
 
     Stripe::Checkout::Session.create(session_params)
   end
