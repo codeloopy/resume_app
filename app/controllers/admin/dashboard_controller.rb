@@ -12,6 +12,12 @@ class Admin::DashboardController < Admin::BaseController
     @total_guest_signups_all_time = GuestActivity.signups.count
   end
 
+  def cleanup_guests
+    count = User.cleanup_old_guests(24)
+    redirect_to admin_dashboard_path,
+                notice: count.positive? ? "Cleaned up #{count} guest account(s) older than 24 hours." : "No guest accounts older than 24 hours to clean up."
+  end
+
   def feedbacks
     @pagy_feedbacks, @feedbacks = pagy(Feedback.all, page_param: :feedback_page, limit: 10)
     render partial: "feedback_data", locals: { feedbacks: @feedbacks, pagy: @pagy_feedbacks }

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get "/", to: "dashboard#index", as: :dashboard
+    post "/cleanup-guests", to: "dashboard#cleanup_guests", as: :dashboard_cleanup_guests
     get "/feedbacks", to: "dashboard#feedbacks", as: :dashboard_feedbacks
     get "/resumes", to: "dashboard#resumes", as: :dashboard_resumes
     get "/users", to: "dashboard#users", as: :dashboard_users

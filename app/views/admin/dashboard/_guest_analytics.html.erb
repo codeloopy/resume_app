@@ -1,5 +1,12 @@
 <div class="mb-8">
-  <h2 class="text-xl font-bold text-gray-900 mb-4">Guest Analytics</h2>
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+    <h2 class="text-xl font-bold text-gray-900">Guest Analytics</h2>
+    <%= button_to "Clean Up Old Guests",
+                  admin_dashboard_cleanup_guests_path,
+                  method: :post,
+                  form: { data: { turbo_confirm: "Remove all guest accounts inactive for 24+ hours?" } },
+                  class: "bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm cursor-pointer" %>
+  </div>
   <p class="text-gray-600 mb-4 text-sm">Guest accounts are automatically removed after 24 hours. These metrics show how guests interact with the app before cleanup.</p>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
