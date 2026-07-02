@@ -7,7 +7,7 @@ class CoverLetterGeneratorService
     @user = @resume.user
   end
 
-  def generate
+  def generate(use_ai: false)
     if use_ai && ai_available?
       spend_ai_credits_for!(:cover_letter)
       generate_with_ai
