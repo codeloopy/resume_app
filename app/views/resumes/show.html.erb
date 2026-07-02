@@ -27,6 +27,12 @@
   <% if current_user && !current_user.guest? %>
     <div class="mb-6">
       <%= render "ats_score_card", resume: @resume %>
+      <% presenter = AtsAnalysisPresenter.new(@resume.ats_analysis, user: current_user) %>
+      <% if presenter.score < 70 && !current_user.premium? %>
+        <%= render "shared/upgrade_prompt",
+              title: "Boost your ATS score",
+              message: "Upgrade for the full breakdown and job-description matching to land more interviews." %>
+      <% end %>
     </div>
   <% end %>
 

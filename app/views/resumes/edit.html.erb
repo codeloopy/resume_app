@@ -34,6 +34,7 @@
       <% else %>
         <%= link_to "Cover Letters", pricing_path, class: "text-gray-500 hover:text-gray-700 font-medium text-sm", title: "Growth & Pro feature" %>
       <% end %>
+      <%= link_to "Job Match", resume_job_match_scans_path(@resume), class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
       <% if current_user.premium? && current_user.resumes.many? %>
         <%= link_to "My Resumes", resumes_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
       <% end %>
