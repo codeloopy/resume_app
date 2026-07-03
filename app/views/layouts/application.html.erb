@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <%= render "layouts/shared/head" %>
-  <body>
+  <body class="app-shell min-h-screen flex flex-col">
     <!-- Google Tag Manager (noscript) -->
     <noscript>
       <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSVFN92S"
@@ -12,13 +12,15 @@
     <%= render "layouts/shared/navigation" %>
     <%= render "layouts/shared/flash" %>
 
-    <% if controller_name == 'static_pages' && action_name == 'home' %>
-      <%= yield %>
-    <% else %>
-      <div class="container mx-auto p-4">
+    <main class="app-main flex-1">
+      <% if controller_name == 'static_pages' && action_name == 'home' %>
         <%= yield %>
-      </div>
-    <% end %>
+      <% else %>
+        <div class="container mx-auto p-4">
+          <%= yield %>
+        </div>
+      <% end %>
+    </main>
 
     <%= render "shared/footer" %>
     <%= render "layouts/shared/feeback" %>

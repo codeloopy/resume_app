@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+html {
+  min-height: 100%;
+}
+
+body.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.app-shell > main.app-main {
+  flex: 1 0 auto;
+}
