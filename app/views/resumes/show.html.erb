@@ -75,16 +75,18 @@
         </div>
       </div>
 
-      <div class="grid gap-6 px-6 py-8 sm:px-8 xl:grid-cols-[1.2fr_0.8fr]">
-        <div class="space-y-6">
-          <section class="site-panel">
+      <div class="resume-preview-masonry px-6 py-8 sm:px-8">
+        <% if @resume.summary.present? %>
+          <section class="site-panel resume-preview-masonry__item">
             <h3 class="text-lg font-semibold text-slate-900">Summary</h3>
             <div class="mt-4 text-sm leading-7 text-slate-700">
               <%= @resume.summary.to_s.html_safe %>
             </div>
           </section>
+        <% end %>
 
-          <section class="site-panel">
+        <% if @resume.skills.any? %>
+          <section class="site-panel resume-preview-masonry__item">
             <h3 class="text-lg font-semibold text-slate-900"><%= @resume.skills_title || "Skills" %></h3>
             <div class="mt-4 flex flex-wrap gap-2">
               <% @resume.skills.each do |skill| %>
@@ -92,10 +94,10 @@
               <% end %>
             </div>
           </section>
-        </div>
+        <% end %>
 
-        <div class="space-y-6">
-          <section class="site-panel">
+        <% if @resume.experiences.any? %>
+          <section class="site-panel resume-preview-masonry__item">
             <h3 class="text-lg font-semibold text-slate-900">Work Experience</h3>
             <div class="mt-4 space-y-4">
               <% @resume.experiences.each do |experience| %>
@@ -108,8 +110,10 @@
               <% end %>
             </div>
           </section>
+        <% end %>
 
-          <section class="site-panel">
+        <% if @resume.educations.any? %>
+          <section class="site-panel resume-preview-masonry__item">
             <h3 class="text-lg font-semibold text-slate-900">Education</h3>
             <div class="mt-4 space-y-4">
               <% @resume.educations.each do |education| %>
@@ -121,8 +125,10 @@
               <% end %>
             </div>
           </section>
+        <% end %>
 
-          <section class="site-panel">
+        <% if @resume.projects.any? %>
+          <section class="site-panel resume-preview-masonry__item">
             <h3 class="text-lg font-semibold text-slate-900">Projects</h3>
             <div class="mt-4 space-y-4">
               <% @resume.projects.each do |project| %>
@@ -136,7 +142,7 @@
               <% end %>
             </div>
           </section>
-        </div>
+        <% end %>
       </div>
 
       <div class="border-t border-white/10 px-6 py-6 sm:px-8">

@@ -490,3 +490,20 @@ html[data-theme="light"] .site-btn-danger-soft {
 html[data-theme="light"] .site-btn-danger-soft:hover {
   background-color: #ffe4e6;
 }
+
+.resume-preview-masonry {
+  column-gap: 1.5rem;
+}
+
+.resume-preview-masonry__item {
+  break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 1280px) {
+  .resume-preview-masonry {
+    column-count: 2;
+  }
+}
