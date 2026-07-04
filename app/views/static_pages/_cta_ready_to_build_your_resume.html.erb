@@ -1,28 +1,35 @@
-<section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-700">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-4xl font-bold text-white mb-6">
-          Stop Getting Rejected.<br>Start Getting Hired.
-      </h2>
-      <p class="text-xl text-white mb-8 max-w-2xl mx-auto">
-          Join over 300 professionals who transformed their careers this month with our free resume builder.
-      </p>
+<section class="bg-slate-950 py-20">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 p-8 shadow-2xl shadow-slate-950/30 sm:p-10 lg:p-12">
+      <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-200">Ready when you are</p>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Build a polished resume in minutes, then grow into the rest only if you need it.
+          </h2>
+          <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
+            Start as a guest for free. If you want to save progress and keep your public resume link,
+            create a free account when you are ready.
+          </p>
 
-      <div class="bg-white/10 backdrop-blur rounded-lg p-6 mb-8 max-w-md mx-auto">
-          <div class="text-white font-bold text-lg">100% Free Forever</div>
-          <div class="text-white/80 text-sm">No credit card required</div>
+          <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-200">
+            <span class="rounded-full border border-white/10 bg-white/5 px-4 py-2">No credit card to start</span>
+            <span class="rounded-full border border-white/10 bg-white/5 px-4 py-2">ATS-friendly templates</span>
+            <span class="rounded-full border border-white/10 bg-white/5 px-4 py-2">Clean PDF export</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4 lg:items-end">
+          <%= button_to guest_sign_up_path,
+              class: "inline-flex items-center justify-center rounded-xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-950 transition hover:bg-cyan-300 cursor-pointer" do %>
+            Start building for free
+          <% end %>
+
+          <%= link_to pricing_path, class: "inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10" do %>
+            Compare plans
+          <% end %>
+        </div>
       </div>
-
-
-      <div class="mt-4">
-        <%= button_to guest_sign_up_path,
-            class: "bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-xl hover:bg-gray-100 transition shadow-xl inline-flex items-center animate-bounce cursor-pointer" do %>
-          Build My Resume Now
-          <i class="fas fa-arrow-right ml-3"></i>
-        <% end %>
-      </div>
-
-      <div class="mt-6 text-white text-sm">
-          ✓ Ready in minutes &nbsp;&nbsp; ✓ ATS-optimized &nbsp;&nbsp; ✓ Instant download
-      </div>
+    </div>
   </div>
 </section>

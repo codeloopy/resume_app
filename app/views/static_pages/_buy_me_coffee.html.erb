@@ -1,23 +1,44 @@
-<section id="buy-me-coffee" class="py-20 bg-gradient-to-b from-stone-50 to-indigo-50">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <p class="text-xl text-blue-900 mb-8 max-w-2xl mx-auto">
-      I built this project mostly out of frustration with so-called "free" resume builders that hit you with paywalls when you try to download your resume.
-    </p>
-    <h2 class="text-3xl md:text-4xl font-bold mb-6">
-      This builder is completely free — no hidden fees.
-    </h2>
-    <p class="text-2xl mb-6">
-      You will have to <%= link_to "register", new_user_registration_path, class: "text-blue-600 hover:text-blue-800 hover:underline" %> in order to save your resume, and get the public link.
-    </p>
-    <!-- <p class="text-xl text-blue-900 mb-8 max-w-2xl mx-auto">
-      If it helped you and you'd like to support my work or help cover server costs, you can buy me a coffee.
-    </p> -->
-    <%#= image_tag "bmc_qr.webp", class: "w-full max-w-48 mx-auto", alt: "Buy Me a Coffee QR Code", loading: "lazy", width: 192, height: 192 %>
-    <!-- <div class="mt-4">
-      <a href="https://www.buymeacoffee.com/codeloopy" class="button bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-600 hover:text-white transition duration-200 shadow-lg">Buy Me a Coffee</a>
-    </div> -->
-    <p class="text-xl text-blue-900 mt-8 max-w-2xl mx-auto">
-      And just so you know — I'll never spam you, track you, <br>or sell your data. 🫡 Promise.
-    </p>
+<section id="buy-me-coffee" class="bg-white py-16">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 sm:p-10">
+      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-700">Why this product exists</p>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900">
+            Built to feel fair, not like a trap.
+          </h2>
+          <p class="mt-4 text-lg leading-8 text-slate-600">
+            The idea came from seeing too many so-called free resume builders hide the useful part behind a paywall.
+            This product starts with the essentials, lets you build first, and only asks you to upgrade when extra tools would genuinely help.
+          </p>
+        </div>
+
+        <div class="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-lg font-semibold text-slate-900">What stays true</h3>
+          <ul class="mt-5 space-y-3 text-sm leading-7 text-slate-600">
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-cyan-500"></span>
+              Start free as a guest and create a free account later if you want to save progress.
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-cyan-500"></span>
+              Use the public resume link and saved account features when you are ready to keep your work.
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-cyan-500"></span>
+              Upgrade only for premium templates, cover letters, analytics, or job-search tools.
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-cyan-500"></span>
+              No spam and no selling your data.
+            </li>
+          </ul>
+
+          <div class="mt-6">
+            <%= link_to "Create a free account", new_user_registration_path, class: "inline-flex items-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800" %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>

@@ -1,5 +1,5 @@
 <%= render "home_meta_tags" %>
-<% cache "static_pages/home", expires_in: 1.hour do %>
+<% cache "static_pages/home/v2", expires_in: 1.hour do %>
   <%= render "hero" %>
   <%= render "social_proof" %>
   <%= render "professional_templates" %>
