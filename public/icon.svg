@@ -1,3 +1,34 @@
-<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="red"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Free Resume Builder favicon">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="48" x2="448" y2="464" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="55%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="320" y1="300" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#020617" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#bg)"/>
+  <circle cx="390" cy="118" r="54" fill="#818cf8" opacity="0.22"/>
+  <circle cx="123" cy="388" r="76" fill="#34d399" opacity="0.16"/>
+
+  <g filter="url(#shadow)">
+    <path d="M154 96h148l88 88v232c0 20-16 36-36 36H154c-20 0-36-16-36-36V132c0-20 16-36 36-36z" fill="#f8fafc"/>
+    <path d="M302 96v56c0 20 16 36 36 36h52z" fill="#c7d2fe"/>
+    <rect x="158" y="194" width="128" height="22" rx="11" fill="#4f46e5"/>
+    <rect x="158" y="242" width="188" height="18" rx="9" fill="#94a3b8"/>
+    <rect x="158" y="280" width="172" height="18" rx="9" fill="#94a3b8"/>
+    <rect x="158" y="318" width="120" height="18" rx="9" fill="#94a3b8"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <circle cx="360" cy="360" r="76" fill="url(#badge)"/>
+    <path d="M326 361l22 22 45-51" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+  </g>
 </svg>
