@@ -1,48 +1,60 @@
-<footer class="bg-gray-900 text-white py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-4 gap-8">
+<footer class="border-t border-white/10 bg-slate-950 text-slate-100">
+  <div class="site-shell-frame py-14">
+    <div class="grid gap-8 lg:grid-cols-[1.15fr_0.75fr_1fr]">
+      <div class="max-w-xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Free Resume Builder</p>
+        <h3 class="mt-4 text-2xl font-semibold tracking-tight text-white"><%= Constants::SITE_NAME %></h3>
+        <p class="mt-4 text-sm leading-7 text-slate-300">
+          Build a polished, ATS-friendly resume, export clean PDFs, share a recruiter-ready link,
+          and upgrade only when deeper job-search tools actually help.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">Explore</h4>
+        <ul class="mt-5 space-y-3 text-sm text-slate-300">
+          <li><%= link_to "Homepage", root_path, class: "transition hover:text-white" %></li>
+          <li><%= link_to "Pricing", pricing_path, class: "transition hover:text-white" %></li>
+          <li><%= link_to "Blog", articles_path, class: "transition hover:text-white" %></li>
+          <% if user_signed_in? %>
+            <li><%= link_to "My Workspace", resumes_path, class: "transition hover:text-white" %></li>
+          <% else %>
+            <li><%= link_to "Sign In", new_user_session_path, class: "transition hover:text-white" %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="space-y-6">
         <div>
-            <h3 class="text-xl font-bold mb-4">FreeResumeBuilderApp</h3>
-            <p class="text-gray-100">Create professional resumes for free. Land your dream job with our ATS-friendly templates.</p>
+          <h4 class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">Contact</h4>
+          <div class="mt-5 space-y-3 text-sm leading-7 text-slate-300">
+            <p>
+              Questions, ideas, or collaboration:
+              <a href="mailto:freeresumebuilderapp@gmail.com" class="text-white underline decoration-cyan-300/50 underline-offset-4 transition hover:text-cyan-200">Hit me up</a>
+            </p>
+            <p>
+              Or connect on
+              <a href="https://www.linkedin.com/in/pedrom/" class="text-white underline decoration-cyan-300/50 underline-offset-4 transition hover:text-cyan-200" target="_blank">LinkedIn</a>
+            </p>
+          </div>
         </div>
-        <div>
-            <!-- <h4 class="text-lg font-semibold mb-4">Product</h4>
-            <ul class="space-y-2 text-gray-400">
-                <li><a href="#templates" class="hover:text-white transition duration-200">Templates</a></li>
-                <li><a href="#features" class="hover:text-white transition duration-200">Features</a></li>
-                <li><a href="#how-it-works" class="hover:text-white transition duration-200">How It Works</a></li>
-            </ul> -->
-        </div>
-        <div>
-            <h4 class="text-lg font-semibold mb-4">Contact</h4>
-            <ul class="space-y-2 text-gray-100">
-              <li>
-                <p class="text-gray-100">Have a question, suggestion, or would like to collaborate? <a href="mailto:freeresumebuilderapp@gmail.com" class="text-white hover:text-gray-300 transition duration-200 underline">Hit me up</a></p>
-              </li>
-              <li>
-                <p class="text-gray-100">Or find me on <a href="https://www.linkedin.com/in/pedrom/" class="text-white hover:text-gray-300 transition duration-200 underline" target="_blank">LinkedIn</a></p>
-              </li>
-                <!-- <li><a href="#" class="hover:text-white transition duration-200">Help Center</a></li> -->
-                <!-- <li><a href="#" class="hover:text-white transition duration-200">Contact Us</a></li> -->
-                <!-- <li><a href="#" class="hover:text-white transition duration-200">FAQ</a></li> -->
-            </ul>
-        </div>
-        <div>
-            <h4 class="text-lg font-semibold mb-4">Want to help?</h4>
-            <ul class="space-y-2 text-gray-400">
-                <li>
-                  <p class="text-gray-100">I'm a one-man team working on this project in my free time. If you like it, please consider buying me a coffee, but don't feel obligated! I'm genuinely happy to help you get hired.</p>
-                </li>
-                <!-- <li><a href="#" class="hover:text-white transition duration-200">Privacy Policy</a></li>
-                <li><a href="#" class="hover:text-white transition duration-200">Terms of Service</a></li> -->
-                <!-- how can I insert a buy me link image here? -->
-                <li class="mt-4"><a href="https://www.buymeacoffee.com/codeloopy" class="button bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-300 transition duration-200 shadow-lg">Buy Me a Coffee</a></li>
-            </ul>
+
+        <div class="rounded-[1.5rem] border border-white/10 bg-white/5 p-5">
+          <h4 class="text-base font-semibold text-white">Want to help?</h4>
+          <p class="mt-2 text-sm leading-7 text-slate-300">
+            This project is built independently. If it helped you, you can support it, but there is never any pressure.
+          </p>
+          <a href="https://www.buymeacoffee.com/codeloopy" class="site-btn-primary mt-4">Buy Me a Coffee</a>
         </div>
       </div>
     </div>
 
-    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-        <p>&copy; <%= Date.today.year %> FreeResumeBuilderApp. All rights reserved.  Web development by <a href="https://pixel-depth.com" class="text-white hover:text-gray-300 transition duration-200 underline" target="_blank">Pixel-Depth Studio</a></p>
+    <div class="mt-10 flex flex-col gap-3 border-t border-white/10 pt-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; <%= Date.today.year %> <%= Constants::SITE_NAME %>. All rights reserved.</p>
+      <p>
+        Web development by
+        <a href="https://pixel-depth.com" class="text-white underline decoration-cyan-300/50 underline-offset-4 transition hover:text-cyan-200" target="_blank">Pixel-Depth Studio</a>
+      </p>
     </div>
-  </footer>
+  </div>
+</footer>

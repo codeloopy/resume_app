@@ -8,22 +8,22 @@
 <% total_suggestions = analysis[:suggestions] || [] %>
 
 <% score_color = case score
-  when 90..100 then "bg-green-100 text-green-800 border-green-300"
-  when 70..89 then "bg-blue-100 text-blue-800 border-blue-300"
-  when 50..69 then "bg-yellow-100 text-yellow-800 border-yellow-300"
-  else "bg-red-100 text-red-800 border-red-300"
+  when 90..100 then "ats-score-card--emerald"
+  when 70..89 then "ats-score-card--cyan"
+  when 50..69 then "ats-score-card--amber"
+  else "ats-score-card--rose"
 end %>
 
-<div class="border-2 rounded-lg p-4 mb-6 shadow-sm <%= score_color %>" role="region" aria-label="ATS Score">
+<div class="ats-score-card <%= score_color %> rounded-[1.75rem] border p-5 shadow-xl shadow-slate-950/20" role="region" aria-label="ATS Score">
   <div class="flex items-center justify-between flex-wrap gap-4">
     <div class="flex items-center gap-3">
-      <div class="text-3xl font-bold"><%= score %></div>
+      <div class="text-4xl font-semibold"><%= score %></div>
       <div>
         <div class="font-semibold text-base">ATS Score</div>
         <div class="text-sm opacity-90">Grade: <%= grade %> — How well your resume parses in applicant tracking systems</div>
       </div>
     </div>
-    <%= link_to "View Full Analysis", analyze_resume_path, class: "text-sm font-medium underline hover:no-underline" %>
+    <%= link_to "View Full Analysis", analyze_resume_path, class: "ats-score-card__action rounded-xl border border-current/20 px-4 py-2 text-sm font-semibold transition" %>
   </div>
   <% if suggestions.any? %>
     <div class="mt-4 pt-4 border-t border-current/20">

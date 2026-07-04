@@ -1,31 +1,28 @@
 <% if @resume %>
-<div class="my-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <% if current_user&.guest? %>
-    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0">
-          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-        <div class="ml-3">
-          <h3 class="text-sm font-medium text-yellow-800">
-            Guest Mode - Limited Features
-          </h3>
-          <div class="mt-2 text-sm text-yellow-700">
-            <p>You're currently editing your resume as a guest. To Add your email, personal information,download your PDF, get a public link, and save your progress, please complete your account.</p>
-            <p class="mt-2 font-bold">It's totally FREE</p>
+  <div class="space-y-6">
+    <% if current_user&.guest? %>
+      <div class="site-panel-muted border-amber-200 bg-amber-50">
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 pt-1">
+            <svg class="h-5 w-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
           </div>
-          <div class="mt-4">
-            <%= link_to "Complete My Account", upgrade_guest_user_form_path, class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-800 bg-yellow-300 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %>
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">Guest Mode - Limited Features</h3>
+            <div class="mt-3 text-sm leading-7 text-amber-800">
+              <p>You're currently editing your resume as a guest. To add your email, personal information, download your PDF, get a public link, and save your progress, please complete your account.</p>
+              <p class="mt-2 font-semibold">It is still completely free.</p>
+            </div>
+            <div class="mt-4">
+              <%= link_to "Complete My Account", upgrade_guest_user_form_path, class: "inline-flex items-center rounded-xl bg-amber-300 px-4 py-2 text-sm font-semibold text-amber-950 transition hover:bg-amber-200" %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
 
-  <% if current_user && !current_user.guest? %>
-    <div class="mb-6">
+    <% if current_user && !current_user.guest? %>
       <%= render "ats_score_card", resume: @resume, user: current_user %>
       <% presenter = AtsAnalysisPresenter.new(@resume.ats_analysis, user: current_user) %>
       <% if presenter.score < 70 && !current_user.premium? %>
@@ -33,101 +30,133 @@
               title: "Boost your ATS score",
               message: "Upgrade for the full breakdown and job-description matching to land more interviews." %>
       <% end %>
+    <% end %>
+
+    <div class="site-shell-surface overflow-hidden">
+      <div class="border-b border-white/10 px-6 py-8 sm:px-8">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div class="max-w-3xl">
+            <p class="site-kicker">Resume overview</p>
+            <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white"><%= @resume.user.full_name %></h2>
+            <p class="mt-2 text-lg text-slate-300"><%= @resume.title.presence || "Professional resume" %></p>
+            <div class="mt-5 flex flex-wrap gap-3 text-sm text-slate-300">
+              <% if @resume.user.location.present? %>
+                <span class="site-chip-dark"><%= @resume.user.location %></span>
+              <% end %>
+              <% if @resume.user.email.present? %>
+                <a href="mailto:<%= @resume.user.email %>" class="site-chip-dark hover:text-white">Email</a>
+              <% end %>
+              <% if @resume.user.phone.present? %>
+                <a href="tel:+<%= @resume.user.phone %>" class="site-chip-dark hover:text-white"><%= styled_telephone_number(@resume.user.phone) %></a>
+              <% end %>
+              <% if @resume.user.linked_in_url.present? %>
+                <a href="<%= @resume.user.linked_in_url %>" class="site-chip-dark hover:text-white">LinkedIn</a>
+              <% end %>
+              <% if @resume.user.github_url.present? %>
+                <a href="<%= @resume.user.github_url %>" class="site-chip-dark hover:text-white">GitHub</a>
+              <% end %>
+              <% if @resume.user.portfolio.present? %>
+                <a href="<%= @resume.user.portfolio %>" class="site-chip-dark hover:text-white">Portfolio</a>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <%= link_to "Edit Resume", edit_resume_path, class: "site-btn-primary" %>
+            <% if current_user&.cover_letter_access? %>
+              <%= link_to "Cover Letters", resume_cover_letters_path(@resume), class: "site-btn-dark" %>
+            <% elsif current_user %>
+              <%= link_to "Cover Letters", pricing_path, class: "site-btn-dark", title: "Growth & Pro feature" %>
+            <% end %>
+            <% if current_user && current_user.pro? %>
+              <%= link_to "Analytics", analytics_resume_path, class: "site-btn-dark" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-6 px-6 py-8 sm:px-8 xl:grid-cols-[1.2fr_0.8fr]">
+        <div class="space-y-6">
+          <section class="site-panel">
+            <h3 class="text-lg font-semibold text-slate-900">Summary</h3>
+            <div class="mt-4 text-sm leading-7 text-slate-700">
+              <%= @resume.summary.to_s.html_safe %>
+            </div>
+          </section>
+
+          <section class="site-panel">
+            <h3 class="text-lg font-semibold text-slate-900"><%= @resume.skills_title || "Skills" %></h3>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <% @resume.skills.each do |skill| %>
+                <span class="site-chip"><%= skill.name %></span>
+              <% end %>
+            </div>
+          </section>
+        </div>
+
+        <div class="space-y-6">
+          <section class="site-panel">
+            <h3 class="text-lg font-semibold text-slate-900">Work Experience</h3>
+            <div class="mt-4 space-y-4">
+              <% @resume.experiences.each do |experience| %>
+                <div class="rounded-2xl border border-slate-200 p-4">
+                  <h4 class="font-semibold text-slate-900"><%= experience.title %> @ <%= experience.company_name %></h4>
+                  <p class="mt-1 text-sm text-slate-500"><%= experience.location %></p>
+                  <p class="mt-1 text-sm text-slate-500"><%= experience.start_date&.strftime("%B %Y") %> - <%= experience.end_date&.strftime("%B %Y") || "Present" %></p>
+                  <p class="mt-3 text-sm leading-7 text-slate-700"><%= experience.responsibilities.map(&:content).join(", ") %></p>
+                </div>
+              <% end %>
+            </div>
+          </section>
+
+          <section class="site-panel">
+            <h3 class="text-lg font-semibold text-slate-900">Education</h3>
+            <div class="mt-4 space-y-4">
+              <% @resume.educations.each do |education| %>
+                <div class="rounded-2xl border border-slate-200 p-4">
+                  <h4 class="font-semibold text-slate-900"><%= education.school %></h4>
+                  <p class="mt-1 text-sm text-slate-500"><%= education.location %></p>
+                  <p class="mt-1 text-sm text-slate-700"><%= education.field_of_study %></p>
+                </div>
+              <% end %>
+            </div>
+          </section>
+
+          <section class="site-panel">
+            <h3 class="text-lg font-semibold text-slate-900">Projects</h3>
+            <div class="mt-4 space-y-4">
+              <% @resume.projects.each do |project| %>
+                <div class="rounded-2xl border border-slate-200 p-4">
+                  <h4 class="font-semibold text-slate-900"><%= project.title %></h4>
+                  <p class="mt-2 text-sm leading-7 text-slate-700"><%= project.description %></p>
+                  <% if project.url.present? %>
+                    <p class="mt-2"><a href="<%= project.url %>" class="site-inline-link"><%= project.url %></a></p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 px-6 py-6 sm:px-8">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex flex-wrap items-center gap-4">
+            <%= render "download_pdf_button" %>
+          </div>
+
+          <%= form_with url: resume_path, method: :delete, local: true, class: "inline" do |f| %>
+            <%= f.submit "Delete Resume & Start Over",
+                         onclick: "return confirm('Are you sure you want to delete your resume? This action cannot be undone and you\\'ll start with a fresh resume.')",
+                         class: "rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-2 text-sm font-semibold text-rose-200 transition hover:bg-rose-400/15 cursor-pointer" %>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <h2 class="text-2xl font-bold"><%= @resume.user.full_name %></h2>
-  <h1 class="text-md mb-4"><%= @resume.title %></h1>
-  <p class="text-gray-600 mb-4">
-    <% if @resume.user.location.present? %>
-      <span><%= @resume.user.location %> |</span>
-    <% end %>
-    <% if @resume.user.email.present? %>
-      <a href="mailto:<%= @resume.user.email %>">Email</a>
-    <% end %>
-    <% if @resume.user.phone.present? %>
-      | <a href="tel:+<%= @resume.user.phone %>"><%= styled_telephone_number(@resume.user.phone) %></a>
-    <% end %>
-    <% if @resume.user.linked_in_url.present? %>
-      | <a href="<%= @resume.user.linked_in_url %>">LinkedIn</a>
-    <% end %>
-    <% if @resume.user.github_url.present? %>
-      | <a href="<%= @resume.user.github_url %>">GitHub</a>
-    <% end %>
-    <% if @resume.user.portfolio.present? %>
-      | <a href="<%= @resume.user.portfolio %>">Portfolio</a>
-    <% end %>
-  </p>
-
-  <div class="mb-4 text-gray-800">
-    <h2 class="text-md mb-2 text-gray-700 font-semibold">Summary</h2>
-    <%= @resume.summary.to_s.html_safe %>
   </div>
-
-  <div class="mb-4 text-gray-800">
-    <h2 class="text-md mb-2 text-gray-700 font-semibold"><%= @resume.skills_title || "Skills" %></h2>
-    <% @resume.skills.each do |skill| %>
-      <span class="inline-block text-gray-600 m-1 px-4 py-1 bg-gray-200 rounded-xl hover:bg-gray-500 hover:text-white transition-colors duration-200"><%= skill.name %></span>
-    <% end %>
-  </div>
-
-  <div class="mb-4 text-gray-800">
-    <h2 class="text-md mb-2 text-gray-700 font-semibold">Work Experience</h2>
-    <% @resume.experiences.each do |experience| %>
-      <div class="mb-2">
-        <h3 class="text-sm font-semibold text-gray-700"><%= experience.company_name %></h3>
-        <p class="text-sm text-gray-600"><%= experience.location %></p>
-        <p class="text-sm text-gray-600"><%= experience.title %></p>
-        <p class="text-sm text-gray-600"><%= experience.start_date&.strftime("%B %Y") %> - <%= experience.end_date&.strftime("%B %Y") || "Present" %></p>
-        <p class="text-sm text-gray-600"><%= experience.responsibilities.map(&:content).join(", ") %></p>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="mb-4 text-gray-800">
-    <h2 class="text-md mb-2 text-gray-700 font-semibold">Education</h2>
-    <% @resume.educations.each do |education| %>
-      <div class="mb-2">
-        <h3 class="text-sm font-semibold text-gray-700"><%= education.school %></h3>
-        <p class="text-sm text-gray-600"><%= education.location %></p>
-        <p class="text-sm text-gray-600"><%= education.field_of_study %></p>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="mb-4 text-gray-800">
-    <h2 class="text-md mb-2 text-gray-700 font-semibold">Projects</h2>
-    <% @resume.projects.each do |project| %>
-      <div class="mb-2">
-        <h3 class="text-sm font-semibold text-gray-700"><%= project.title %></h3>
-        <p class="text-sm text-gray-600"><%= project.description %></p>
-        <p class="text-sm text-gray-600"><%= project.url %></p>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="mt-6">
-    <%= link_to "Edit Resume", edit_resume_path, class: "text-blue-600 hover:underline" %>
-    <% if current_user&.cover_letter_access? %>
-      <%= link_to "Cover Letters", resume_cover_letters_path(@resume), class: "ml-4 text-blue-600 hover:underline" %>
-    <% elsif current_user %>
-      <%= link_to "Cover Letters", pricing_path, class: "ml-4 text-gray-500 hover:text-gray-700 hover:underline", title: "Growth & Pro feature" %>
-    <% end %>
-    <% if current_user && current_user.pro? %>
-      <%= link_to "Analytics", analytics_resume_path, class: "ml-4 text-blue-600 hover:underline" %>
-    <% end %>
-    <%= form_with url: resume_path, method: :delete, local: true, class: "inline" do |f| %>
-      <%= f.submit "Delete Resume & Start Over",
-                   onclick: "return confirm('Are you sure you want to delete your resume? This action cannot be undone and you\\'ll start with a fresh resume.')",
-                   class: "ml-4 text-red-600 hover:underline bg-transparent border-none cursor-pointer" %>
-    <% end %>
-  </div>
-
-  <%= render "download_pdf_button" %>
-</div>
 <% else %>
-  <div class="my-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <p class="text-center text-gray-600">Please sign in to view your resume.</p>
-    <%= link_to "Sign In", new_user_session_path, class: "text-blue-600 hover:underline" %>
+  <div class="site-panel text-center">
+    <p class="text-slate-600">Please sign in to view your resume.</p>
+    <%= link_to "Sign In", new_user_session_path, class: "site-inline-link mt-3 inline-block" %>
   </div>
 <% end %>

@@ -1,47 +1,57 @@
+<% mobile = local_assigns[:mobile] %>
+<% signed_in_shell = user_signed_in? %>
+<% link_classes = signed_in_shell ? (mobile ? "mobile-menu-link block rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white" : "rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white") : (mobile ? "mobile-menu-link block rounded-md px-3 py-2 text-base font-medium text-gray-600 transition hover:bg-gray-50 hover:text-gray-900" : "rounded-md px-3 py-2 text-sm font-medium text-gray-600 transition hover:text-gray-900") %>
+<% locked_link_classes = signed_in_shell ? (mobile ? "mobile-menu-link block rounded-xl px-4 py-3 text-sm font-medium text-slate-500 transition hover:bg-white/5 hover:text-slate-300" : "rounded-xl px-3 py-2 text-sm font-medium text-slate-500 transition hover:text-slate-300") : (mobile ? "mobile-menu-link block rounded-md px-3 py-2 text-base font-medium text-gray-500 transition hover:bg-gray-50 hover:text-gray-700" : "rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition hover:text-gray-700") %>
+<% primary_classes = mobile ? "mobile-menu-link block rounded-xl bg-cyan-400 px-4 py-3 text-center text-sm font-semibold text-slate-950 transition hover:bg-cyan-300" : "rounded-xl bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300" %>
+
 <% if user_signed_in? %>
   <% if current_user.guest? %>
-    <div class="<%= local_assigns[:mobile] ? 'mobile-menu-link block px-3 py-2 rounded-md text-base font-medium' : 'px-3 py-2 rounded-md text-sm font-medium' %>">
-      <span class="text-orange-600 font-medium">Guest Mode</span>
-      <%= link_to "Complete Account", upgrade_guest_user_form_path, class: "ml-2 text-blue-600 hover:text-blue-800 underline" %>
+    <div class="<%= mobile ? 'space-y-2 rounded-2xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-100' : 'flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-4 py-2 text-sm text-amber-100' %>">
+      <span class="font-semibold uppercase tracking-[0.2em] text-amber-200">Guest mode</span>
+      <%= link_to "Complete Account", upgrade_guest_user_form_path, class: "font-medium text-white underline decoration-amber-200/60 underline-offset-4 hover:text-amber-100" %>
     </div>
   <% end %>
-  <% if !current_user.guest? %>
-    <%= link_to "Edit User", edit_user_registration_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
+
+  <% unless current_user.guest? %>
+    <%= link_to "Account", edit_user_registration_path, class: link_classes %>
   <% end %>
+
   <% if (nav_resume = @resume || current_user.resume) %>
     <% if current_user.cover_letter_access? %>
-      <%= link_to "Cover Letters", resume_cover_letters_path(nav_resume), class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
+      <%= link_to "Cover Letters", resume_cover_letters_path(nav_resume), class: link_classes %>
     <% else %>
-      <%= link_to "Cover Letters", pricing_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-500 hover:text-gray-700 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200", title: "Growth & Pro feature" %>
+      <%= link_to "Cover Letters", pricing_path, class: locked_link_classes, title: "Growth & Pro feature" %>
     <% end %>
+
     <% if current_user.job_application_access? %>
-      <%= link_to "Job Tracker", resume_job_applications_path(nav_resume), class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
+      <%= link_to "Job Tracker", resume_job_applications_path(nav_resume), class: link_classes %>
     <% else %>
-      <%= link_to "Job Tracker", pricing_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-500 hover:text-gray-700 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200", title: "Pro feature" %>
+      <%= link_to "Job Tracker", pricing_path, class: locked_link_classes, title: "Pro feature" %>
     <% end %>
-    <%= link_to "Job Match", resume_job_match_scans_path(nav_resume), class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
+
+    <%= link_to "Job Match", resume_job_match_scans_path(nav_resume), class: link_classes %>
   <% end %>
+
   <% if current_user.premium? %>
-    <%= link_to "My Resumes", resumes_path, class: local_assigns[:mobile] ? "mobile-menu-link bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-200" : "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>
+    <%= link_to "My Resumes", resumes_path, class: primary_classes %>
   <% elsif resume_completed(@resume) && !current_user.guest %>
-    <%= link_to "Edit your Resume", edit_resume_path, class: local_assigns[:mobile] ? "mobile-menu-link bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-200" : "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>
+    <%= link_to "Edit Resume", edit_resume_path, class: primary_classes %>
   <% else %>
-    <%= link_to "Resume Wizard", resume_wizard_path(:summary), class: local_assigns[:mobile] ? "mobile-menu-link bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-200" : "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>
+    <%= link_to "Resume Wizard", resume_wizard_path(:summary), class: primary_classes %>
   <% end %>
-  <%= link_to "Pricing", pricing_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= link_to "The Blog", articles_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= button_to "Sign out", destroy_user_session_path, method: :delete, data: { turbo: false }, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200 cursor-pointer" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200 cursor-pointer" %>
+
+  <%= link_to "Pricing", pricing_path, class: link_classes %>
+  <%= link_to "The Blog", articles_path, class: link_classes %>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete, data: { turbo: false }, form_class: mobile ? "block" : "inline-block", class: link_classes + " cursor-pointer bg-transparent border-0" %>
 <% elsif !current_page?(root_path) %>
-  <%#= link_to "Templates", "#{root_path}#templates", class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= link_to "Features", "#{root_path}#features", class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= link_to "How It Works", "#{root_path}#how-it-works", class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= link_to "Pricing", pricing_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= link_to "The Blog", articles_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
+  <%= link_to "Features", "#{root_path}#features", class: link_classes %>
+  <%= link_to "How It Works", "#{root_path}#how-it-works", class: link_classes %>
+  <%= link_to "Pricing", pricing_path, class: link_classes %>
+  <%= link_to "The Blog", articles_path, class: link_classes %>
 <% else %>
-  <!-- <a href="#templates" class="<%#= local_assigns[:mobile] ? 'mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200' : 'text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200' %>">Templates</a> -->
-  <a href="#features" class="<%= local_assigns[:mobile] ? 'mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200' : 'text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200' %>">Features</a>
-  <a href="#how-it-works" class="<%= local_assigns[:mobile] ? 'mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200' : 'text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200' %>">How It Works</a>
-  <%= link_to "Pricing", pricing_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= link_to "The Blog", articles_path, class: local_assigns[:mobile] ? "mobile-menu-link text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition duration-200" : "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition duration-200" %>
-  <%= link_to "Sign In", new_user_session_path, class: local_assigns[:mobile] ? "mobile-menu-link bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-200" : "bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-200" %>
+  <a href="#features" class="<%= link_classes %>">Features</a>
+  <a href="#how-it-works" class="<%= link_classes %>">How It Works</a>
+  <%= link_to "Pricing", pricing_path, class: link_classes %>
+  <%= link_to "The Blog", articles_path, class: link_classes %>
+  <%= link_to "Sign In", new_user_session_path, class: mobile ? "mobile-menu-link block rounded-xl bg-cyan-400 px-4 py-3 text-center text-base font-semibold text-slate-950 transition hover:bg-cyan-300" : "rounded-xl bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300" %>
 <% end %>

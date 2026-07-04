@@ -2,31 +2,32 @@
 
 <% if current_user && !current_user.guest %>
   <% if controller_name == 'resumes' && action_name == 'edit' || controller_name == 'resumes' && action_name == 'show' || controller_name == 'resumes' && action_name == 'public' || controller_name == 'resume_wizard' && action_name == 'show' %>
-  <div class="container mx-auto p-8" data-controller="feedback">
-    <div class="block p-6 border border-gray-200 rounded-lg shadow-sm bg-gray-100">
-      <h2 class="small:text-2xl text-4xl font-bold flex-1 mb-1">Help us out!</h2>
+  <div class="site-shell-frame pt-8 pb-10" data-controller="feedback">
+    <div class="site-panel-muted">
+      <p class="site-kicker-light">Feedback</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900">Help us make the product better</h2>
       <details>
-        <summary class="small:text-xl text-2xl font-bold flex-1 mb-6 cursor-pointer">
-          Got feedback or found a bug? <small class="text-sm italic font-normal">(Click here)</small>
+        <summary class="mt-4 cursor-pointer text-lg font-semibold text-slate-900">
+          Got feedback or found a bug? <small class="text-sm italic font-normal text-slate-500">(Click here)</small>
         </summary>
-        <div class="mb-6">
+        <div class="mb-2 mt-6">
           <form target="_blank" action="https://formsubmit.co/<%= email %>" method="POST" data-feedback-target="form" data-action="submit->feedback#trackFormSubmission">
             <div class="form-group">
               <div class="form-row">
                 <div class="col hidden">
-                  <input type="text" name="name" value=<%= current_user&.first_name %> class="border border-gray-300 rounded-md p-2 w-full">
+                  <input type="text" name="name" value=<%= current_user&.first_name %> class="site-input">
                 </div>
                 <div class="col hidden">
-                  <input type="email" name="email" value=<%= current_user&.email %> class="border border-gray-300 rounded-md p-2 w-full">
+                  <input type="email" name="email" value=<%= current_user&.email %> class="site-input">
                 </div>
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_next" value="https://freeresumebuilderapp.com/resumes/edit">
               </div>
             </div>
             <div class="form-group">
-              <textarea placeholder="Your feedback" name="message" rows="10" required class="border bg-white border-gray-300 rounded-md p-2 w-full"></textarea>
+              <textarea placeholder="Your feedback" name="message" rows="10" required class="site-input"></textarea>
             </div>
-            <button type="submit" class="btn btn-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg px-5 py-2.5 text-center me-2 mb-2 text-white">Submit Form</button>
+            <button type="submit" class="site-btn-primary mt-4">Submit Feedback</button>
           </form>
         </div>
       </details>

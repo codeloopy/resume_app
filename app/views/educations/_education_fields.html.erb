@@ -1,33 +1,33 @@
 
-<div class="nested-fields mb-4 border p-3 rounded" data-new-record="<%= f.object.new_record? %>">
+<div class="nested-fields rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4" data-new-record="<%= f.object.new_record? %>">
   <div class="mb-2">
-    <%= f.label :school, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.text_field :school, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.label :school, class: "mb-2 block text-sm font-semibold text-slate-700" %>
+    <%= f.text_field :school, class: "site-input" %>
   </div>
 
   <div class="mb-2">
-    <%= f.label :location, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.text_field :location, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.label :location, class: "mb-2 block text-sm font-semibold text-slate-700" %>
+    <%= f.text_field :location, class: "site-input" %>
   </div>
 
   <div class="mb-2">
-    <%= f.label :field_of_study, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.text_field :field_of_study, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.label :field_of_study, class: "mb-2 block text-sm font-semibold text-slate-700" %>
+    <%= f.text_field :field_of_study, class: "site-input" %>
   </div>
 
   <div class="mb-2 flex gap-4">
-    <div>
-      <%= f.label :start_date, class: "block text-gray-700 font-semibold mb-2" %>
-      <%= f.date_field :start_date, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <div class="flex-1">
+      <%= f.label :start_date, class: "mb-2 block text-sm font-semibold text-slate-700" %>
+      <%= f.date_field :start_date, class: "site-input" %>
     </div>
 
-    <div>
-      <%= f.label :end_date, "End Date (Optional)", class: "block text-gray-700 font-semibold mb-2" %>
-      <%= f.date_field :end_date, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
-      <p class="text-xs text-gray-500 mt-1">Leave blank if currently studying</p>
+    <div class="flex-1">
+      <%= f.label :end_date, "End Date (Optional)", class: "mb-2 block text-sm font-semibold text-slate-700" %>
+      <%= f.date_field :end_date, class: "site-input" %>
+      <p class="mt-1 text-xs text-slate-500">Leave blank if currently studying</p>
     </div>
   </div>
 
-  <%= link_to "Remove", "#", class: "text-red-500", data: { action: "click->responsibility#remove" } %>
+  <%= link_to "Remove", "#", class: "site-danger-link inline-block mt-2", data: { action: "click->responsibility#remove" } %>
   <%= f.hidden_field :_destroy %>
 </div>

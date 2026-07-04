@@ -1,0 +1,29 @@
+<% mobile = local_assigns[:mobile] %>
+<button
+  type="button"
+  data-theme-toggle
+  class="<%= mobile ? 'theme-toggle-button mobile-menu-link w-full justify-center' : 'theme-toggle-button' %>"
+>
+  <span class="theme-toggle-track" aria-hidden="true">
+    <span class="theme-toggle-icon theme-toggle-icon--sun">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2.5"></path>
+        <path d="M12 19.5V22"></path>
+        <path d="M4.93 4.93l1.77 1.77"></path>
+        <path d="M17.3 17.3l1.77 1.77"></path>
+        <path d="M2 12h2.5"></path>
+        <path d="M19.5 12H22"></path>
+        <path d="M4.93 19.07l1.77-1.77"></path>
+        <path d="M17.3 6.7l1.77-1.77"></path>
+      </svg>
+    </span>
+    <span class="theme-toggle-icon theme-toggle-icon--moon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 1 0 9.8 9.8z"></path>
+      </svg>
+    </span>
+    <span class="theme-toggle-thumb"></span>
+  </span>
+  <span class="sr-only" data-theme-label>Switch theme</span>
+</button>

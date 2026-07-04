@@ -1,10 +1,11 @@
 <%# locals: title:, message:, cta: "Upgrade" %>
-<div class="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-5 mt-6">
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+<div class="mt-6 rounded-[1.75rem] border border-white/10 bg-white/5 p-5 text-slate-100 backdrop-blur">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <div>
-      <p class="font-semibold text-indigo-900"><%= title %></p>
-      <p class="text-sm text-indigo-700 mt-1"><%= message %></p>
+      <p class="site-kicker">Upgrade path</p>
+      <p class="mt-2 text-lg font-semibold text-white"><%= title %></p>
+      <p class="mt-1 text-sm text-slate-300"><%= message %></p>
     </div>
-    <%= link_to cta, pricing_path, class: "shrink-0 inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm" %>
+    <%= link_to cta, pricing_path, class: "site-btn-primary shrink-0" %>
   </div>
 </div>

@@ -1,198 +1,207 @@
 <% if @resume %>
-<div class="mx-4 my-4">
-  <% if current_user&.guest? %>
-    <div class="max-w-4xl mx-auto mb-6">
-      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+  <div class="space-y-6">
+    <% if current_user&.guest? %>
+      <div class="site-panel-muted border-amber-200 bg-amber-50">
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 pt-1">
+            <svg class="h-5 w-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
             </svg>
           </div>
-          <div class="ml-3">
-            <h3 class="text-sm font-medium text-yellow-800">
-              Guest Mode - Limited Features
-            </h3>
-            <div class="mt-2 text-sm text-yellow-700">
-              <p>You're currently editing your resume as a guest. To Add your email, personal information,download your PDF, get a public link, and save your progress, please complete your account.</p>
-              <p class="mt-2 font-bold">It's totally FREE</p>
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">Guest Mode - Limited Features</h3>
+            <div class="mt-3 text-sm leading-7 text-amber-800">
+              <p>You're currently editing your resume as a guest. To add your email, personal information, download your PDF, get a public link, and save your progress, please complete your account.</p>
+              <p class="mt-2 font-semibold">It is still completely free.</p>
             </div>
             <div class="mt-4">
-              <%= link_to "Complete My Account", upgrade_guest_user_form_path, class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-800 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %>
+              <%= link_to "Complete My Account", upgrade_guest_user_form_path, class: "inline-flex items-center rounded-xl bg-amber-300 px-4 py-2 text-sm font-semibold text-amber-950 transition hover:bg-amber-200" %>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
 
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-center flex-1">Edit Resume</h1>
-    <div class="flex gap-4">
-      <% if current_user.cover_letter_access? %>
-        <%= link_to "Cover Letters", resume_cover_letters_path(@resume), class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
-      <% else %>
-        <%= link_to "Cover Letters", pricing_path, class: "text-gray-500 hover:text-gray-700 font-medium text-sm", title: "Growth & Pro feature" %>
-      <% end %>
-      <%= link_to "Job Match", resume_job_match_scans_path(@resume), class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
-      <% if current_user.premium? && current_user.resumes.many? %>
-        <%= link_to "My Resumes", resumes_path, class: "text-blue-600 hover:text-blue-800 font-medium text-sm" %>
-      <% end %>
-    </div>
-  </div>
+    <div class="site-shell-surface overflow-hidden">
+      <div class="border-b border-white/10 px-6 py-8 sm:px-8">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div class="max-w-3xl">
+            <p class="site-kicker">Resume editor</p>
+            <h1 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Edit Resume</h1>
+            <p class="mt-3 text-sm leading-7 text-slate-300 sm:text-base">
+              Refine your summary, experience, skills, education, projects, and resume presentation from one workspace.
+            </p>
+          </div>
 
-  <div class="max-w-4xl mx-auto mb-6">
-    <%= render "ats_score_card", resume: @resume, user: current_user %>
-  </div>
-
-  <%= form_with model: @resume, url: resume_path, method: :patch do |f| %>
-  <%#= form_with model: @resume, url: resume_path, method: :patch do |f| %>
-    <div class="mx-4 my-8">
-      <%= f.label :summary, class: "block text-gray-700 font-semibold mb-2" %>
-      <%= f.rich_text_area :summary, class: "w-full border border-gray-300 rounded-md" %>
-    </div>
-
-    <div class="mx-4 my-8">
-      <div class="mb-4">
-        <%= f.label :title, "Display Title", class: "block text-gray-700 font-semibold mb-2" %>
-        <%= f.text_field :title, class: "w-full border p-2 rounded", placeholder: "Fullstack Developer, Account Manager, etc. — shown under your name" %>
-      </div>
-    </div>
-
-    <div class="mx-4 my-8">
-      <h2 class="text-md mb-2 text-gray-700 font-semibold">Work Experience</h2>
-
-      <% @resume.experiences.each do |exp| %>
-        <div class="mb-4 p-4 border rounded">
-          <p class="font-semibold"><%= exp.title %> @ <%= exp.company_name %></p>
-          <p class="text-sm text-gray-600">
-            <%= exp.location %> —
-            <%= exp.start_date.strftime("%b %Y") %> -
-            <%= exp.end_date&.strftime("%b %Y") || "Present" %>
-          </p>
-          <ul class="list-disc list-inside mb-4">
-            <% exp.responsibilities.each do |responsibility| %>
-              <li style="margin-left: 1em"><%= responsibility.content %></li>
+          <div class="flex flex-wrap gap-3">
+            <% if current_user.cover_letter_access? %>
+              <%= link_to "Cover Letters", resume_cover_letters_path(@resume), class: "site-btn-dark" %>
+            <% else %>
+              <%= link_to "Cover Letters", pricing_path, class: "site-btn-dark", title: "Growth & Pro feature" %>
             <% end %>
-          </ul>
-          <span>
-            <%= link_to "Edit", edit_experience_path(exp), class: "text-blue-600 hover:underline mr-2" %>
-            <%= link_to "Delete", experience_path(exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline", style: "margin-left: 1em" %>
-          </span>
-        </div>
-      <% end %>
-
-      <div class="my-8">
-        <%= link_to "Add Experience", new_experience_path, class: "text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" %>
-      </div>
-    </div>
-
-    <div data-controller="responsibility" data-responsibility-scope="skills" class="mx-4 my-8">
-      <div class="mb-4">
-        <%= f.label :skills_title, "Skills Title", class: "block text-gray-700 font-semibold mb-2" %>
-        <%= f.text_field :skills_title, class: "w-full p-2 border border-gray-300 rounded-md", placeholder: "Enter skills title or leave blank for Skills" %>
-      </div>
-
-      <% if @resume.skills.any? %>
-        <p class="text-sm text-gray-600 mb-2">Existing skills: <%= @resume.skills.pluck(:name).join(', ') %></p>
-        <details id="skills-section">
-          <summary class="text-sm text-gray-600 mb-2 italic cursor-pointer bg-neutral-300 p-2 rounded-md border border-neutral-400">
-            Open accordion to add, edit or remove a skill. Click the update resume button to save your changes.
-          </summary>
-          <div data-responsibility-target="container">
-            <%= f.fields_for :skills do |skill_form| %>
-              <div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="false">
-                <%= skill_form.text_field :name, class: "w-full p-2 border border-gray-300 rounded-md", placeholder: "Enter skill name" %>
-                <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
-                <%= skill_form.hidden_field :_destroy, value: 0 %>
-              </div>
+            <%= link_to "Job Match", resume_job_match_scans_path(@resume), class: "site-btn-dark" %>
+            <% if current_user.premium? && current_user.resumes.many? %>
+              <%= link_to "My Resumes", resumes_path, class: "site-btn-dark" %>
             <% end %>
           </div>
-        </details>
-      <% else %>
-        <div data-responsibility-target="container">
-          <!-- Container for new skills will be added here -->
         </div>
-      <% end %>
+      </div>
 
-      <template data-responsibility-target="template">
-        <div class="nested-fields mb-2 flex items-start space-x-2" data-new-record="true">
-          <input type="text" name="resume[skills_attributes][NEW_RECORD][name]" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter skill name">
-          <a href="#" class="text-red-500" data-action="click->responsibility#remove">&times;</a>
-          <input type="hidden" name="resume[skills_attributes][NEW_RECORD][_destroy]" value="0">
+      <div class="px-6 py-8 sm:px-8">
+        <div class="mb-6">
+          <%= render "ats_score_card", resume: @resume, user: current_user %>
         </div>
-      </template>
 
-      <%= link_to "Add Skill", "#", class: "text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2 inline-block", data: { action: "click->responsibility#add" } %>
-    </div>
+        <%= form_with model: @resume, url: resume_path, method: :patch do |f| %>
+          <div class="space-y-6">
+            <section class="site-panel">
+              <h2 class="text-lg font-semibold text-slate-900">Summary</h2>
+              <p class="mt-2 text-sm leading-7 text-slate-500">Shape the core narrative recruiters will see first.</p>
+              <div class="mt-5">
+                <%= f.label :summary, class: "mb-2 block text-sm font-semibold text-slate-700" %>
+                <%= f.rich_text_area :summary, class: "site-input min-h-[14rem]" %>
+              </div>
+            </section>
 
-    <div data-controller="responsibility" data-responsibility-scope="education" class="mx-4 my-8">
-      <h2 class="text-md mb-2 text-gray-700 font-semibold">Education</h2>
+            <section class="site-panel">
+              <%= f.label :title, "Display Title", class: "mb-2 block text-sm font-semibold text-slate-700" %>
+              <%= f.text_field :title, class: "site-input", placeholder: "Fullstack Developer, Account Manager, etc. — shown under your name" %>
+            </section>
 
-      <div data-responsibility-target="container">
-        <%= f.fields_for :educations do |edu_form| %>
-          <%= render "educations/education_fields", f: edu_form %>
+            <section class="site-panel">
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 class="text-lg font-semibold text-slate-900">Work Experience</h2>
+                  <p class="mt-1 text-sm text-slate-500">Keep your recent roles and strongest bullets polished.</p>
+                </div>
+                <%= link_to "Add Experience", new_experience_path, class: "site-btn-primary" %>
+              </div>
+
+              <div class="mt-6 space-y-4">
+                <% @resume.experiences.each do |exp| %>
+                  <div class="rounded-2xl border border-slate-200 p-4">
+                    <p class="font-semibold text-slate-900"><%= exp.title %> @ <%= exp.company_name %></p>
+                    <p class="mt-1 text-sm text-slate-500">
+                      <%= exp.location %> —
+                      <%= exp.start_date.strftime("%b %Y") %> -
+                      <%= exp.end_date&.strftime("%b %Y") || "Present" %>
+                    </p>
+                    <ul class="mt-3 list-disc space-y-1 pl-5 text-sm leading-7 text-slate-700">
+                      <% exp.responsibilities.each do |responsibility| %>
+                        <li><%= responsibility.content %></li>
+                      <% end %>
+                    </ul>
+                    <div class="mt-4 flex gap-4">
+                      <%= link_to "Edit", edit_experience_path(exp), class: "site-action-link" %>
+                      <%= link_to "Delete", experience_path(exp), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "site-danger-link" %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </section>
+
+            <section data-controller="responsibility" data-responsibility-scope="skills" class="site-panel">
+              <div class="mb-4">
+                <%= f.label :skills_title, "Skills Title", class: "mb-2 block text-sm font-semibold text-slate-700" %>
+                <%= f.text_field :skills_title, class: "site-input", placeholder: "Enter skills title or leave blank for Skills" %>
+              </div>
+
+              <% if @resume.skills.any? %>
+                <p class="mb-3 text-sm text-slate-500">Existing skills: <span class="font-medium text-slate-700"><%= @resume.skills.pluck(:name).join(', ') %></span></p>
+              <% end %>
+
+              <div data-responsibility-target="container">
+                <%= f.fields_for :skills do |skill_form| %>
+                  <div class="nested-fields mb-3 flex items-start space-x-2 rounded-2xl border border-slate-200 p-3" data-new-record="false">
+                    <%= skill_form.text_field :name, class: "site-input", placeholder: "Enter skill name" %>
+                    <a href="#" class="pt-3 text-rose-500" data-action="click->responsibility#remove">&times;</a>
+                    <%= skill_form.hidden_field :_destroy, value: 0 %>
+                  </div>
+                <% end %>
+              </div>
+
+              <template data-responsibility-target="template">
+                <div class="nested-fields mb-3 flex items-start space-x-2 rounded-2xl border border-slate-200 p-3" data-new-record="true">
+                  <input type="text" name="resume[skills_attributes][NEW_RECORD][name]" class="site-input" placeholder="Enter skill name">
+                  <a href="#" class="pt-3 text-rose-500" data-action="click->responsibility#remove">&times;</a>
+                  <input type="hidden" name="resume[skills_attributes][NEW_RECORD][_destroy]" value="0">
+                </div>
+              </template>
+
+              <%= link_to "Add Skill", "#", class: "site-btn-secondary mt-3", data: { action: "click->responsibility#add" } %>
+            </section>
+
+            <section data-controller="responsibility" data-responsibility-scope="education" class="site-panel">
+              <h2 class="text-lg font-semibold text-slate-900">Education</h2>
+              <div class="mt-5 space-y-4" data-responsibility-target="container">
+                <%= f.fields_for :educations do |edu_form| %>
+                  <%= render "educations/education_fields", f: edu_form %>
+                <% end %>
+              </div>
+
+              <%= link_to "Add Education", "#", class: "site-btn-secondary mt-4", data: { action: "click->responsibility#add" } %>
+
+              <div hidden data-responsibility-target="template">
+                <%= capture do %>
+                  <%= f.fields_for(:educations, Education.new, child_index: "NEW_RECORD") do |edu_form| %>
+                    <%= render "educations/education_fields", f: edu_form %>
+                  <% end %>
+                <% end %>
+              </div>
+            </section>
+
+            <section data-controller="responsibility" data-responsibility-scope="projects" class="site-panel">
+              <h2 class="text-lg font-semibold text-slate-900">Projects</h2>
+              <div class="mt-5 space-y-4" data-responsibility-target="container">
+                <%= f.fields_for :projects do |proj_form| %>
+                  <%= render "projects/project_fields", f: proj_form %>
+                <% end %>
+              </div>
+
+              <%= link_to "Add Project", "#", class: "site-btn-secondary mt-4", data: { action: "click->responsibility#add" } %>
+
+              <div hidden data-responsibility-target="template">
+                <%= capture do %>
+                  <%= f.fields_for(:projects, Project.new, child_index: "NEW_RECORD") do |proj_form| %>
+                    <%= render "projects/project_fields", f: proj_form %>
+                  <% end %>
+                <% end %>
+              </div>
+            </section>
+
+            <section class="site-panel">
+              <%= f.label :pdf_template, "PDF Style Template", class: "mb-2 block text-sm font-semibold text-slate-700" %>
+              <%= f.select :pdf_template, pdf_template_options_for_select(@resume.pdf_template), {}, class: "site-select" %>
+              <% unless current_user&.premium? %>
+                <p class="mt-2 text-sm text-indigo-600"><%= link_to "Upgrade to Growth or Pro", pricing_path, class: "font-medium hover:underline" %> for premium templates.</p>
+              <% end %>
+            </section>
+
+            <div class="flex justify-center">
+              <%= f.submit "Save your Resume", class: "site-btn-primary w-full justify-center text-base md:w-2/3 cursor-pointer" %>
+            </div>
+          </div>
         <% end %>
       </div>
 
-      <%= link_to "Add Education", "#", class: "text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2 inline-block", data: { action: "click->responsibility#add" } %>
+      <div class="border-t border-white/10 px-6 py-6 sm:px-8">
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <div class="flex max-w-2xl flex-wrap items-center gap-3">
+            <%= render "download_pdf_button", show_public_link: true %>
+          </div>
 
-      <div hidden data-responsibility-target="template">
-        <%= capture do %>
-          <%= f.fields_for(:educations, Education.new, child_index: "NEW_RECORD") do |edu_form| %>
-            <%= render "educations/education_fields", f: edu_form %>
+          <%= form_with url: resume_path, method: :delete, local: true, class: "inline" do |f| %>
+            <%= f.submit "Delete Resume & Start Over",
+                         onclick: "return confirm('Are you absolutely sure you want to delete your resume? This action cannot be undone and you\\'ll start with a completely fresh resume.')",
+                         class: "site-btn-danger-soft cursor-pointer" %>
           <% end %>
-        <% end %>
+        </div>
       </div>
     </div>
-
-    <div data-controller="responsibility" data-responsibility-scope="projects" class="mx-4 my-8">
-      <h2 class="text-md mb-2 text-gray-700 font-semibold">Projects</h2>
-
-      <div data-responsibility-target="container">
-        <%= f.fields_for :projects do |proj_form| %>
-          <%= render "projects/project_fields", f: proj_form %>
-        <% end %>
-      </div>
-
-      <%= link_to "Add Project", "#", class: "text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2 inline-block", data: { action: "click->responsibility#add" } %>
-
-      <div hidden data-responsibility-target="template">
-        <%= capture do %>
-          <%= f.fields_for(:projects, Project.new, child_index: "NEW_RECORD") do |proj_form| %>
-            <%= render "projects/project_fields", f: proj_form %>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="mx-4 mb-4">
-      <%= f.label :pdf_template, "PDF Style Template" %>
-      <%= f.select :pdf_template, pdf_template_options_for_select(@resume.pdf_template), {}, class: "form-select mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white" %>
-      <% unless current_user&.premium? %>
-        <p class="text-sm text-indigo-600 mt-1"><%= link_to "Upgrade to Growth or Pro", pricing_path, class: "font-medium hover:underline" %> for premium templates.</p>
-      <% end %>
-    </div>
-
-    <div class="mx-4 my-4 flex justify-center">
-      <%= f.submit "Save your Resume", class: 'mt-4 mb-8 text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 w-full md:w-2/3' %>
-    </div>
-  <% end %>
-</div>
-
-<div class="mx-4 my-4">
-  <% if current_user && !current_user.guest %>
-    <%= render "view_public_resume_link" %>
-  <% end %>
-  <%= form_with url: resume_path, method: :delete, local: true, class: "inline" do |f| %>
-    <%= f.submit "Delete Resume & Start Over",
-                 onclick: "return confirm('Are you absolutely sure you want to delete your resume? This action cannot be undone and you\\'ll start with a completely fresh resume.')",
-                 class: "inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 mt-8" %>
-  <% end %>
-</div>
+  </div>
 <% else %>
-  <div class="mx-4 my-4">
-    <p class="text-center text-gray-600">Please sign in to edit your resume.</p>
-    <%= link_to "Sign In", new_user_session_path, class: "text-blue-600 hover:underline" %>
+  <div class="site-panel text-center">
+    <p class="text-slate-600">Please sign in to edit your resume.</p>
+    <%= link_to "Sign In", new_user_session_path, class: "site-inline-link mt-3 inline-block" %>
   </div>
 <% end %>

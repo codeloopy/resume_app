@@ -1,69 +1,65 @@
-<div class="mx-4 my-4">
+<div class="space-y-6">
   <%= render "progress" %>
 
   <% if current_user&.guest? %>
-    <div class="max-w-4xl mx-auto mb-6">
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-            </svg>
-          </div>
-          <div class="ml-3">
-            <h3 class="text-sm font-medium text-blue-800">
-              Guest Mode - Try Before You Create an Account
-            </h3>
-            <div class="mt-2 text-sm text-blue-700">
-              <p>You're building your resume as a guest. You can complete all steps and preview your resume, but you'll need to create an account to download the PDF and save your progress.</p>
-              <p>You can create an account <%= link_to "here", upgrade_guest_user_form_path, class: "text-blue-600 hover:text-blue-800 underline font-bold" %>.</p>
-            </div>
+    <div class="site-panel-muted border-cyan-200 bg-cyan-50">
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 pt-1">
+          <svg class="h-5 w-5 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-700">Guest Mode</h3>
+          <div class="mt-3 text-sm leading-7 text-cyan-800">
+            <p>You're building your resume as a guest. You can complete all steps and preview your resume, but you'll need to create an account to download the PDF and save your progress.</p>
+            <p>You can create an account <%= link_to "here", upgrade_guest_user_form_path, class: "font-semibold underline" %>.</p>
           </div>
         </div>
       </div>
     </div>
   <% end %>
 
-  <h1 class="text-2xl font-bold mb-6 text-center">Step 1: Resume Summary</h1>
+  <%= render "resumes/ats_score_card", resume: @resume, user: current_user %>
 
-  <div class="max-w-4xl mx-auto mb-6">
-    <%= render "resumes/ats_score_card", resume: @resume, user: current_user %>
-  </div>
-
-  <div class="max-w-4xl mx-auto">
-    <div class="mb-8">
-      <h2 class="text-lg font-semibold mb-4 text-gray-800">Tell us about yourself</h2>
-      <p class="text-gray-600 mb-6">Start with a compelling summary that highlights your key strengths and career objectives.</p>
+  <div class="site-shell-surface overflow-hidden">
+    <div class="border-b border-white/10 px-6 py-8 sm:px-8">
+      <p class="site-kicker">Step 1</p>
+      <h1 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Resume Summary</h1>
+      <p class="mt-3 text-sm leading-7 text-slate-300 sm:text-base">Start with a compelling overview that captures your strengths, direction, and the kind of role you want.</p>
     </div>
 
-    <%= form_with model: @resume, url: resume_wizard_path, method: :put do |f| %>
-      <% if @resume.errors.any? %>
-        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h3 class="text-red-800 font-medium mb-2">Please fix the following errors:</h3>
-          <ul class="text-red-700 text-sm">
-            <% @resume.errors.full_messages.each do |message| %>
-              <li>• <%= message %></li>
-            <% end %>
-          </ul>
+    <div class="px-6 py-8 sm:px-8">
+      <%= form_with model: @resume, url: resume_wizard_path, method: :put do |f| %>
+        <% if @resume.errors.any? %>
+          <div class="mb-6 rounded-[1.5rem] border border-rose-200 bg-rose-50 p-4">
+            <h3 class="font-medium text-rose-800">Please fix the following errors:</h3>
+            <ul class="mt-2 text-sm text-rose-700">
+              <% @resume.errors.full_messages.each do |message| %>
+                <li>• <%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="space-y-6">
+          <div class="site-panel">
+            <%= f.label :title, "Professional Title", class: "mb-2 block text-sm font-semibold text-slate-700" %>
+            <%= f.text_field :title, class: "site-input", placeholder: "e.g., Senior Software Engineer, Marketing Manager, etc." %>
+            <p class="mt-2 text-sm text-slate-500">This will appear prominently under your name.</p>
+          </div>
+
+          <div class="site-panel">
+            <%= f.label :summary, "Professional Summary", class: "mb-2 block text-sm font-semibold text-slate-700" %>
+            <%= f.rich_text_area :summary, class: "site-input min-h-[14rem]", rows: 6 %>
+            <p class="mt-2 text-sm text-slate-500">Write 2-4 sentences describing your professional background, key skills, and career goals.</p>
+          </div>
+
+          <div class="flex justify-end">
+            <%= f.submit "Next: Experience", class: "site-btn-primary cursor-pointer" %>
+          </div>
         </div>
       <% end %>
-
-      <div class="mb-6">
-        <%= f.label :title, "Professional Title", class: "block text-gray-700 font-semibold mb-2" %>
-        <%= f.text_field :title, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent", placeholder: "e.g., Senior Software Engineer, Marketing Manager, etc." %>
-        <p class="text-sm text-gray-500 mt-1">This will appear prominently under your name</p>
-      </div>
-
-      <div class="mb-8">
-        <%= f.label :summary, "Professional Summary", class: "block text-gray-700 font-semibold mb-2" %>
-        <%= f.rich_text_area :summary, class: "w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent", rows: 6 %>
-        <p class="text-sm text-gray-500 mt-1">Write 2-4 sentences describing your professional background, key skills, and career goals</p>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <div></div>
-        <%= f.submit "Next: Experience", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200" %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>

@@ -1,19 +1,19 @@
-<div class="nested-fields mb-4 border p-4 rounded" data-new-record="<%= f.object.new_record? %>">
+<div class="nested-fields rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4" data-new-record="<%= f.object.new_record? %>">
   <div class="mb-2">
-    <%= f.label :title, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.text_field :title, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.label :title, class: "mb-2 block text-sm font-semibold text-slate-700" %>
+    <%= f.text_field :title, class: "site-input" %>
   </div>
 
   <div class="mb-2">
-    <%= f.label :url, "Project URL (optional)", class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.url_field :url, class: "w-full p-2 border border-gray-300 rounded-md bg-white", pattern: "https?://.+", title: "Please enter a valid URL starting with http:// or https://" %>
+    <%= f.label :url, "Project URL (optional)", class: "mb-2 block text-sm font-semibold text-slate-700" %>
+    <%= f.url_field :url, class: "site-input", pattern: "https?://.+", title: "Please enter a valid URL starting with http:// or https://" %>
   </div>
 
   <div class="mb-2">
-    <%= f.label :description, class: "block text-gray-700 font-semibold mb-2" %>
-    <%= f.rich_text_area :description, class: "w-full p-2 border border-gray-300 rounded-md bg-white" %>
+    <%= f.label :description, class: "mb-2 block text-sm font-semibold text-slate-700" %>
+    <%= f.rich_text_area :description, class: "site-input min-h-[10rem]" %>
   </div>
 
-  <%= link_to "Remove", "#", class: "text-red-500", data: { action: "click->responsibility#remove" } %>
+  <%= link_to "Remove", "#", class: "site-danger-link inline-block mt-2", data: { action: "click->responsibility#remove" } %>
   <%= f.hidden_field :_destroy %>
 </div>
